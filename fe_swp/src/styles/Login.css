@@ -1,0 +1,19 @@
+form {
+  width: 280px;
+}
+#outlined-basic {
+  border-radius: 10px !important;
+  height: 14px;
+}
+.btn-login {
+  margin-top: 20px !important;
+  border-radius: 10px !important;
+  padding: 10px 0 !important;
+  background-color: #00aaff !important;
+}
+.login {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
