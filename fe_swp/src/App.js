@@ -11,8 +11,7 @@ function App() {
         <Route path='/about' element={<About />} /> */}
         <Route path='/login' element={<Login />} />
         {/* <Route path='/cart' element={<Cart />} />
-        <Route path='/buy/:id/*' element={<Buy />} />
-        <Route path='/order/:totalPrice' element={<Order />} />  */}
+      
         {/* <Route path='*' element={<NotFoundPage />} /> */}
       </Routes>
       {/* <Footer></Footer> */}
