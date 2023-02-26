@@ -10,9 +10,8 @@ function App() {
         <Route path='/' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
-        {/* <Route path='/cart' element={<Cart />} />
-        <Route path='/buy/:id/*' element={<Buy />} />
-        <Route path='/order/:totalPrice' element={<Order />} />  */}
+     
+      
         {/* <Route path='*' element={<NotFoundPage />} /> */}
       </Routes>
       {/* <Footer></Footer> */}
