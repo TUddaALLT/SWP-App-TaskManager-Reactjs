@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import "../styles/Login.css";
+import "../styles/Register.css";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
-function Login() {
+function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
     console.log({
       email,
@@ -19,18 +18,13 @@ function Login() {
     });
 
     axios
-      .post("https://localhost:7239/api/User/Login", {
+      .post("http://localhost:5174/api/Register", {
         Username: email,
         Password: password,
       })
       .then(function (response) {
         console.log(response.data.data.token);
         localStorage.setItem("token", response.data.data.token);
-        // if (response.data.status == 400) {
-        //   navigate("/admin");
-        // } else {
-        //   navigate("/home");
-        // }
       })
       .catch(function (error) {
         console.log(error);
@@ -52,51 +46,19 @@ function Login() {
           Stock Task
         </h1>
         <Link
-          to={"../register"}
+          to={"../login"}
           style={{
             padding: "1vh 2vw",
             textDecoration: "none",
             color: "rgb(0 170 255)",
           }}
         >
-          Register
+          Login
         </Link>
       </div>
-      <div className='login'>
-        <form onSubmit={handleLogin}>
-          <div>
-            <h1 style={{ margin: "0 0" }}>Log in</h1>
-            <Button
-              className='btn-loginGoogle '
-              style={{ marginBottom: "20px", color: "white" }}
-            >
-              <FcGoogle size='30px' style={{ marginRight: "15px" }}></FcGoogle>{" "}
-              <h5
-                style={{
-                  color: "rgb(0 170 255)",
-                  margin: " 0 0",
-                }}
-              >
-                Log in with google
-              </h5>
-            </Button>
-            <div>
-              {" "}
-              <a
-                href='#'
-                style={{
-                  margin: "20px 0",
-                  color: "gray",
-                }}
-              >
-                More services
-              </a>
-            </div>
-            <div style={{ padding: "3vh 0", color: "gray" }}>
-              <h3> or with your Task account</h3>
-            </div>
-          </div>
-          <div className='login_input'>
+      <div className='Register'>
+        <form onSubmit={handleRegister}>
+          <div className='Register_input'>
             <TextField
               fullWidth
               type='email'
@@ -106,7 +68,7 @@ function Login() {
             />
           </div>
           <br></br>
-          <div className='login_input'>
+          <div className='Register_input'>
             <TextField
               fullWidth
               type='password'
@@ -116,12 +78,12 @@ function Login() {
             />
           </div>
           <Button
-            className='btn-login'
+            className='btn-Register'
             type='submit'
             fullWidth
             style={{ marginBottom: "20px", color: "white" }}
           >
-            Login
+            Register
           </Button>
           <a
             href='#'
@@ -139,4 +101,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
