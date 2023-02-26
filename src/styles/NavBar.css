@@ -1,0 +1,32 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.nav-bar {
+    width: 20%;
+    background-image: linear-gradient(-45deg,rgb(49, 47, 47),white);
+    height: 100vh;
+}
+.navbar-menu {
+    list-style-type: none;    
+}
+
+.navbar-menu .link {
+    width: 100%;
+    text-align: left;
+    padding: 10px 30px;
+    transition: 0.5s;
+}
+.navbar-menu .link:hover {
+    background-color: rgb(92, 79, 79);
+    transition: 0.5s;
+    color: white;
+}
+.navbar-menu .link span {
+    font-size: 20px;
+}
+.icons-nav {
+    font-size: 16px;
+    margin-right: 6px;
+}
