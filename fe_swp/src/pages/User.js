@@ -6,7 +6,7 @@ function User() {
   const handleInputChange = (event) => {};
 
   return (
-    <React.Fragment>
+    <>
       <div style={{ display: "flex" }}>
         <div
           style={{
@@ -173,7 +173,7 @@ function User() {
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 
