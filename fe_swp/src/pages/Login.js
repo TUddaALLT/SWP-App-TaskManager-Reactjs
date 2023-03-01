@@ -3,14 +3,14 @@ import "../styles/Login.css";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 import { FcGoogle } from "react-icons/fc";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const handleLogin = (e) => {
     e.preventDefault();
     console.log({
@@ -26,11 +26,7 @@ function Login() {
       .then(function (response) {
         console.log(response.data.data.token);
         localStorage.setItem("token", response.data.data.token);
-        // if (response.data.status == 400) {
-        //   navigate("/admin");
-        // } else {
-        //   navigate("/home");
-        // }
+        navigate("../home");
       })
       .catch(function (error) {
         console.log(error);
