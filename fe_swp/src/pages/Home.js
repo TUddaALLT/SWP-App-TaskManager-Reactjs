@@ -12,9 +12,9 @@ const Home = () => {
         {/* <Route path='/' element={<Home />} />
         <Route path='/home' element={<Home />} />
         <Route path='/about' element={<About />} /> */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/calendar" element={<Calendar />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/' element={<Dashboard />} />
+        <Route path='/calendar' element={<Calendar />} />
         {/* <Route path='/cart' element={<Cart />} />
         <Route path='/buy/:id/*' element={<Buy />} />
         <Route path='/order/:totalPrice' element={<Order />} />  */}
