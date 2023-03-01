@@ -9,16 +9,22 @@ import { FcGoogle } from "react-icons/fc";
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
   const handleRegister = (e) => {
     e.preventDefault();
     console.log({
       email,
       password,
+      confirmPassword,
     });
-
+    if (password.localeCompare(confirmPassword) != 0) {
+      setMessage("Confirm password must match password");
+    } else {
+      setMessage("");
+    }
     axios
-      .post("http://localhost:5174/api/Register", {
+      .post("https://localhost:7239/api/User/Register", {
         Username: email,
         Password: password,
       })
@@ -58,6 +64,8 @@ function Register() {
       </div>
       <div className='Register'>
         <form onSubmit={handleRegister}>
+          <h2>Register</h2>
+          <br></br>
           <div className='Register_input'>
             <TextField
               fullWidth
@@ -77,6 +85,18 @@ function Register() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          <br></br>
+          <div className='Register_input'>
+            <TextField
+              fullWidth
+              type='password'
+              label='Confirm Password'
+              variant='outlined'
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+          <br></br>
+          <h3 style={{ color: "red" }}>{message}</h3>
           <Button
             className='btn-Register'
             type='submit'
@@ -86,14 +106,14 @@ function Register() {
             Register
           </Button>
           <a
-            href='#'
+            href='Login'
             style={{
               textDecoration: "none",
               margin: "20px 0",
               color: "rgb(0 170 255)",
             }}
           >
-            I forgot my password
+            You have account ? go to Login
           </a>
         </form>
       </div>
