@@ -1,12 +1,7 @@
 import { Button, TextField } from "@mui/material";
-import { padding } from "@mui/system";
-import React, { useEffect, useState } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
-import { ImProfile } from "react-icons/im";
-import { RiTeamLine } from "react-icons/ri";
-function User() {
-  //   const [{ username, password }, setUser] = useState();
 
+function User() {
   function handleUpdateUser() {}
   const handleInputChange = (event) => {};
 

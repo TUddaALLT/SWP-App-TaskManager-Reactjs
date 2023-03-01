@@ -17,7 +17,6 @@ function Login() {
       email,
       password,
     });
-
     axios
       .post("https://localhost:7239/api/User/Login", {
         Username: email,
