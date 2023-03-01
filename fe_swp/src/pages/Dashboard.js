@@ -1,7 +1,6 @@
 import React from "react";
-import NavBar from "../components/NavBar";
 const Dashboard = (props) => {
-  return <>Hello cac ban hiohiádasdasdasdasdasdadsu</>;
+  return <div className="content">Đây là main content của dashboard</div>;
 };
 
 export default Dashboard;
