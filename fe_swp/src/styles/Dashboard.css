@@ -1,0 +1,55 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.element {
+     width: 33%;
+}
+.today {
+    width: 240px;
+    margin: auto;
+    text-align: left;
+}
+.date-box {
+    width: 240px;
+    height: 250px;
+    background-color: white;
+    
+    border-radius: 20px;
+}
+.month,.day {
+    text-align: center;
+}
+.month {
+    margin-top: 20px;
+    font-size: 60px;
+}
+.day {
+    font-size: 100px;
+}
+.dashboard-content {
+    display: flex;
+}
+.task-today {
+    width: 320px;
+    margin: auto;
+    text-align: left;
+}
+.tasks {
+    background-color: white;
+    height: 100px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+.tasktitle {
+    padding: 0 20px;
+}
+.taskdescription {
+    padding: 0px 10px;
+    width: 100%;
+}
+.pin-task { 
+    width: 320px;
+    margin: auto;
+    text-align: left;}

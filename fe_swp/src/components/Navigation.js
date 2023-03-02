@@ -128,7 +128,7 @@ const Navigation = (props) => {
               handleActive(3, "link");
             }}
           >
-            <LinkRouter to={"/workspace"} className="router-link">
+            <LinkRouter className="router-link">
               <div>
                 {open ? (
                   <AiOutlineDown

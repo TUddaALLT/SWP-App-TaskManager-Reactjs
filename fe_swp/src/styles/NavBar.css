@@ -3,10 +3,13 @@
     margin: 0;
     box-sizing: border-box;
 }
+.main-content {
+    overflow-x: hidden;
+}
 .nav-bar {
     width: 20%;
     background-color: white;
-    height: 100vh;
+    height: 100%;
     float: left;
 }
 .navbar-menu {
