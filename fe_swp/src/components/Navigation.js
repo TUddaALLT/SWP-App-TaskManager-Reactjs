@@ -9,7 +9,7 @@ import DisplayProject from "./DisplayProject";
 import "../styles/Navigation.css";
 import Dashboard from "./../pages/Dashboard";
 import Calendar from "./../pages/Calendar";
-import Project from "./../pages/Project";
+import Report from "./../pages/Report";
 
 const style = {
   position: "absolute",
@@ -31,6 +31,7 @@ const Navigation = (props) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState(0);
+  const [target, setTarget] = useState("");
 
   const [listProject, setListProject] = useState([
     { id: 1, name: "project1" },
@@ -73,18 +74,22 @@ const Navigation = (props) => {
     for (const iterator of lists) {
       iterator.classList.remove("isActive");
     }
+
     current.classList.add("isActive");
-    setContent(num);
   };
+  function handleContent(num) {
+    setContent(num);
+  }
   return (
     <>
       <div className='nav-bar' style={{ borderRight: "2px solid gray" }}>
         <ul className='navbar-menu'>
           <li>
             <div
-              className='link'
+              className='link isActive'
               onClick={() => {
                 handleActive(0, "link");
+                handleContent(0);
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
@@ -107,6 +112,7 @@ const Navigation = (props) => {
               className='link'
               onClick={() => {
                 handleActive(1, "link");
+                handleContent(1);
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
@@ -129,6 +135,7 @@ const Navigation = (props) => {
               className='link'
               onClick={() => {
                 handleActive(2, "link");
+                handleContent(2);
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
@@ -151,6 +158,7 @@ const Navigation = (props) => {
               className='link'
               onClick={() => {
                 handleActive(3, "link");
+                handleContent(3);
               }}
             >
               <div>
@@ -265,7 +273,8 @@ const Navigation = (props) => {
       </div>
       {content == 0 && <Dashboard></Dashboard>}
       {content == 1 && <Calendar></Calendar>}
-      {content == 2 && <Project></Project>}
+      {content == 2 && <Report></Report>}
+      {/* {content == 3 && <Project></Project>} */}
     </>
   );
 };
