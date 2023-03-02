@@ -3,12 +3,14 @@ import { React, useState } from "react";
 import { BiHomeAlt } from "react-icons/bi";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsFileEarmarkBarGraph } from "react-icons/bs";
-import { GoFileDirectory } from "react-icons/go";
-
+import { GoDashboard, GoFileDirectory } from "react-icons/go";
 import { AiOutlineDown, AiOutlinePlus, AiOutlineRight } from "react-icons/ai";
 import DisplayProject from "./DisplayProject";
 import "../styles/Navigation.css";
+import Dashboard from "./../pages/Dashboard";
 import Calendar from "./../pages/Calendar";
+import Project from "./../pages/Project";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -28,6 +30,8 @@ const Navigation = (props) => {
   const [openModal, setOpenModal] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [content, setContent] = useState(0);
+
   const [listProject, setListProject] = useState([
     { id: 1, name: "project1" },
     { id: 2, name: "project2" },
@@ -70,6 +74,7 @@ const Navigation = (props) => {
       iterator.classList.remove("isActive");
     }
     current.classList.add("isActive");
+    setContent(num);
   };
   return (
     <>
@@ -258,6 +263,9 @@ const Navigation = (props) => {
           </Box>
         </Modal>
       </div>
+      {content == 0 && <Dashboard></Dashboard>}
+      {content == 1 && <Calendar></Calendar>}
+      {content == 2 && <Project></Project>}
     </>
   );
 };

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Navigation from "../components/Navigation";
+
 const Home = () => {
   return (
     <>
@@ -10,7 +11,6 @@ const Home = () => {
       >
         <Header></Header>
         <Navigation />
-        <div style={{ backgroundColor: "#D9D9D9", height: "92vh" }}>xx</div>
       </div>
     </>
   );
