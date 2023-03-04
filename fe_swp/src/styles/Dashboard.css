@@ -4,7 +4,8 @@
     box-sizing: border-box;
 }
 .element {
-     width: 33%;
+     width: 30%;
+     margin: 0 10px;
 }
 .today {
     width: 240px;
@@ -12,8 +13,8 @@
     text-align: left;
 }
 .date-box {
-    width: 240px;
-    height: 250px;
+    width: 280px;
+    height: 300px;
     background-color: white;
     
     border-radius: 20px;
@@ -26,10 +27,11 @@
     font-size: 60px;
 }
 .day {
-    font-size: 100px;
+    font-size: 120px;
 }
 .dashboard-content {
     display: flex;
+    margin-top: 30px;
 }
 .task-today {
     width: 320px;
@@ -41,6 +43,7 @@
     height: 100px;
     border-radius: 10px;
     margin: 20px 0;
+    cursor: pointer;
 }
 .tasktitle {
     padding: 0 20px;
@@ -53,3 +56,22 @@
     width: 320px;
     margin: auto;
     text-align: left;}
+.menu_task {
+    display: flex;
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid gray;
+    box-shadow: 1px 1px 1px white;
+    border-radius: 10px;
+}
+.menu_task ul {
+    list-style: none;
+    margin: 0px 20px;
+}
+.menu_task ul li{
+    color: black;
+    font-size: 16px;
+    font-weight: normal;
+    width: 100%;
+}

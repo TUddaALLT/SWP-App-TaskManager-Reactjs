@@ -11,14 +11,14 @@ const DisplayProject = (props) => {
       <ListItemButton
         sx={{ pl: 10, color: "#ADADAD" }}
         key={element.id}
-        className="listitems"
+        className='listitems'
         onClick={() => {
           handleActive(index, "listitems");
         }}
       >
         <ListItemText primary={element.name} />
         <BsThreeDots
-          className="icons-setting"
+          className='icons-setting'
           onClick={() => handleDeleteProject(element.id)}
         />
       </ListItemButton>
@@ -27,7 +27,7 @@ const DisplayProject = (props) => {
 
   return (
     <>
-      <List component="div" disablePadding>
+      <List component='div' disablePadding>
         {showProject}
       </List>
     </>

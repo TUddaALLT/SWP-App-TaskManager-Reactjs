@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/Dashboard.css";
 import DisplayTaskToday from "../components/DisplayTaskToday";
+import DisplayPinTask from "../components/DisplayPinTask";
 const getDate = () => {
   const Month = [
     "JAN",
@@ -23,14 +24,16 @@ const Dashboard = (props) => {
   const date = getDate();
   const listTask = [
     {
-      id: 1,
+      id: "1",
       name: "Task 1",
+      isPin: true,
       description:
         "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
     },
     {
-      id: 2,
+      id: "2",
       name: "Task 2",
+      isPin: false,
       description: "Hello đây là task 2",
     },
   ];
@@ -56,7 +59,7 @@ const Dashboard = (props) => {
         <div className="element">
           <div className="pin-task">
             <h2>Pin Task</h2>
-            <DisplayTaskToday listTask={listTask} />
+            <DisplayPinTask listTask={listTask} />
           </div>
         </div>
       </div>

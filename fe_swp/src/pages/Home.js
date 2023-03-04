@@ -1,16 +1,16 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Dashboard from "./Dashboard";
-import Calendar from "./Calendar";
+import React, { useState, useEffect } from "react";
+import Header from "../components/Header";
 import Navigation from "../components/Navigation";
-import NavBar from "../components/NavBar";
 import "../styles/Home.css";
 const Home = () => {
   return (
     <>
-      <div className="main-content">
+      <div
+        className="main-content"
+        style={{ height: "100vh", overflow: "hidden" }}
+      >
+        <Header></Header>
         <Navigation />
-        <Dashboard />
       </div>
     </>
   );
