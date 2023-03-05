@@ -3,11 +3,15 @@
     margin: 0;
     box-sizing: border-box;
 }
+body {
+    overflow: hidden;
+}
 
 .main-content {
-    display: flex;
+    height: 100vh;
+     background-color: #D9D9D9;
 }
 .content{
     float: right;
-    background-color: rgb(105, 99, 99);
+    width: 85%;
 }
