@@ -10,6 +10,7 @@ import "../styles/Navigation.css";
 import Dashboard from "./../pages/Dashboard";
 import Calendar from "./../pages/Calendar";
 import Report from "./../pages/Report";
+import Project from "../pages/Project";
 
 const style = {
   position: "absolute",
@@ -77,6 +78,7 @@ const Navigation = (props) => {
 
     current.classList.add("isActive");
   };
+  console.log(content);
   function handleContent(num) {
     setContent(num);
   }
@@ -274,7 +276,7 @@ const Navigation = (props) => {
       {content == 0 && <Dashboard></Dashboard>}
       {content == 1 && <Calendar></Calendar>}
       {content == 2 && <Report></Report>}
-      {/* {content == 3 && <Project></Project>} */}
+      {content == 3 && <Project></Project>}
     </>
   );
 };
