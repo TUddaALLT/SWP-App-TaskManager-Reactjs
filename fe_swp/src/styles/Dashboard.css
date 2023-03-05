@@ -45,6 +45,12 @@
     margin: 20px 0;
     cursor: pointer;
 }
+.tasksPin {
+    background-color: white;
+    border-radius: 10px;
+    margin: 20px 0;
+    cursor: pointer;
+}
 .tasktitle {
     padding: 0 20px;
 }
@@ -64,6 +70,7 @@
     border: 1px solid gray;
     box-shadow: 1px 1px 1px white;
     border-radius: 10px;
+    z-index: 3;
 }
 .menu_task ul {
     list-style: none;
@@ -74,4 +81,32 @@
     font-size: 16px;
     font-weight: normal;
     width: 100%;
+}
+#userJoin ul {
+    list-style-type: none;
+    display: flex;
+}
+#userJoin ul li{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #adadad;
+}
+#footer {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding: 0 20px;
+    margin: 10px 0;
+    z-index: 0;
+}
+.iconTask {
+    font-size: 24px;
+    margin-top: 20px;
+    color: #adadad;
+    transition: 0.5s;
+}
+.iconTask:hover {
+    color: black;
+    transition: 0.5s;
 }

@@ -24,17 +24,33 @@ const Dashboard = (props) => {
   const date = getDate();
   const listTask = [
     {
-      id: "1",
-      name: "Task 1",
-      isPin: true,
-      description:
-        "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
+       id: "1",
+      sectionID:"",
+      title: "Task 1",
+      description: "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
+      image:"",
+      status:"",
+      createTime:"",
+      TaskTo:"",
+      TaskFrom:"",
+      PinTask: true,
+      TagID:"",
+      Attachment:""
     },
     {
       id: "2",
-      name: "Task 2",
-      isPin: false,
+      sectionID:"",
+      title: "Task 2",
       description: "Hello đây là task 2",
+      image:"",
+      status:"",
+      createTime:"",
+      TaskTo:"",
+      TaskFrom:"",
+      PinTask: false,
+      TagID:"",
+      Attachment:""
+      
     },
   ];
 

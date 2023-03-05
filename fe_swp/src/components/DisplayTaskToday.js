@@ -27,7 +27,7 @@ const DisplayTaskToday = (props) => {
         return (
           <div key={element.id} className="tasks">
             <h2 className="tasktitle">
-              {element.name}
+              {element.title}
               <span style={{ color: "#B6B6B6", float: "right" }}>
                 <BsThreeDots
                   onClick={() => {
@@ -38,7 +38,7 @@ const DisplayTaskToday = (props) => {
                 <div className="menu_task" id={element.id.concat("today")}>
                   <ul>
                     <li onClick={() => {}}>
-                      {element.isPin ? "Pin" : "Unpin"}
+                      {element.PinTask ? "Pin" : "Unpin"}
                     </li>
                     <li style={{ color: "red" }} onClick={() => {}}>
                       Delete
