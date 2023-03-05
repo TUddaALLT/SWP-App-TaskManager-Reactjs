@@ -43,7 +43,7 @@ const Navigation = (props) => {
     setListProject(
       listProject.filter((element) => {
         return element.id !== key;
-      }),
+      })
     );
   };
   const handleOpen = () => {
@@ -84,19 +84,19 @@ const Navigation = (props) => {
   }
   return (
     <>
-      <div className='nav-bar' style={{ borderRight: "2px solid gray" }}>
-        <ul className='navbar-menu'>
+      <div className="nav-bar" style={{ borderRight: "2px solid gray" }}>
+        <ul className="navbar-menu">
           <li>
             <div
-              className='link isActive'
+              className="link isActive"
               onClick={() => {
                 handleActive(0, "link");
                 handleContent(0);
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                <AiOutlineDown className='icons-nav hide' />
-                <BiHomeAlt className='icons-nav' size='30px' />
+                <AiOutlineDown className="icons-nav hide" />
+                <BiHomeAlt className="icons-nav" size="30px" />
                 <div
                   style={{
                     display: "flex",
@@ -111,15 +111,15 @@ const Navigation = (props) => {
           </li>
           <li>
             <div
-              className='link'
+              className="link"
               onClick={() => {
                 handleActive(1, "link");
                 handleContent(1);
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                <AiOutlineDown className='icons-nav hide' />
-                <FaRegCalendarAlt className='icons-nav' />
+                <AiOutlineDown className="icons-nav hide" />
+                <FaRegCalendarAlt className="icons-nav" />
                 <div
                   style={{
                     display: "flex",
@@ -134,15 +134,15 @@ const Navigation = (props) => {
           </li>
           <li>
             <div
-              className='link'
+              className="link"
               onClick={() => {
                 handleActive(2, "link");
                 handleContent(2);
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                <AiOutlineDown className='icons-nav hide' />
-                <BsFileEarmarkBarGraph className='icons-nav' />
+                <AiOutlineDown className="icons-nav hide" />
+                <BsFileEarmarkBarGraph className="icons-nav" />
                 <div
                   style={{
                     display: "flex",
@@ -157,7 +157,7 @@ const Navigation = (props) => {
           </li>
           <li>
             <div
-              className='link'
+              className="link"
               onClick={() => {
                 handleActive(3, "link");
                 handleContent(3);
@@ -167,20 +167,20 @@ const Navigation = (props) => {
                 <div style={{ display: "flex", alignItems: "center" }}>
                   {open ? (
                     <AiOutlineDown
-                      className='icons-nav-d'
+                      className="icons-nav-d"
                       onClick={() => {
                         handleOpen();
                       }}
                     />
                   ) : (
                     <AiOutlineRight
-                      className='icons-nav-d'
+                      className="icons-nav-d"
                       onClick={() => {
                         handleOpen();
                       }}
                     />
                   )}
-                  <GoFileDirectory className='icons-nav' />
+                  <GoFileDirectory className="icons-nav" />
                   <div
                     style={{
                       display: "flex",
@@ -191,7 +191,7 @@ const Navigation = (props) => {
                     <h4> Project's</h4>
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <AiOutlinePlus
-                        className='icons-nav plus'
+                        className="icons-nav plus"
                         onClick={() => {
                           handleOpenModal();
                         }}
@@ -210,7 +210,7 @@ const Navigation = (props) => {
               </div>
             </div>
           </li>
-          <Collapse in={open} timeout='auto'>
+          <Collapse in={open} timeout="auto">
             {listProject.length === 0 ? (
               <h4>No Project</h4>
             ) : (
@@ -224,25 +224,25 @@ const Navigation = (props) => {
         </ul>
         <Modal open={openModal} onClose={handleCloseModal}>
           <Box sx={{ ...style, borderRadius: 3 }}>
-            <h2 id='modal-header'>New Project</h2>
-            <div id='modal-content'>
-              <div className='project-name'>
+            <h2 id="modal-header">New Project</h2>
+            <div id="modal-content">
+              <div className="project-name">
                 <TextField
                   fullwidth
                   sx={{ width: "100%" }}
-                  type='text'
-                  label='Name'
-                  variant='outlined'
+                  type="text"
+                  label="Name"
+                  variant="outlined"
                   onChange={(event) => handleOnChangeName(event)}
                 />
               </div>
-              <div className='project-description'>
+              <div className="project-description">
                 <TextField
                   fullwidth
                   sx={{ width: "100%" }}
-                  type='text'
-                  label='Description'
-                  variant='outlined'
+                  type="text"
+                  label="Description"
+                  variant="outlined"
                   multiline
                   maxRows={5}
                   rows={5}
@@ -250,17 +250,17 @@ const Navigation = (props) => {
                 />
               </div>
             </div>
-            <div id='modal-footer'>
+            <div id="modal-footer">
               <Button
-                variant='outlined'
-                color='error'
+                variant="outlined"
+                color="error"
                 onClick={handleCloseModal}
                 sx={{ margin: "0 20px" }}
               >
                 Cancel
               </Button>
               <Button
-                variant='contained'
+                variant="contained"
                 disabled={name === "" ? true : false}
                 onClick={() => {
                   handleSubmitModal();
