@@ -66,7 +66,7 @@ const DisplayProject = (props) => {
           <ul>
             <li
               style={{ color: "red" }}
-              onClick={() => handleDeleteProject(element.width)}
+              onClick={() => handleDeleteProject(element.id)}
             >
               Delete
             </li>

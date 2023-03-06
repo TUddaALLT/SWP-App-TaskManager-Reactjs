@@ -1,0 +1,17 @@
+.name,
+.description{
+  margin: 20px 30px;
+}
+#tag,
+#checklist,
+#attachment {
+    margin: 20px 30px;
+}
+#modal-footer {
+    bottom: 0;
+  text-align: right;
+  margin: 30px 20px;
+}
+.textadd {
+    margin: 20px 0;
+}

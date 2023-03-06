@@ -55,14 +55,7 @@ li {
 .plus:hover {
   color: black;
 }
-.project-name,
-.project-description {
-  margin: 20px 30px;
-}
-#modal-footer {
-  text-align: right;
-  margin: 10px 20px;
-}
+
 .icons-setting {
   font-size: 20px;
   border-radius: 50%;

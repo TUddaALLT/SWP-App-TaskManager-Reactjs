@@ -1,37 +1,21 @@
-import { Box, Button, Collapse, Modal, TextField } from "@mui/material";
+import { Collapse } from "@mui/material";
 import { React, useState } from "react";
 import { BiHomeAlt } from "react-icons/bi";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsFileEarmarkBarGraph } from "react-icons/bs";
-import { GoDashboard, GoFileDirectory } from "react-icons/go";
+import { GoFileDirectory } from "react-icons/go";
 import { AiOutlineDown, AiOutlinePlus, AiOutlineRight } from "react-icons/ai";
 import DisplayProject from "./DisplayProject";
 import "../styles/Navigation.css";
 import Dashboard from "./../pages/Dashboard";
 import Calendar from "./../pages/Calendar";
 import Report from "./../pages/Report";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "50%",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
-};
+import ModalCreateProject from "./ModalCreateProject";
 
 const Navigation = (props) => {
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
   const [content, setContent] = useState(0);
-  const [target, setTarget] = useState("");
 
   const [listProject, setListProject] = useState([
     { id: 1, name: "project1" },
@@ -48,26 +32,7 @@ const Navigation = (props) => {
   const handleOpen = () => {
     setOpen(!open);
   };
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    setName("");
-    setDescription("");
-  };
-  const handleSubmitModal = () => {
-    listProject.push({ id: 5, name: name });
-    setName("");
-    setDescription("");
-  };
 
-  const handleOnChangeName = (event) => {
-    setName(event.target.value);
-  };
-  const handleOnChangeDes = (event) => {
-    setDescription(event.target.value);
-  };
   const handleActive = (num, target) => {
     let lists = document.getElementsByClassName(target);
     let current = lists[num];
@@ -191,20 +156,12 @@ const Navigation = (props) => {
                       <AiOutlinePlus
                         className="icons-nav plus"
                         onClick={() => {
-                          handleOpenModal();
+                          setOpenModal(true);
                         }}
                       />
                     </div>
                   </div>
                 </div>
-                {/* <GoFileDirectory className='icons-nav' />
-                <span>Your Project</span>
-                <AiOutlinePlus
-                  className='icons-nav plus'
-                  onClick={() => {
-                    handleOpenModal();
-                  }}
-                /> */}
               </div>
             </div>
           </li>
@@ -220,56 +177,7 @@ const Navigation = (props) => {
             )}
           </Collapse>
         </ul>
-        <Modal open={openModal} onClose={handleCloseModal}>
-          <Box sx={{ ...style, borderRadius: 3 }}>
-            <h2 id="modal-header">New Project</h2>
-            <div id="modal-content">
-              <div className="project-name">
-                <TextField
-                  fullwidth
-                  sx={{ width: "100%" }}
-                  type="text"
-                  label="Name"
-                  variant="outlined"
-                  onChange={(event) => handleOnChangeName(event)}
-                />
-              </div>
-              <div className="project-description">
-                <TextField
-                  fullwidth
-                  sx={{ width: "100%" }}
-                  type="text"
-                  label="Description"
-                  variant="outlined"
-                  multiline
-                  maxRows={5}
-                  rows={5}
-                  onChange={(event) => handleOnChangeDes(event)}
-                />
-              </div>
-            </div>
-            <div id="modal-footer">
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={handleCloseModal}
-                sx={{ margin: "0 20px" }}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                disabled={name === "" ? true : false}
-                onClick={() => {
-                  handleSubmitModal();
-                  handleCloseModal();
-                }}
-              >
-                Create
-              </Button>
-            </div>
-          </Box>
-        </Modal>
+        <ModalCreateProject openModal={openModal} setOpenModal={setOpenModal} />
       </div>
       {content == 0 && <Dashboard></Dashboard>}
       {content == 1 && <Calendar></Calendar>}
