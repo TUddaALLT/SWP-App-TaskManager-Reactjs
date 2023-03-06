@@ -1,0 +1,37 @@
+.big_btn {
+  height: 15vh;
+  width: 12vw;
+  background-color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.project_component {
+  background-color: #d9d9d9;
+  height: 92vh;
+  text-align: start;
+  padding-top: 5vh;
+  padding-left: 20vw;
+  width: 100vw;
+}
+.big_btns {
+  display: flex;
+  width: 30vw;
+  justify-content: space-between;
+  margin-top: 5vh;
+}
+.your_pr {
+  padding-top: 5vh;
+  width: 75vw;
+  display: flex;
+  justify-content: space-between;
+}
+.project {
+  width: 20vw;
+  background-color: red;
+  margin-top: 5vh;
+  border-radius: 20px;
+}

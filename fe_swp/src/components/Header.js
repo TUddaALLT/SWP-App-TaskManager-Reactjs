@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 function Header() {
   const [opened, setOpened] = useState(false);
   const navigate = useNavigate();
+
   function openUser() {
     setOpened(!opened);
   }
+
   function logout() {
     localStorage.removeItem("token");
     navigate("../login");
@@ -22,7 +24,6 @@ function Header() {
       style={{
         display: "flex",
         justifyContent: "space-between",
-
         backgroundColor: "white",
         height: "8vh",
         borderBottom: "2px solid gray",
@@ -39,6 +40,7 @@ function Header() {
             borderRadius: "5px",
             position: "absolute",
             right: "80px",
+            zIndex: "10",
             top: "55px",
             border: "1px solid gray",
           }}
@@ -87,9 +89,8 @@ function Header() {
           </ul>
         </div>
       )}
-      <h1 style={{ padding: "1vh 2vw" }} s>
-        Stock Task
-      </h1>
+
+      <h1 style={{ padding: "1vh 2vw", cursor: "pointer" }}>Stock Task</h1>
       <div
         style={{ display: "flex", alignItems: "center", marginRight: "30vw" }}
       >
