@@ -1,15 +1,18 @@
-import { Collapse } from "@mui/material";
+import { Box, Button, Collapse, Modal, TextField } from "@mui/material";
 import { React, useState } from "react";
 import { BiHomeAlt } from "react-icons/bi";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsFileEarmarkBarGraph } from "react-icons/bs";
-import { GoFileDirectory } from "react-icons/go";
+import { GoDashboard, GoFileDirectory } from "react-icons/go";
 import { AiOutlineDown, AiOutlinePlus, AiOutlineRight } from "react-icons/ai";
 import DisplayProject from "./DisplayProject";
 import "../styles/Navigation.css";
 import Dashboard from "./../pages/Dashboard";
 import Calendar from "./../pages/Calendar";
 import Report from "./../pages/Report";
+import Project from "../pages/Project";
+import ModalCreateTask from "./ModalCreateTask";
+import ModalCreateProject from "./ModalCreateProject";
 
 const style = {
   position: "absolute",
@@ -28,7 +31,10 @@ const style = {
 const Navigation = (props) => {
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [content, setContent] = useState(0);
+  const [target, setTarget] = useState("");
 
   const [listProject, setListProject] = useState([
     { id: 1, name: "project1" },
@@ -54,11 +60,19 @@ const Navigation = (props) => {
     setDescription("");
   };
   const handleSubmitModal = () => {
-    listProject.push({ id: 5, name: name });
+    listProject.push({ name: name, description: description });
+    // call api create project
+    console.log({ name: name, description: description });
     setName("");
     setDescription("");
   };
 
+  const handleOnChangeName = (event) => {
+    setName(event.target.value);
+  };
+  const handleOnChangeDes = (event) => {
+    setDescription(event.target.value);
+  };
   const handleActive = (num, target) => {
     let lists = document.getElementsByClassName(target);
     let current = lists[num];
@@ -183,7 +197,7 @@ const Navigation = (props) => {
                       <AiOutlinePlus
                         className='icons-nav plus'
                         onClick={() => {
-                          setOpenModal(true);
+                          handleOpenModal();
                         }}
                       />
                     </div>
@@ -204,56 +218,10 @@ const Navigation = (props) => {
             )}
           </Collapse>
         </ul>
-        <Modal open={openModal} onClose={handleCloseModal}>
-          <Box sx={{ ...style, borderRadius: 3 }}>
-            <h2 id='modal-header'>New Project</h2>
-            <div id='modal-content'>
-              <div className='project-name'>
-                <TextField
-                  fullwidth
-                  sx={{ width: "100%" }}
-                  type='text'
-                  label='Name'
-                  variant='outlined'
-                  onChange={(event) => handleOnChangeName(event)}
-                />
-              </div>
-              <div className='project-description'>
-                <TextField
-                  fullwidth
-                  sx={{ width: "100%" }}
-                  type='text'
-                  label='Description'
-                  variant='outlined'
-                  multiline
-                  maxRows={5}
-                  rows={5}
-                  onChange={(event) => handleOnChangeDes(event)}
-                />
-              </div>
-            </div>
-            <div id='modal-footer'>
-              <Button
-                variant='outlined'
-                color='error'
-                onClick={handleCloseModal}
-                sx={{ margin: "0 20px" }}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant='contained'
-                disabled={name === "" ? true : false}
-                onClick={() => {
-                  handleSubmitModal();
-                  handleCloseModal();
-                }}
-              >
-                Create
-              </Button>
-            </div>
-          </Box>
-        </Modal>
+        <ModalCreateProject
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+        ></ModalCreateProject>
       </div>
       {content == 0 && <Dashboard></Dashboard>}
       {content == 1 && <Calendar></Calendar>}

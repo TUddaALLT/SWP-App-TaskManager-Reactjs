@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsFillPencilFill } from "react-icons/bs";
 import "../styles/Project.css";
 
 function Project() {
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <div className='project_component'>
       <div style={{}}>
