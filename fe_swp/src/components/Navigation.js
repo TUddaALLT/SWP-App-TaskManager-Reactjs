@@ -11,6 +11,7 @@ import Dashboard from "./../pages/Dashboard";
 import Calendar from "./../pages/Calendar";
 import Report from "./../pages/Report";
 import ModalCreateProject from "./ModalCreateProject";
+import Project from "../pages/Project";
 
 const Navigation = (props) => {
   const [open, setOpen] = useState(false);
@@ -42,6 +43,7 @@ const Navigation = (props) => {
 
     current.classList.add("isActive");
   };
+  console.log(content);
   function handleContent(num) {
     setContent(num);
   }
@@ -165,6 +167,7 @@ const Navigation = (props) => {
               </div>
             </div>
           </li>
+
           <Collapse in={open} timeout="auto">
             {listProject.length === 0 ? (
               <h4>No Project</h4>
@@ -182,7 +185,7 @@ const Navigation = (props) => {
       {content == 0 && <Dashboard></Dashboard>}
       {content == 1 && <Calendar></Calendar>}
       {content == 2 && <Report></Report>}
-      {/* {content == 3 && <Project></Project>} */}
+      {content == 3 && <Project></Project>}
     </>
   );
 };

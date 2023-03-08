@@ -25,7 +25,13 @@ const DisplayTaskToday = (props) => {
     <>
       {listTask.map((element) => {
         return (
-          <div key={element.id} className="tasks">
+          <div
+            key={element.id}
+            className="tasks"
+            onClick={() => {
+              console.log(element.id);
+            }}
+          >
             <h2 className="tasktitle">
               {element.title}
               <span style={{ color: "#B6B6B6", float: "right" }}>

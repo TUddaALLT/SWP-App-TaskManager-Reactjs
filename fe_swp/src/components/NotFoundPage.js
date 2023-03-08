@@ -10,8 +10,7 @@ function NotFoundPage() {
           You should login to continue
         </span>
 
-        <Button size='medium'>
-          {" "}
+        <Button size='medium' outlined sx={{ backgroundColor: "wheat" }}>
           <a href='/Login'>Login</a>
         </Button>
       </div>
