@@ -3,9 +3,8 @@ import "../styles/Register.css";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
-
+import { Link } from "react-router-dom";
+import authAxios from "../services/AxiosInstance";
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +22,7 @@ function Register() {
     } else {
       setMessage("");
     }
-    axios
+    authAxios
       .post("https://localhost:7239/api/User/Register", {
         Username: email,
         Password: password,

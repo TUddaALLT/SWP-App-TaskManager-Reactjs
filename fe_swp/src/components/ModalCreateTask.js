@@ -1,8 +1,8 @@
 import { Button, Checkbox, Modal, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Modal.css";
-
+import authAxios from "../services/AxiosInstance";
 const style = {
   position: "absolute",
   top: "50%",
@@ -37,9 +37,33 @@ const ModalCreateTask = (props) => {
   const handleCheckList = (e) => {
     setCheckList([...checkList, e]);
   };
+  useEffect(() => {
+    authAxios
+      .get(``)
+      .then(function (response) {
+        // console.log(response.data.data);
+        // setData(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
   const handleSubmitModal = () => {
     //listProject.push({ id: 5, name: name });
     // call api
+    authAxios
+      .post(``, {
+        name: name,
+        describe: description,
+      })
+      .then(function (response) {
+        console.log(response.data.data.token);
+        localStorage.setItem("token", response.data.data.token);
+      })
+      .catch(function (error) {
+        console.log(error);
+        localStorage.removeItem("token");
+      });
     console.log({ name: name, description: description });
     setName("");
     setDescription("");

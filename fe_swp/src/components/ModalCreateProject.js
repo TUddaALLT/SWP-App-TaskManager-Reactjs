@@ -1,6 +1,7 @@
 import { Button, Modal, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
+import authAxios from "../services/AxiosInstance";
 import "../styles/Modal.css";
 const style = {
   position: "absolute",
@@ -28,9 +29,21 @@ const ModalCreateProject = (props) => {
   const handleSubmitModal = () => {
     //listProject.push({ id: 5, name: name });
     // call api
+    authAxios
+      .post(`/WorkSpace?userID=${localStorage.getItem("id")}&roleID=1`, {
+        name: name,
+        describe: description,
+      })
+      .then(function (response) {
+        console.log(response.data.data.token);
+        localStorage.setItem("token", response.data.data.token);
+      })
+      .catch(function (error) {
+        console.log(error);
+        localStorage.removeItem("token");
+      });
+
     console.log({ name: name, description: description });
-    setName("");
-    setDescription("");
   };
 
   const handleOnChangeName = (event) => {
@@ -47,7 +60,7 @@ const ModalCreateProject = (props) => {
           <div id='modal-content'>
             <div className='name'>
               <TextField
-                fullwidth
+                fullwidth='true'
                 sx={{ width: "100%" }}
                 type='text'
                 label='Name'
@@ -57,7 +70,7 @@ const ModalCreateProject = (props) => {
             </div>
             <div className='description'>
               <TextField
-                fullwidth
+                fullwidth='true'
                 sx={{ width: "100%" }}
                 type='text'
                 label='Description'
