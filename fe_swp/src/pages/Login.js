@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import "../styles/Login.css";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-
+import authAxios from "../services/AxiosInstance";
 import { FcGoogle } from "react-icons/fc";
 
 function Login() {
@@ -17,14 +16,16 @@ function Login() {
       email,
       password,
     });
-    axios
-      .post("https://localhost:7239/api/User/Login", {
+    authAxios
+      .post(`/User/Login`, {
         Username: email,
         Password: password,
       })
       .then(function (response) {
         console.log(response.data.data.token);
         localStorage.setItem("token", response.data.data.token);
+        localStorage.setItem("id", response.data.data.usernameID);
+
         navigate("../home");
       })
       .catch(function (error) {

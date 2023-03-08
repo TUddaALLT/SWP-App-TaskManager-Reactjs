@@ -1,8 +1,8 @@
 import { Button, Checkbox, Modal, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Modal.css";
-
+import authAxios from "../services/AxiosInstance";
 const style = {
   position: "absolute",
   top: "50%",
@@ -37,10 +37,46 @@ const ModalCreateTask = (props) => {
   const handleCheckList = (e) => {
     setCheckList([...checkList, e]);
   };
+  const handleOnchangeCL = (index) => {
+    let a = document.getElementById(index).value;
+    checkList[index] = a;
+  };
+  const handleDeleteCheckList = (index) => {
+    setCheckList(
+      checkList.filter((element, indexs) => {
+        return indexs !== index;
+      })
+    );
+  };
+  useEffect(() => {
+    authAxios
+      .get(``)
+      .then(function (response) {
+        // console.log(response.data.data);
+        // setData(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
   const handleSubmitModal = () => {
     //listProject.push({ id: 5, name: name });
     // call api
-    console.log({ name: name, description: description });
+    authAxios
+      .post(``, {
+        name: name,
+        describe: description,
+      })
+      .then(function (response) {
+        console.log(response.data.data.token);
+        localStorage.setItem("token", response.data.data.token);
+      })
+      .catch(function (error) {
+        console.log(error);
+        localStorage.removeItem("token");
+      });
+    console.log(checkList);
     setName("");
     setDescription("");
   };
@@ -54,7 +90,10 @@ const ModalCreateTask = (props) => {
   return (
     <>
       <Modal open={openModal} onClose={handleCloseModal}>
-        <Box sx={{ ...style, borderRadius: 3, overflow: "auto" }}>
+        <Box
+          sx={{ ...style, borderRadius: 3, overflow: "auto" }}
+          className="box"
+        >
           <h2 id="modal-header">New Task</h2>
           <div id="modal-content">
             <div className="name">
@@ -96,21 +135,36 @@ const ModalCreateTask = (props) => {
                     <span style={{ color: "red" }}>Check List</span> <br />
                   </>
                 )}
-                {checkList.map((element) => {
+                {checkList.map((element, index) => {
                   return (
-                    <>
+                    <div className="checkListElement">
                       <input type="checkbox" className="checkList" />
                       <TextField
+                        id={index + ""}
                         sx={{
                           width: "30%",
                           fontSize: "16px",
                           marginLeft: "20px",
                         }}
-                        label={element}
                         variant="standard"
+                        defaultValue={element}
+                        onChange={() => handleOnchangeCL(index)}
                       />
+                      {index === checkList.length - 1 ? (
+                        <span
+                          className="delete"
+                          onClick={() => {
+                            handleDeleteCheckList(index);
+                          }}
+                        >
+                          x
+                        </span>
+                      ) : (
+                        <></>
+                      )}
+
                       <br />
-                    </>
+                    </div>
                   );
                 })}
                 <div

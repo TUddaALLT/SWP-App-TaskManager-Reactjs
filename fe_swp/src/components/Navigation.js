@@ -1,22 +1,25 @@
-import { Collapse } from "@mui/material";
+import { Box, Button, Collapse, Modal, TextField } from "@mui/material";
 import { React, useState } from "react";
 import { BiHomeAlt } from "react-icons/bi";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsFileEarmarkBarGraph } from "react-icons/bs";
-import { GoFileDirectory } from "react-icons/go";
+import { GoDashboard, GoFileDirectory } from "react-icons/go";
 import { AiOutlineDown, AiOutlinePlus, AiOutlineRight } from "react-icons/ai";
 import DisplayProject from "./DisplayProject";
 import "../styles/Navigation.css";
 import Dashboard from "./../pages/Dashboard";
 import Calendar from "./../pages/Calendar";
 import Report from "./../pages/Report";
-import ModalCreateProject from "./ModalCreateProject";
 import Project from "../pages/Project";
+import ModalCreateProject from "./ModalCreateProject";
 
 const Navigation = (props) => {
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [content, setContent] = useState(0);
+  const [target, setTarget] = useState("");
 
   const [listProject, setListProject] = useState([
     { id: 1, name: "project1" },
@@ -33,7 +36,28 @@ const Navigation = (props) => {
   const handleOpen = () => {
     setOpen(!open);
   };
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setName("");
+    setDescription("");
+  };
+  const handleSubmitModal = () => {
+    listProject.push({ name: name, description: description });
+    // call api create project
+    console.log({ name: name, description: description });
+    setName("");
+    setDescription("");
+  };
 
+  const handleOnChangeName = (event) => {
+    setName(event.target.value);
+  };
+  const handleOnChangeDes = (event) => {
+    setDescription(event.target.value);
+  };
   const handleActive = (num, target) => {
     let lists = document.getElementsByClassName(target);
     let current = lists[num];
@@ -158,7 +182,7 @@ const Navigation = (props) => {
                       <AiOutlinePlus
                         className="icons-nav plus"
                         onClick={() => {
-                          setOpenModal(true);
+                          handleOpenModal();
                         }}
                       />
                     </div>
@@ -167,7 +191,6 @@ const Navigation = (props) => {
               </div>
             </div>
           </li>
-
           <Collapse in={open} timeout="auto">
             {listProject.length === 0 ? (
               <h4>No Project</h4>
@@ -180,7 +203,10 @@ const Navigation = (props) => {
             )}
           </Collapse>
         </ul>
-        <ModalCreateProject openModal={openModal} setOpenModal={setOpenModal} />
+        <ModalCreateProject
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+        ></ModalCreateProject>
       </div>
       {content == 0 && <Dashboard></Dashboard>}
       {content == 1 && <Calendar></Calendar>}

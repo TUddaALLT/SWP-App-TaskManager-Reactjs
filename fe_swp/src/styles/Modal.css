@@ -7,11 +7,30 @@
 #attachment {
     margin: 20px 30px;
 }
+.box {
+  position: relative;
+}
 #modal-footer {
-    bottom: 0;
+
   text-align: right;
   margin: 30px 20px;
 }
 .textadd {
     margin: 20px 0;
+}
+#modal-content {
+  min-height: 58vh;
+}
+#other-information {
+min-height: 32vh;
+}
+.checkListElement {
+  margin: 10px 20px;
+}
+.checkList {
+  margin-top: 15px;
+}
+.delete {
+  margin: 15px 10px;
+  cursor: pointer;
 }
