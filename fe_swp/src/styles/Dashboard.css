@@ -8,7 +8,7 @@
     text-align: left;
 }
 #buttonOpenModal {
-    margin-left: 30px;
+    margin-left: 4vw;
     justify-content: center;
     cursor: pointer;
     background-color: transparent;
@@ -25,13 +25,13 @@
      margin: 0 10px;
 }
 .today {
-    width: 240px;
+    width: 20vw;
     margin: auto;
     text-align: left;
 }
 .date-box {
-    width: 280px;
-    height: 300px;
+    width: 21vw;
+    height: 24vw;
     background-color: white;
     
     border-radius: 20px;
@@ -48,16 +48,16 @@
 }
 .dashboard-content {
     display: flex;
-    margin-top: 30px;
+    margin-top: 3%;
 }
 .task-today {
-    width: 320px;
+    width: 24vw;
     margin: auto;
     text-align: left;
 }
 .tasks {
     background-color: white;
-    height: 100px;
+    height: 10vw;
     border-radius: 10px;
     margin: 20px 0;
     cursor: pointer;
@@ -76,7 +76,7 @@
     width: 100%;
 }
 .pin-task { 
-    width: 320px;
+    width: 24vw;
     margin: auto;
     text-align: left;}
 .menu_task {
