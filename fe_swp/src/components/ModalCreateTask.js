@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import "../styles/Modal.css";
 import authAxios from "../services/AxiosInstance";
+import MyTasks from "../pages/MyTasks";
 const style = {
   position: "absolute",
   top: "50%",
@@ -46,7 +47,7 @@ const ModalCreateTask = (props) => {
     setCheckList(
       checkList.filter((element, indexs) => {
         return indexs !== index;
-      })
+      }),
     );
   };
   // useEffect(() => {
@@ -61,26 +62,26 @@ const ModalCreateTask = (props) => {
   //     });
   // }, []);
 
-  const handleSubmitModal = () => {
-    //listProject.push({ id: 5, name: name });
-    // call api
-    // authAxios
-    //   .post(``, {
-    //     name: name,
-    //     describe: description,
-    //   })
-    //   .then(function (response) {
-    //     console.log(response.data.data.token);
-    //     localStorage.setItem("token", response.data.data.token);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //     localStorage.removeItem("token");
-    //   });
-    // console.log(checkList);
-    // setName("");
-    // setDescription("");
-  };
+  function handleSubmitModal() {
+    const taskFrom = document.querySelector(".From").value;
+    const taskTo = document.querySelector(".to").value;
+    authAxios
+      .post(`/Task?userID=${localStorage.getItem("id")}&roleID=1`, {
+        title: name,
+        describe: description,
+        taskFrom: taskFrom,
+        taskTo: taskTo,
+      })
+
+      .then(function (response) {
+        setOpenModal(!openModal);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    console.log(checkList);
+  }
 
   const handleOnChangeName = (event) => {
     setName(event.target.value);
@@ -93,34 +94,39 @@ const ModalCreateTask = (props) => {
       <Modal open={openModal} onClose={handleCloseModal}>
         <Box
           sx={{ ...style, borderRadius: 3, overflow: "auto" }}
-          className="box"
+          className='box'
         >
-          <h2 id="modal-header">New Task</h2>
-          <div id="modal-content">
-            <div className="date">
+          <h2 id='modal-header'>New Task</h2>
+          <div id='modal-content'>
+            <div className='date'>
               From:
-              <input type="date" name="datefrom" defaultValue={currentDate} />
+              <input
+                type='date'
+                className='From'
+                name='datefrom'
+                defaultValue={currentDate}
+              />
               To:
-              <input type="date" name="dateto" defaultValue={currentDate} />
+              <input type='date' className='to' name='dateto' />
             </div>
-            <div className="name">
+            <div className='name'>
               <TextField
                 fullwidth
                 sx={{ width: "50%" }}
-                type="text"
-                label="Title Task"
-                variant="outlined"
+                type='text'
+                label='Title Task'
+                variant='outlined'
                 onChange={(event) => handleOnChangeName(event)}
               />
             </div>
-            <div id="other-information">
-              <div id="tag">
+            <div id='other-information'>
+              <div id='tag'>
                 {addTag ? (
                   <TextField
                     sx={{ width: "30%", fontSize: "16px", marginLeft: "20px" }}
-                    id="standard-basic"
-                    label="Tag"
-                    variant="standard"
+                    id='standard-basic'
+                    label='Tag'
+                    variant='standard'
                   />
                 ) : (
                   <div
@@ -128,13 +134,13 @@ const ModalCreateTask = (props) => {
                     onClick={() => {
                       setAddTag(true);
                     }}
-                    className="textadd"
+                    className='textadd'
                   >
                     + Add Tag
                   </div>
                 )}
               </div>
-              <div id="checklist">
+              <div id='checklist'>
                 {checkList.length === 0 ? (
                   ""
                 ) : (
@@ -144,8 +150,8 @@ const ModalCreateTask = (props) => {
                 )}
                 {checkList.map((element, index) => {
                   return (
-                    <div className="checkListElement">
-                      <input type="checkbox" className="checkList" />
+                    <div className='checkListElement'>
+                      <input type='checkbox' className='checkList' />
                       <TextField
                         id={index + ""}
                         sx={{
@@ -153,13 +159,13 @@ const ModalCreateTask = (props) => {
                           fontSize: "16px",
                           marginLeft: "20px",
                         }}
-                        variant="standard"
+                        variant='standard'
                         defaultValue={element}
                         onChange={() => handleOnchangeCL(index)}
                       />
                       {index === checkList.length - 1 ? (
                         <span
-                          className="delete"
+                          className='delete'
                           onClick={() => {
                             handleDeleteCheckList(index);
                           }}
@@ -179,19 +185,19 @@ const ModalCreateTask = (props) => {
                   onClick={() => {
                     handleCheckList("");
                   }}
-                  className="textadd"
+                  className='textadd'
                 >
                   + Add Check List Item
                 </div>
               </div>
-              <div id="attachment">
+              <div id='attachment'>
                 {addAttach ? (
                   <TextField
                     fullwidth
                     sx={{ width: "100%" }}
-                    type="text"
-                    label="Attachment"
-                    variant="outlined"
+                    type='text'
+                    label='Attachment'
+                    variant='outlined'
                     onChange={(event) => handleOnChangeDes(event)}
                   />
                 ) : (
@@ -200,20 +206,20 @@ const ModalCreateTask = (props) => {
                     onClick={() => {
                       setAttach(true);
                     }}
-                    className="textadd"
+                    className='textadd'
                   >
                     + Add Attachment
                   </div>
                 )}
               </div>
             </div>
-            <div className="description">
+            <div className='description'>
               <TextField
                 fullwidth
                 sx={{ width: "100%" }}
-                type="text"
-                label="Description"
-                variant="outlined"
+                type='text'
+                label='Description'
+                variant='outlined'
                 multiline
                 maxRows={3}
                 rows={3}
@@ -221,17 +227,17 @@ const ModalCreateTask = (props) => {
               />
             </div>
           </div>
-          <div id="modal-footer">
+          <div id='modal-footer'>
             <Button
-              variant="outlined"
-              color="error"
+              variant='outlined'
+              color='error'
               onClick={handleCloseModal}
               sx={{ margin: "0 20px" }}
             >
               Cancel
             </Button>
             <Button
-              variant="contained"
+              variant='contained'
               disabled={name === "" ? true : false}
               onClick={() => {
                 handleSubmitModal();

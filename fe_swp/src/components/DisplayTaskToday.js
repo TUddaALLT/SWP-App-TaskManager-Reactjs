@@ -23,40 +23,41 @@ const DisplayTaskToday = (props) => {
 
   return (
     <>
-      {listTask.map((element) => {
-        return (
-          <div
-            key={element.id}
-            className="tasks"
-            onClick={() => {
-              console.log(element.id);
-            }}
-          >
-            <h2 className="tasktitle">
-              {element.title}
-              <span style={{ color: "#B6B6B6", float: "right" }}>
-                <BsThreeDots
-                  onClick={() => {
-                    handleOnClick(element.id.concat("today"));
-                  }}
-                />
+      {listTask != null &&
+        listTask.map((element) => {
+          return (
+            <div
+              key={element.id}
+              className='tasks'
+              onClick={() => {
+                console.log(element.id);
+              }}
+            >
+              <h2 className='tasktitle'>
+                {element.title}
+                <span style={{ color: "#B6B6B6", float: "right" }}>
+                  <BsThreeDots
+                    onClick={() => {
+                      handleOnClick(element.id);
+                    }}
+                  />
 
-                <div className="menu_task" id={element.id.concat("today")}>
-                  <ul>
-                    <li onClick={() => {}}>
-                      {element.PinTask ? "Pin" : "Unpin"}
-                    </li>
-                    <li style={{ color: "red" }} onClick={() => {}}>
-                      Delete
-                    </li>
-                  </ul>
-                </div>
-              </span>
-            </h2>
-            <p className="taskdescription">{element.description}</p>
-          </div>
-        );
-      })}
+                  <div className='menu_task' id={element.id}>
+                    <ul>
+                      <li onClick={() => {}}>
+                        {element.PinTask ? "Pin" : "Unpin"}
+                      </li>
+                      <li style={{ color: "red" }} onClick={() => {}}>
+                        Delete
+                      </li>
+                    </ul>
+                  </div>
+                </span>
+              </h2>
+              <p className='taskdescription'>{element.describe}</p>
+            </div>
+          );
+        })}
     </>
   );
 };
