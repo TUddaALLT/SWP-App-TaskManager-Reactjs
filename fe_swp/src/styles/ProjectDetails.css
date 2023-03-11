@@ -1,0 +1,80 @@
+.section {
+  width: 18vw;
+  margin-top: 5vh;
+  height: 65vh;
+  background-color: white;
+  border-radius: 15px;
+  /* margin-right: 2vw; */
+}
+.section_base {
+  width: 18vw;
+  margin-top: 5vh;
+  height: 65vh;
+  background-color: white;
+  border-radius: 15px;
+}
+.section_in {
+  width: 18vw;
+  margin-top: 5vh;
+  height: 65vh;
+  background-color: white;
+  border-radius: 15px;
+}
+.Create_section {
+  display: flex;
+  gap: 2vw;
+  margin-top: 1vh;
+  padding-bottom: 1vh;
+  overflow-y: hidden;
+  overflow-x: auto; /* or overflow: scroll; */
+}
+/* custom scroll bar */
+/* webkit-based browsers */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  margin-top: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 5px;
+}
+
+/* .section_input {
+  display: none;
+} */
+.section_name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18vw;
+  height: 5vh;
+  background-color: gray;
+  border-radius: 15px;
+}
+.section_btnAdd {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  align-items: center;
+  width: 50px;
+  border-radius: 50%;
+  background-color: #d2c8c8;
+}
+.section_task {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+}
+.modal_add_member li {
+  border-radius: 5px;
+  margin: 0;
+  padding: 1vh 0;
+}
+.modal_add_member li:hover {
+  background-color: #eee;
+  padding: 2vh 0;
+}
