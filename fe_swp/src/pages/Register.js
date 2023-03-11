@@ -23,7 +23,7 @@ function Register() {
       setMessage("");
     }
     authAxios
-      .post("https://localhost:7239/api/User/Register", {
+      .post(`/User/Register`, {
         Username: email,
         Password: password,
       })

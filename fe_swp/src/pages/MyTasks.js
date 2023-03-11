@@ -101,11 +101,11 @@ function MyTasks() {
           </span>
           <ModalCreateTask openModal={openModal} setOpenModal={setOpenModal} />
         </div>
-        <div className="listTask">
+        <div className="listTaskall">
           {listTask.map((element) => {
             return (
               <div
-                className="task"
+                className="taskDetail"
                 key={element.id}
                 style={{
                   border:

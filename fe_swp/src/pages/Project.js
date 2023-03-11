@@ -4,9 +4,11 @@ import { BsFillPencilFill } from "react-icons/bs";
 import ModalCreateProject from "../components/ModalCreateProject";
 import "../styles/Project.css";
 import authAxios from "../services/AxiosInstance";
+import ProjectDetails from "./../components/ProjectDetails";
 function Project() {
   const [openModal, setOpenModal] = useState(false);
   const [projects, setProjects] = useState();
+  const [project, setProject] = useState();
   useEffect(() => {
     authAxios
       .get(`/WorkSpace/user/${localStorage.getItem("id")}`)
@@ -19,8 +21,11 @@ function Project() {
         console.log(error);
       });
   }, [openModal]);
-
-  return (
+  function openProject(project) {
+    console.log(project);
+    setProject(project);
+  }
+  return project == null ? (
     <div className="project_component">
       <div style={{}}>
         <h1 style={{ marginBottom: "3vh" }}>Your Project</h1>
@@ -55,7 +60,11 @@ function Project() {
         <div className="your_pr">
           {projects != null &&
             projects.map((project) => (
-              <div className="project" key={project.id}>
+              <div
+                className="project"
+                onClick={() => openProject(project)}
+                key={project.id}
+              >
                 <div className="project_img"></div>
                 <div className="project_title"> {project.name}</div>
               </div>
@@ -63,6 +72,8 @@ function Project() {
         </div>
       </div>
     </div>
+  ) : (
+    <ProjectDetails project={project} />
   );
 }
 

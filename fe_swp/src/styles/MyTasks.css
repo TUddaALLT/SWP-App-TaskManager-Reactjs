@@ -11,7 +11,7 @@
     text-align: left;
     margin: 2vw 4vw;
 }
-.task {
+.taskDetail {
     background-color: white;
     height: 3vw;
     display: flex;
@@ -19,17 +19,17 @@
     border-radius: 5px;
     cursor: pointer;
 }
-.task input {
+.taskDetail input {
     border: none;
-    margin: auto 2vw;
+    margin: auto 2vw ;
 }
-.task h4 {
+.taskDetail h4 {
     max-width: 30vw;
     min-width: 30vw;
     overflow: hidden;
     text-align: left;
-    margin: auto 0px;
+    margin: auto 0px ;
 }
-.task p {
-    margin: auto 1vw;
+.taskDetail p {
+    margin: auto 1vw ;
 }
