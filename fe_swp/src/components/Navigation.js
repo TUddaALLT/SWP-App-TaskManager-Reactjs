@@ -9,7 +9,7 @@ import DisplayProject from "./DisplayProject";
 import "../styles/Navigation.css";
 import Dashboard from "./../pages/Dashboard";
 import Calendar from "./../pages/Calendar";
-import Report from "./../pages/Report";
+import MyTasks from "../pages/MyTasks";
 import Project from "../pages/Project";
 import ModalCreateProject from "./ModalCreateProject";
 
@@ -44,20 +44,7 @@ const Navigation = (props) => {
     setName("");
     setDescription("");
   };
-  const handleSubmitModal = () => {
-    listProject.push({ name: name, description: description });
-    // call api create project
-    console.log({ name: name, description: description });
-    setName("");
-    setDescription("");
-  };
 
-  const handleOnChangeName = (event) => {
-    setName(event.target.value);
-  };
-  const handleOnChangeDes = (event) => {
-    setDescription(event.target.value);
-  };
   const handleActive = (num, target) => {
     let lists = document.getElementsByClassName(target);
     let current = lists[num];
@@ -139,7 +126,7 @@ const Navigation = (props) => {
                     marginLeft: "10px",
                   }}
                 >
-                  <h4>Report</h4>
+                  <h4>My Tasks</h4>
                 </div>
               </div>
             </div>
@@ -210,7 +197,7 @@ const Navigation = (props) => {
       </div>
       {content == 0 && <Dashboard></Dashboard>}
       {content == 1 && <Calendar></Calendar>}
-      {content == 2 && <Report></Report>}
+      {content == 2 && <MyTasks></MyTasks>}
       {content == 3 && <Project></Project>}
     </>
   );

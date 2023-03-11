@@ -25,7 +25,8 @@ const ModalCreateTask = (props) => {
   const [addAttach, setAttach] = useState(false);
   const [description, setDescription] = useState("");
   const [checkList, setCheckList] = useState([]);
-
+  const date12 = new Date();
+  const currentDate = date12.toISOString().substring(0, 10);
   const handleCloseModal = () => {
     setOpenModal(false);
     setName("");
@@ -48,37 +49,37 @@ const ModalCreateTask = (props) => {
       })
     );
   };
-  useEffect(() => {
-    authAxios
-      .get(``)
-      .then(function (response) {
-        // console.log(response.data.data);
-        // setData(response.data.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   authAxios
+  //     .get(``)
+  //     .then(function (response) {
+  //       // console.log(response.data.data);
+  //       // setData(response.data.data);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   const handleSubmitModal = () => {
     //listProject.push({ id: 5, name: name });
     // call api
-    authAxios
-      .post(``, {
-        name: name,
-        describe: description,
-      })
-      .then(function (response) {
-        console.log(response.data.data.token);
-        localStorage.setItem("token", response.data.data.token);
-      })
-      .catch(function (error) {
-        console.log(error);
-        localStorage.removeItem("token");
-      });
-    console.log(checkList);
-    setName("");
-    setDescription("");
+    // authAxios
+    //   .post(``, {
+    //     name: name,
+    //     describe: description,
+    //   })
+    //   .then(function (response) {
+    //     console.log(response.data.data.token);
+    //     localStorage.setItem("token", response.data.data.token);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //     localStorage.removeItem("token");
+    //   });
+    // console.log(checkList);
+    // setName("");
+    // setDescription("");
   };
 
   const handleOnChangeName = (event) => {
@@ -96,6 +97,12 @@ const ModalCreateTask = (props) => {
         >
           <h2 id="modal-header">New Task</h2>
           <div id="modal-content">
+            <div className="date">
+              From:
+              <input type="date" name="datefrom" defaultValue={currentDate} />
+              To:
+              <input type="date" name="dateto" defaultValue={currentDate} />
+            </div>
             <div className="name">
               <TextField
                 fullwidth

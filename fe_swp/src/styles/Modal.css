@@ -34,3 +34,6 @@ min-height: 32vh;
   margin: 15px 10px;
   cursor: pointer;
 }
+.date {
+  margin: 10px 10px;
+}
