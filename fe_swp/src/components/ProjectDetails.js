@@ -26,7 +26,43 @@ function ProjectDetails(props) {
   const [users, setUsers] = useState();
   const [searchText, setSearchText] = useState("");
   const handleClose = () => setOpen(false);
-  const [sections, setSections] = useState();
+  const [sections, setSections] = useState([
+    {
+      id: 30,
+      workSpaceId: 16,
+      title: "Title 312321",
+      describe: "Describe 312321",
+      status: false,
+    },
+    {
+      id: 33,
+      workSpaceId: 16,
+      title: "Title sssssssssssssssssssssssssssssssss",
+      describe: "Describe sssssssssssssssssssssssssssssssss",
+      status: false,
+    },
+    {
+      id: 36,
+      workSpaceId: 16,
+      title: "Title fafafs",
+      describe: "Describe fafafs",
+      status: false,
+    },
+    {
+      id: 37,
+      workSpaceId: 16,
+      title: "Title to top",
+      describe: "Describe to top",
+      status: false,
+    },
+    {
+      id: 38,
+      workSpaceId: 16,
+      title: "Title ",
+      describe: "Describe ",
+      status: false,
+    },
+  ]);
   const [check, setCheck] = useState(false);
   const [opened, setOpened] = useState(false);
   const [kicked, setKicked] = useState();
@@ -43,8 +79,8 @@ function ProjectDetails(props) {
         console.log(response.data.data);
         setUsers(
           response.data.data.filter((item) =>
-            item.userName.toLowerCase().includes(searchText.toLowerCase()),
-          ),
+            item.userName.toLowerCase().includes(searchText.toLowerCase())
+          )
         );
       })
       .catch(function (error) {
@@ -60,7 +96,7 @@ function ProjectDetails(props) {
       .post(
         `/WorkSpace/AddMember/${props.project.id}?nameUser=${
           document.querySelector(".add-member").value
-        }&roleID=2`,
+        }&roleID=2`
       )
       .then(function (response) {
         console.log(response.data);
@@ -102,7 +138,7 @@ function ProjectDetails(props) {
   }, [check]);
 
   return (
-    <div className='project_component'>
+    <div className="project_component">
       <div
         style={{
           display: "flex",
@@ -122,29 +158,29 @@ function ProjectDetails(props) {
             width: "12vw",
           }}
         >
-          <div className='btn_share kick' onClick={(e) => handleOpen(e)}>
+          <div className="btn_share kick" onClick={(e) => handleOpen(e)}>
             <FaUserFriends></FaUserFriends>
           </div>
-          <div className='btn_share add' onClick={(e) => handleOpen(e)}>
+          <div className="btn_share add" onClick={(e) => handleOpen(e)}>
             <AiOutlinePlus></AiOutlinePlus>
           </div>
           <Modal
             open={open}
             onClose={handleClose}
-            aria-labelledby='modal-modal-title'
-            aria-describedby='modal-modal-description'
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
               <div style={{ marginBottom: "20px" }}>
-                <Typography id='modal-modal-title' variant='h6' component='h2'>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
                   Add Member
                 </Typography>
               </div>
               <div style={{ display: "flex" }}>
                 <input
                   style={{ width: "100%" }}
-                  placeholder='username'
-                  class='add-member'
+                  placeholder="username"
+                  class="add-member"
                   onChange={(e) => setSearchText(e.target.value)}
                 ></input>
                 <Button onClick={() => addMemmber()}>Add </Button>
@@ -160,7 +196,7 @@ function ProjectDetails(props) {
                     borderRadius: " 0 0 5px 5px",
                     border: "1px solid gray",
                   }}
-                  className='modal_add_member'
+                  className="modal_add_member"
                 >
                   <ul>
                     {users != null &&
@@ -183,27 +219,27 @@ function ProjectDetails(props) {
         </div>
       </div>
 
-      <div className='Create_section'>
+      <div className="Create_section">
         {sections != null &&
           sections.map((section) => (
             <Section key={section.id} section={section}></Section>
           ))}
-        <div className='section_base'>
-          <div className='section_name'>Name section</div>
-          <div className='section_task'>
-            <div onClick={() => addSection()} className='section_btnAdd'>
-              {opened ? "X" : <AiOutlinePlus size='30px'></AiOutlinePlus>}
+        <div className="section_base">
+          <div className="section_name">Name section</div>
+          <div className="section_task">
+            <div onClick={() => addSection()} className="section_btnAdd">
+              {opened ? "X" : <AiOutlinePlus size="30px"></AiOutlinePlus>}
             </div>
           </div>
         </div>
         {opened && (
-          <div className='section_input'>
-            <div className='section_in'>
-              <div className='section_name'>
+          <div className="section_input">
+            <div className="section_in">
+              <div className="section_name">
                 <input
-                  autoFocus='true'
-                  name='data'
-                  className='des_section'
+                  autoFocus="true"
+                  name="data"
+                  className="des_section"
                 ></input>
                 <button onClick={() => addSectionApi()}>Add</button>
               </div>
