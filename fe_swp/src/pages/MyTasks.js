@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ModalCreateTask from "../components/ModalCreateTask";
+import authAxios from "../services/AxiosInstance";
 import "../styles/MyTasks.css";
-function MyTasks() {
+function MyTasks(props) {
   const listTask1 = [
     {
       id: "1",
@@ -65,7 +66,17 @@ function MyTasks() {
   ];
   const [openModal, setOpenModal] = useState(false);
   const [listTask, setListTask] = useState(listTask1);
-
+  // useEffect(() => {
+  //   authAxios
+  //     .get(`/Task/AssignedTasks/${localStorage.getItem("id")}`)
+  //     .then(function (response) {
+  //       console.log(response.data.data);
+  //       setListTask(response.data.data);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }, [openModal]);
   const getcolor = (dateTo, status) => {
     const currentDate = new Date();
     const date1 = new Date(dateTo);
@@ -94,7 +105,7 @@ function MyTasks() {
           <span
             id="buttonOpenModal"
             onClick={() => {
-              setOpenModal(true);
+              setOpenModal(!openModal);
             }}
           >
             Create new Task
@@ -102,45 +113,46 @@ function MyTasks() {
           <ModalCreateTask openModal={openModal} setOpenModal={setOpenModal} />
         </div>
         <div className="listTaskall">
-          {listTask.map((element) => {
-            return (
-              <div
-                className="taskDetail"
-                key={element.id}
-                style={{
-                  border:
-                    "1px solid " + getcolor(element.TaskTo, element.status),
-                }}
-              >
-                <input
-                  type="checkbox"
-                  defaultChecked={element.status}
-                  onChange={() => handleOnChange(element.id)}
-                />
-                <h4
+          {listTask != null &&
+            listTask.map((element) => {
+              return (
+                <div
+                  className="taskDetail"
+                  key={element.id}
                   style={{
-                    color: getcolor(element.TaskTo, element.status),
+                    border:
+                      "1px solid " + getcolor(element.TaskTo, element.status),
                   }}
                 >
-                  {element.title}
-                </h4>
-                <p>Time Limited: {element.TaskTo}</p>
-                <p>Project: None</p>
-                <p
-                  style={{
-                    color: getcolor(element.TaskTo, element.status),
-                  }}
-                >
-                  {getcolor(element.TaskTo, element.status) === "red"
-                    ? "Overdue"
-                    : getcolor(element.TaskTo, element.status) === "green"
-                    ? "Finish"
-                    : "To be doing"}
-                </p>
-                {/* <p>Status:{element.status ? "blue" : {element.TaskTo}}</p> */}
-              </div>
-            );
-          })}
+                  <input
+                    type="checkbox"
+                    defaultChecked={element.status}
+                    onChange={() => handleOnChange(element.id)}
+                  />
+                  <h4
+                    style={{
+                      color: getcolor(element.TaskTo, element.status),
+                    }}
+                  >
+                    {element.title}
+                  </h4>
+                  <p>Time Limited: {element.taskTo}</p>
+                  <p>Project: None</p>
+                  <p
+                    style={{
+                      color: getcolor(element.TaskTo, element.status),
+                    }}
+                  >
+                    {getcolor(element.TaskTo, element.status) === "red"
+                      ? "Overdue"
+                      : getcolor(element.TaskTo, element.status) === "green"
+                      ? "Finish"
+                      : "To be doing"}
+                  </p>
+                  {/* <p>Status:{element.status ? "blue" : {element.TaskTo}}</p> */}
+                </div>
+              );
+            })}
         </div>
       </div>
       <div className="listTaskProject"></div>

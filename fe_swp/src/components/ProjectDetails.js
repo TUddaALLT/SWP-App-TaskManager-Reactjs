@@ -18,6 +18,19 @@ const style = {
   width: 400,
   bgcolor: "background.paper",
   border: "2px solid #000",
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 4,
+};
+const styleList = {
+  position: "absolute",
+  top: "40%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 600,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  borderRadius: "10px",
   boxShadow: 24,
   p: 4,
 };
@@ -65,13 +78,44 @@ function ProjectDetails(props) {
   ]);
   const [check, setCheck] = useState(false);
   const [opened, setOpened] = useState(false);
-  const [kicked, setKicked] = useState();
+  const [userInWorkSpace, setUserInWorkSpace] = useState();
+  const [openListMember, setOpenListMember] = React.useState(false);
+  const handleCloseListMember = () => setOpenListMember(false);
+  const handleOpenListMember = () => setOpenListMember(true);
+  const [kicked, setKicked] = React.useState(false);
+  async function kickMemmber(idKicked) {
+    console.log(idKicked);
+    console.log(props.project.id);
+    console.log(localStorage.getItem("id"));
+    await authAxios
+      .delete(
+        `/User/DeleteUserWorkSpace?workSpaceID=${
+          props.project.id
+        }&userIdDeleted=${idKicked}&userAdminId=${localStorage.getItem("id")}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        setKicked(!kicked);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    setOpen(false);
+  }
   function handleOpen(e) {
-    // e.target.className.split(" ")[1] == "kick"
-    //   ? setKicked(true)
-    //   : setKicked(false);
     setOpen(true);
   }
+  useEffect(() => {
+    authAxios
+      .get(`/User/Workspace/${props.project.id}`)
+      .then(function (response) {
+        console.log(response.data.data);
+        setUserInWorkSpace(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [kicked, open]);
   useEffect(() => {
     authAxios
       .get(`/User`)
@@ -158,7 +202,10 @@ function ProjectDetails(props) {
             width: "12vw",
           }}
         >
-          <div className="btn_share kick" onClick={(e) => handleOpen(e)}>
+          <div
+            className="btn_share kick"
+            onClick={(e) => handleOpenListMember(e)}
+          >
             <FaUserFriends></FaUserFriends>
           </div>
           <div className="btn_share add" onClick={(e) => handleOpen(e)}>
@@ -178,8 +225,8 @@ function ProjectDetails(props) {
               </div>
               <div style={{ display: "flex" }}>
                 <input
-                  style={{ width: "100%" }}
-                  placeholder="username"
+                  style={{ width: "100%", padding: "0px 20px" }}
+                  placeholder="Username"
                   class="add-member"
                   onChange={(e) => setSearchText(e.target.value)}
                 ></input>
@@ -212,6 +259,57 @@ function ProjectDetails(props) {
                         </li>
                       ))}
                   </ul>
+                </div>
+              )}
+            </Box>
+          </Modal>
+          <Modal
+            open={openListMember}
+            onClose={handleCloseListMember}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={styleList}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Member
+              </Typography>
+
+              {users != null && (
+                <div
+                  style={{
+                    cursor: "pointer",
+                    marginTop: "2vh",
+                    padding: "2vh 2vw",
+                    width: "100%",
+                    height: "fit-content",
+                    overflowY: "auto",
+                    backgroundColor: "white",
+                    borderRadius: " 5px",
+                    border: "1px solid gray",
+                  }}
+                  className="modal_add_member"
+                >
+                  {userInWorkSpace != null &&
+                    userInWorkSpace.map((u) => (
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: "2px 0",
+                        }}
+                        onClick={() => {
+                          document.querySelector(".add-member").value =
+                            u.userName;
+                        }}
+                        key={u.id}
+                      >
+                        <div> {u.userName}</div>
+                        <Button onClick={() => kickMemmber(u.id)}>
+                          Kick member
+                        </Button>
+                      </div>
+                    ))}
                 </div>
               )}
             </Box>
