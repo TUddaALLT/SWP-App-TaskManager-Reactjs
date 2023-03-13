@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ModalCreateTask from "../components/ModalCreateTask";
+import TaskDetails from "../components/TaskDetails";
 import authAxios from "../services/AxiosInstance";
 import "../styles/MyTasks.css";
 function MyTasks(props) {
@@ -29,7 +30,7 @@ function MyTasks(props) {
       createTime: "",
       TaskTo: "2023/03/20",
       TaskFrom: "2023/02/19",
-      PinTask: true,
+      PinTask: false,
       TagID: "",
       Attachment: "",
     },
@@ -44,7 +45,7 @@ function MyTasks(props) {
       createTime: "",
       TaskTo: "2023/03/10",
       TaskFrom: "2023/03/01",
-      PinTask: true,
+      PinTask: false,
       TagID: "",
       Attachment: "",
     },
@@ -66,6 +67,7 @@ function MyTasks(props) {
   ];
   const [openModal, setOpenModal] = useState(false);
   const [listTask, setListTask] = useState(listTask1);
+  const [taskdetail, setTaskdetail] = useState();
   // useEffect(() => {
   //   authAxios
   //     .get(`/Task/AssignedTasks/${localStorage.getItem("id")}`)
@@ -86,18 +88,20 @@ function MyTasks(props) {
       else if (date1.getTime() < currentDate.getTime()) return "red";
     }
   };
-  const handleOnChange = (id) => {
-    let newA = [...listTask];
-    let a = newA.find((element) => {
-      return element.id === id;
-    }).status;
-    newA.forEach((element) => {
-      if (element.id === id) element.status = !a;
-    });
-    setListTask(newA);
+  // const handleOnChange = (id) => {
+  //   let newA = [...listTask];
+  //   let a = newA.find((element) => {
+  //     return element.id === id;
+  //   }).status;
+  //   newA.forEach((element) => {
+  //     if (element.id === id) element.status = !a;
+  //   });
+  //   setListTask(newA);
+  // };
+  const handleOnTaskDetails = (alo) => {
+    setTaskdetail(alo);
   };
-
-  return (
+  return taskdetail == null ? (
     <div className="content">
       <div className="personal-task">
         <h1>List of Tasks</h1>
@@ -123,11 +127,15 @@ function MyTasks(props) {
                     border:
                       "1px solid " + getcolor(element.TaskTo, element.status),
                   }}
+                  onClick={() => {
+                    handleOnTaskDetails(element);
+                  }}
                 >
                   <input
                     type="checkbox"
                     defaultChecked={element.status}
-                    onChange={() => handleOnChange(element.id)}
+                    // onChange={() => handleOnChange(element.id)}
+                    readOnly
                   />
                   <h4
                     style={{
@@ -157,6 +165,12 @@ function MyTasks(props) {
       </div>
       <div className="listTaskProject"></div>
     </div>
+  ) : (
+    <TaskDetails
+      taskdetail={taskdetail}
+      setTaskdetail={setTaskdetail}
+      getColor={getcolor}
+    />
   );
 }
 
