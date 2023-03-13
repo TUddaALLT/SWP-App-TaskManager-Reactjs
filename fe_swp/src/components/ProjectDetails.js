@@ -59,12 +59,18 @@ function ProjectDetails(props) {
       )
       .then(function (response) {
         console.log(response.data);
+        if (response.data.data == null) {
+          alert("You are not allowed to kick");
+        }
         setKicked(!kicked);
       })
       .catch(function (error) {
         console.log(error);
       });
     setOpen(false);
+  }
+  function assginTask(id) {
+    alert("display all task in project to assign " + id);
   }
   function handleOpen(e) {
     setOpen(true);
@@ -168,7 +174,7 @@ function ProjectDetails(props) {
         >
           <div
             className='btn_share kick'
-            onClick={(e) => handleOpenListMember(e)}
+            onClick={() => handleOpenListMember()}
           >
             <FaUserFriends></FaUserFriends>
           </div>
@@ -269,9 +275,14 @@ function ProjectDetails(props) {
                         key={u.id}
                       >
                         <div> {u.userName}</div>
-                        <Button onClick={() => kickMemmber(u.id)}>
-                          Kick member
-                        </Button>
+                        <div>
+                          <Button onClick={() => assginTask(u.id)}>
+                            Assign Task
+                          </Button>
+                          <Button onClick={() => kickMemmber(u.id)}>
+                            Kick member
+                          </Button>
+                        </div>
                       </div>
                     ))}
                 </div>
