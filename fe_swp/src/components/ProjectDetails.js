@@ -34,48 +34,49 @@ const styleList = {
   boxShadow: 24,
   p: 4,
 };
+// [
+//   {
+//     id: 30,
+//     workSpaceId: 16,
+//     title: "Title 312321",
+//     describe: "Describe 312321",
+//     status: false,
+//   },
+//   {
+//     id: 33,
+//     workSpaceId: 16,
+//     title: "Title sssssssssssssssssssssssssssssssss",
+//     describe: "Describe sssssssssssssssssssssssssssssssss",
+//     status: false,
+//   },
+//   {
+//     id: 36,
+//     workSpaceId: 16,
+//     title: "Title fafafs",
+//     describe: "Describe fafafs",
+//     status: false,
+//   },
+//   {
+//     id: 37,
+//     workSpaceId: 16,
+//     title: "Title to top",
+//     describe: "Describe to top",
+//     status: false,
+//   },
+//   {
+//     id: 38,
+//     workSpaceId: 16,
+//     title: "Title ",
+//     describe: "Describe ",
+//     status: false,
+//   },
+// ]
 function ProjectDetails(props) {
   const [open, setOpen] = React.useState(false);
   const [users, setUsers] = useState();
   const [searchText, setSearchText] = useState("");
   const handleClose = () => setOpen(false);
-  const [sections, setSections] = useState([
-    {
-      id: 30,
-      workSpaceId: 16,
-      title: "Title 312321",
-      describe: "Describe 312321",
-      status: false,
-    },
-    {
-      id: 33,
-      workSpaceId: 16,
-      title: "Title sssssssssssssssssssssssssssssssss",
-      describe: "Describe sssssssssssssssssssssssssssssssss",
-      status: false,
-    },
-    {
-      id: 36,
-      workSpaceId: 16,
-      title: "Title fafafs",
-      describe: "Describe fafafs",
-      status: false,
-    },
-    {
-      id: 37,
-      workSpaceId: 16,
-      title: "Title to top",
-      describe: "Describe to top",
-      status: false,
-    },
-    {
-      id: 38,
-      workSpaceId: 16,
-      title: "Title ",
-      describe: "Describe ",
-      status: false,
-    },
-  ]);
+  const [sections, setSections] = useState();
   const [check, setCheck] = useState(false);
   const [opened, setOpened] = useState(false);
   const [userInWorkSpace, setUserInWorkSpace] = useState();
@@ -142,13 +143,18 @@ function ProjectDetails(props) {
     setOpened(!opened);
   }
   async function addMemmber() {
+    console.log(props.project.id);
+    console.log(document.querySelector(".add-member").value);
     await authAxios
       .post(
         `/WorkSpace/AddMember/${props.project.id}?nameUser=${
           document.querySelector(".add-member").value
-        }&roleID=2`,
+        }&roleID=2&adminID=${localStorage.getItem("id")}`,
       )
       .then(function (response) {
+        if (response.data.data == null) {
+          alert("you are not allowed to add members");
+        }
         console.log(response.data);
       })
       .catch(function (error) {
@@ -331,7 +337,12 @@ function ProjectDetails(props) {
       <div className='Create_section'>
         {sections != null &&
           sections.map((section) => (
-            <Section key={section.id} section={section}></Section>
+            <Section
+              key={section.id}
+              section={section}
+              check={check}
+              setCheck={setCheck}
+            ></Section>
           ))}
         <div className='section_base'>
           <div className='section_name'>Name section</div>

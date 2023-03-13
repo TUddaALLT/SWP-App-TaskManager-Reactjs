@@ -4,81 +4,82 @@ import TaskDetails from "../components/TaskDetails";
 import authAxios from "../services/AxiosInstance";
 import "../styles/MyTasks.css";
 function MyTasks(props) {
-  const listTask1 = [
-    {
-      id: "1",
-      sectionID: "",
-      title: "Task 1",
-      description:
-        "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
-      image: "",
-      status: true,
-      createTime: "",
-      TaskTo: "2023/03/19",
-      TaskFrom: "2023/03/01",
-      PinTask: true,
-      TagID: "",
-      Attachment: "",
-    },
-    {
-      id: "2",
-      sectionID: "",
-      title: "Task 2",
-      description: "Hello đây là task 2",
-      image: "",
-      status: false,
-      createTime: "",
-      TaskTo: "2023/03/20",
-      TaskFrom: "2023/02/19",
-      PinTask: false,
-      TagID: "",
-      Attachment: "",
-    },
-    {
-      id: "3",
-      sectionID: "",
-      title: "Task 3",
-      description:
-        "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
-      image: "",
-      status: false,
-      createTime: "",
-      TaskTo: "2023/03/10",
-      TaskFrom: "2023/03/01",
-      PinTask: false,
-      TagID: "",
-      Attachment: "",
-    },
-    {
-      id: "4",
-      sectionID: "",
-      title: "Task 4",
-      description:
-        "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
-      image: "",
-      status: false,
-      createTime: "",
-      TaskTo: "2023/04/12",
-      TaskFrom: "2023/03/01",
-      PinTask: true,
-      TagID: "",
-      Attachment: "",
-    },
-  ];
+  // const listTask1 = [
+  //   {
+  //     id: "1",
+  //     sectionID: "",
+  //     title: "Task 1",
+  //     description:
+  //       "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
+  //     image: "",
+  //     status: true,
+  //     createTime: "",
+  //     TaskTo: "2023/03/19",
+  //     TaskFrom: "2023/03/01",
+  //     PinTask: true,
+  //     TagID: "",
+  //     Attachment: "",
+  //   },
+  //   {
+  //     id: "2",
+  //     sectionID: "",
+  //     title: "Task 2",
+  //     description: "Hello đây là task 2",
+  //     image: "",
+  //     status: false,
+  //     createTime: "",
+  //     TaskTo: "2023/03/20",
+  //     TaskFrom: "2023/02/19",
+  //     PinTask: false,
+  //     TagID: "",
+  //     Attachment: "",
+  //   },
+  //   {
+  //     id: "3",
+  //     sectionID: "",
+  //     title: "Task 3",
+  //     description:
+  //       "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
+  //     image: "",
+  //     status: false,
+  //     createTime: "",
+  //     TaskTo: "2023/03/10",
+  //     TaskFrom: "2023/03/01",
+  //     PinTask: false,
+  //     TagID: "",
+  //     Attachment: "",
+  //   },
+  //   {
+  //     id: "4",
+  //     sectionID: "",
+  //     title: "Task 4",
+  //     description:
+  //       "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
+  //     image: "",
+  //     status: false,
+  //     createTime: "",
+  //     TaskTo: "2023/04/12",
+  //     TaskFrom: "2023/03/01",
+  //     PinTask: true,
+  //     TagID: "",
+  //     Attachment: "",
+  //   },
+  // ];
   const [openModal, setOpenModal] = useState(false);
-  const [listTask, setListTask] = useState(listTask1);
+  const [listTask, setListTask] = useState();
   const [taskdetail, setTaskdetail] = useState();
-  // useEffect(() => {
-  //   authAxios
-  //     .get(`/Task/AssignedTasks/${localStorage.getItem("id")}`)
-  //     .then(function (response) {
-  //       console.log(response.data.data);
-  //       setListTask(response.data.data);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }, [openModal]);
+  const [check, setCheck] = useState();
+  useEffect(() => {
+    authAxios
+      .get(`/Task/AssignedTasks/${localStorage.getItem("id")}`)
+      .then(function (response) {
+        console.log(response.data.data);
+        setListTask(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [check]);
   const getcolor = (dateTo, status) => {
     const currentDate = new Date();
     const date1 = new Date(dateTo);
@@ -102,26 +103,31 @@ function MyTasks(props) {
     setTaskdetail(alo);
   };
   return taskdetail == null ? (
-    <div className="content">
-      <div className="personal-task">
+    <div className='content'>
+      <div className='personal-task'>
         <h1>List of Tasks</h1>
-        <div className="content-header">
+        <div className='content-header'>
           <span
-            id="buttonOpenModal"
+            id='buttonOpenModal'
             onClick={() => {
               setOpenModal(!openModal);
             }}
           >
             Create new Task
           </span>
-          <ModalCreateTask openModal={openModal} setOpenModal={setOpenModal} />
+          <ModalCreateTask
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            check={check}
+            setCheck={setCheck}
+          />
         </div>
-        <div className="listTaskall">
+        <div className='listTaskall'>
           {listTask != null &&
             listTask.map((element) => {
               return (
                 <div
-                  className="taskDetail"
+                  className='taskDetail'
                   key={element.id}
                   style={{
                     border:
@@ -132,7 +138,7 @@ function MyTasks(props) {
                   }}
                 >
                   <input
-                    type="checkbox"
+                    type='checkbox'
                     defaultChecked={element.status}
                     // onChange={() => handleOnChange(element.id)}
                     readOnly
@@ -148,12 +154,12 @@ function MyTasks(props) {
                   <p>Project: None</p>
                   <p
                     style={{
-                      color: getcolor(element.TaskTo, element.status),
+                      color: getcolor(element.taskTo, element.status),
                     }}
                   >
-                    {getcolor(element.TaskTo, element.status) === "red"
+                    {getcolor(element.taskTo, element.status) === "red"
                       ? "Overdue"
-                      : getcolor(element.TaskTo, element.status) === "green"
+                      : getcolor(element.taskTo, element.status) === "green"
                       ? "Finish"
                       : "To be doing"}
                   </p>
@@ -163,13 +169,15 @@ function MyTasks(props) {
             })}
         </div>
       </div>
-      <div className="listTaskProject"></div>
+      <div className='listTaskProject'></div>
     </div>
   ) : (
     <TaskDetails
       taskdetail={taskdetail}
       setTaskdetail={setTaskdetail}
       getColor={getcolor}
+      check={check}
+      setCheck={setCheck}
     />
   );
 }

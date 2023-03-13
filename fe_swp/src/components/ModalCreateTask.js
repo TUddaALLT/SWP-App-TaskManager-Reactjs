@@ -50,22 +50,11 @@ const ModalCreateTask = (props) => {
       }),
     );
   };
-  // useEffect(() => {
-  //   authAxios
-  //     .get(``)
-  //     .then(function (response) {
-  //       // console.log(response.data.data);
-  //       // setData(response.data.data);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }, []);
 
-  function handleSubmitModal() {
+  async function handleSubmitModal() {
     const taskFrom = document.querySelector(".From").value;
     const taskTo = document.querySelector(".to").value;
-    authAxios
+    await authAxios
       .post(`/Task?userID=${localStorage.getItem("id")}&roleID=1`, {
         title: name,
         describe: description,
@@ -73,13 +62,11 @@ const ModalCreateTask = (props) => {
         taskTo: taskTo,
       })
 
-      .then(function (response) {
-        setOpenModal(!openModal);
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       });
-
+    props.setCheck(!props.check);
     console.log(checkList);
   }
 
@@ -150,7 +137,7 @@ const ModalCreateTask = (props) => {
                 )}
                 {checkList.map((element, index) => {
                   return (
-                    <div className='checkListElement'>
+                    <div key={element.id} className='checkListElement'>
                       <input type='checkbox' className='checkList' />
                       <TextField
                         id={index + ""}
