@@ -15,7 +15,7 @@
   flex-direction: column;
   justify-content: flex-end;
   background-color: #afafaf;
-  height: 25vh;
+  /* height: 25vh; */
   border-radius: 15px;
   width: 90%;
   margin: 0 auto;
@@ -49,4 +49,29 @@
 ::-webkit-scrollbar-thumb {
   background-color: #999;
   border-radius: 5px;
+}
+.title {
+  margin: 10px 10px;
+  padding: 5px 5px;
+  border: 1px solid black;
+  border-radius: 15px;
+}
+.describe {
+  margin: 0px 10px;
+  padding: 5px 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  resize: none;
+}
+.frmAdd span {
+  margin: 5px 20px;
+}
+.From ,.to {
+  margin: 0px 30px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+.to {
+  margin-bottom: 20px;
 }

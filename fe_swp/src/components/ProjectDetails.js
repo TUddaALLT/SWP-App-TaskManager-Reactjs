@@ -39,7 +39,43 @@ function ProjectDetails(props) {
   const [users, setUsers] = useState();
   const [searchText, setSearchText] = useState("");
   const handleClose = () => setOpen(false);
-  const [sections, setSections] = useState();
+  const [sections, setSections] = useState([
+    {
+      id: 30,
+      workSpaceId: 16,
+      title: "Title 312321",
+      describe: "Describe 312321",
+      status: false,
+    },
+    {
+      id: 33,
+      workSpaceId: 16,
+      title: "Title sssssssssssssssssssssssssssssssss",
+      describe: "Describe sssssssssssssssssssssssssssssssss",
+      status: false,
+    },
+    {
+      id: 36,
+      workSpaceId: 16,
+      title: "Title fafafs",
+      describe: "Describe fafafs",
+      status: false,
+    },
+    {
+      id: 37,
+      workSpaceId: 16,
+      title: "Title to top",
+      describe: "Describe to top",
+      status: false,
+    },
+    {
+      id: 38,
+      workSpaceId: 16,
+      title: "Title ",
+      describe: "Describe ",
+      status: false,
+    },
+  ]);
   const [check, setCheck] = useState(false);
   const [opened, setOpened] = useState(false);
   const [userInWorkSpace, setUserInWorkSpace] = useState();
@@ -195,8 +231,8 @@ function ProjectDetails(props) {
               </div>
               <div style={{ display: "flex" }}>
                 <input
-                  style={{ width: "100%" }}
-                  placeholder='username'
+                  style={{ width: "100%", padding: "0px 20px" }}
+                  placeholder='Username'
                   class='add-member'
                   onChange={(e) => setSearchText(e.target.value)}
                 ></input>

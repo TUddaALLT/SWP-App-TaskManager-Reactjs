@@ -52,32 +52,37 @@ function Section(props) {
       });
   }, [done]);
   return (
-    <div className='section'>
-      <div className='section_name'>{props.section.title}</div>
-      <div className='content_section'>
+    <div className="section">
+      <div className="section_name">{props.section.title}</div>
+      <div className="content_section">
         {tasks != null &&
           tasks.map((task) => (
-            <div key={task.id} className='task'>
+            <div key={task.id} className="task">
               <div>{task.title}</div>
               <div>{task.describe}</div>
               <div>{task.taskFrom}</div>
               <div>{task.taskTo}</div>
             </div>
           ))}
-        <div className='btnOpen' onClick={openAddTaskProject}>
+        <div className="btnOpen" onClick={openAddTaskProject}>
           {opened ? "X" : <AiOutlinePlus></AiOutlinePlus>}
         </div>
         {opened && (
-          <div className='frmAdd'>
+          <div className="frmAdd">
             <input
-              autoFocus='true'
-              className='title'
-              placeholder='Title'
+              autoFocus="true"
+              className="title"
+              placeholder="Title"
             ></input>
-            <input className='describe' placeholder='Describe'></input>
-            <span>From:</span> <input className='From' type='date' />
-            <span>To:</span> <input className='to' type='date'></input>
-            <Button size='small' onClick={() => addTaskProject()}>
+            <textarea
+              className="describe"
+              placeholder="Describe"
+              rows={4}
+              maxLength={100}
+            ></textarea>
+            <span>From:</span> <input className="From" type="date" />
+            <span>To:</span> <input className="to" type="date"></input>
+            <Button size="small" onClick={() => addTaskProject()}>
               Add Task
             </Button>
           </div>
