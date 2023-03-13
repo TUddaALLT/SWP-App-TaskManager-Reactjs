@@ -7,20 +7,47 @@ import authAxios from "../services/AxiosInstance";
 import ProjectDetails from "./../components/ProjectDetails";
 function Project() {
   const [openModal, setOpenModal] = useState(false);
-  const [projects, setProjects] = useState();
+  const [projects, setProjects] = useState([
+    {
+      id: 6,
+      name: "string",
+      describe: "string",
+    },
+    {
+      id: 7,
+      name: "Tittle Workspace",
+      describe: "Tittle Workspace",
+    },
+    {
+      id: 8,
+      name: "Tittle Workspace",
+      describe: "Tittle Workspace",
+    },
+    {
+      id: 15,
+      name: "Tittle Workspace",
+      describe: "Tittle Workspace",
+    },
+    {
+      id: 16,
+      name: "Tittle Workspace",
+      describe: "Tittle Workspace",
+    },
+  ]);
+
   const [project, setProject] = useState();
-  useEffect(() => {
-    authAxios
-      .get(`/WorkSpace/user/${localStorage.getItem("id")}`)
-      .then(function (response) {
-        console.log(response.data.data);
-        const data = response.data.data.sort((a, b) => b.id - a.id);
-        setProjects(data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, [openModal]);
+  // useEffect(() => {
+  //   authAxios
+  //     .get(`/WorkSpace/user/${localStorage.getItem("id")}`)
+  //     .then(function (response) {
+  //       console.log(response.data.data);
+  //       const data = response.data.data.sort((a, b) => b.id - a.id);
+  //       setProjects(data);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }, [openModal]);
   function openProject(project) {
     console.log(project);
     setProject(project);
