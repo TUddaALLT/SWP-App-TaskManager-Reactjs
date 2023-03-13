@@ -71,6 +71,7 @@ const styleList = {
 //     status: false,
 //   },
 // ]
+
 function ProjectDetails(props) {
   const [open, setOpen] = React.useState(false);
   const [users, setUsers] = useState();
@@ -106,8 +107,22 @@ function ProjectDetails(props) {
       });
     setOpen(false);
   }
-  function assginTask(id) {
-    alert("display all task in project to assign " + id);
+  const [taskAss, setTaskAss] = useState();
+  async function assginTask(id) {
+    localStorage.setItem("IDDO", id);
+    await authAxios
+      .get(
+        `/Task/GetTaskInWorkSpace?workSpaceID=${
+          props.project.id
+        }&userID=${localStorage.getItem("id")}`,
+      )
+      .then(function (response) {
+        console.log(response.data.data);
+        setTaskAss(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   function handleOpen(e) {
     setOpen(true);
@@ -192,7 +207,22 @@ function ProjectDetails(props) {
         console.log(error);
       });
   }, [check]);
-
+  async function assginThisTaskTo(idTask) {
+    // /Task/AddMemberIntoTask/38?userID=1&roleID=2&adminID=26
+    await authAxios
+      .post(
+        `/Task/AddMemberIntoTask/${idTask}?userID=${localStorage.getItem(
+          "IDDO",
+        )}&roleID=2&adminID=${localStorage.getItem("id")}`,
+      )
+      .then(function (response) {
+        console.log(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    setTaskAss(null);
+  }
   return (
     <div className='project_component'>
       <div
@@ -282,11 +312,7 @@ function ProjectDetails(props) {
             aria-describedby='modal-modal-description'
           >
             <Box sx={styleList}>
-              <Typography id='modal-modal-title' variant='h6' component='h2'>
-                Member
-              </Typography>
-
-              {users != null && (
+              {users != null && taskAss == null && (
                 <div
                   style={{
                     cursor: "pointer",
@@ -301,6 +327,13 @@ function ProjectDetails(props) {
                   }}
                   className='modal_add_member'
                 >
+                  <Typography
+                    id='modal-modal-title'
+                    variant='h6'
+                    component='h2'
+                  >
+                    Member
+                  </Typography>
                   {userInWorkSpace != null &&
                     userInWorkSpace.map((u) => (
                       <div
@@ -323,6 +356,49 @@ function ProjectDetails(props) {
                           </Button>
                           <Button onClick={() => kickMemmber(u.id)}>
                             Kick member
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              )}
+              {taskAss != null && (
+                <div
+                  style={{
+                    cursor: "pointer",
+                    marginTop: "2vh",
+                    padding: "2vh 2vw",
+                    width: "100%",
+                    height: "fit-content",
+                    overflowY: "auto",
+                    backgroundColor: "white",
+                    borderRadius: " 5px",
+                    border: "1px solid gray",
+                  }}
+                  className='modal_add_member'
+                >
+                  <Typography
+                    id='modal-modal-title'
+                    variant='h6'
+                    component='h2'
+                  >
+                    Task In Project
+                  </Typography>
+                  {taskAss != null &&
+                    taskAss.map((u) => (
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: "2px 0",
+                        }}
+                        key={u.id}
+                      >
+                        <div> {u.describe}</div>
+                        <div>
+                          <Button onClick={() => assginThisTaskTo(u.id)}>
+                            Assign This
                           </Button>
                         </div>
                       </div>

@@ -151,7 +151,6 @@ function MyTasks(props) {
                     {element.title}
                   </h4>
                   <p>Time Limited: {element.taskTo}</p>
-                  <p>Project: None</p>
                   <p
                     style={{
                       color: getcolor(element.taskTo, element.status),

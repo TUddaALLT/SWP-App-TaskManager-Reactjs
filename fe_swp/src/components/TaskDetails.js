@@ -9,6 +9,7 @@ import {
 import authAxios from "../services/AxiosInstance";
 const TaskDetails = (props) => {
   const taskdetail = props.taskdetail;
+  console.log(taskdetail);
   const setTaskdetail = props.setTaskdetail;
   const getColor = props.getColor;
   const [edit, setEdit] = useState(false);
@@ -142,6 +143,15 @@ const TaskDetails = (props) => {
             </h4>
             <h4>
               To: <span>{taskdetail.taskTo}</span>
+            </h4>
+            <h4>
+              From Project <span>{taskdetail.info.workSpace}</span>
+            </h4>
+            <h4>
+              From Section <span>{taskdetail.info.section}</span>
+            </h4>
+            <h4>
+              From User <span>{taskdetail.info.user}</span>
             </h4>
           </div>
         </div>
