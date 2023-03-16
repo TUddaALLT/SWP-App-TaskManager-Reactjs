@@ -27,10 +27,9 @@
   align-items: center;
   gap: 1vh;
   justify-content: center;
-  background-color: #afafaf;
-  height: 15vh;
+  background-color: white;
   border-radius: 15px;
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
   margin-top: 2vh;
 }
@@ -74,4 +73,12 @@
 }
 .to {
   margin-bottom: 20px;
+}
+.task_title {
+  font-weight: bold;
+  font-size: 19px;
+  margin: 5px 10px;
+}
+.task_des {
+ text-align: left;
 }

@@ -3,24 +3,18 @@ import { BsThreeDots } from "react-icons/bs";
 
 const DisplayTaskToday = (props) => {
   const listTask = props.listTask;
-
-  const handleOnClick = (id) => {
-    let a = document.getElementById(id);
-
-    if (a.style.display === "block") {
-      a.style.display = "none";
-      // document
-      //   .getElementsByClassName("content")[0]
-      //   .removeEventListener("click");
-    } else {
-      a.style.display = "block";
-
-      // document
-      //   .getElementsByClassName("content")[0]
-      //   .addEventListener("click", () => handleOnClick(id));
+  const setContent = props.setContent;
+  const setTaskdetail = props.setTaskdetail;
+  const handleActive = props.handleActive;
+  const getcolor = (dateTo, status) => {
+    const currentDate = new Date();
+    const date1 = new Date(dateTo);
+    if (status) return "green";
+    else {
+      if (date1.getTime() >= currentDate.getTime()) return "orange";
+      else if (date1.getTime() < currentDate.getTime()) return "red";
     }
   };
-
   return (
     <>
       {listTask != null &&
@@ -28,33 +22,33 @@ const DisplayTaskToday = (props) => {
           return (
             <div
               key={element.id}
-              className='tasks'
+              className="tasks"
               onClick={() => {
-                console.log(element.id);
+                setTaskdetail(element);
+                setContent(2);
+                handleActive(2, "link", "listitems");
+              }}
+              style={{
+                border: "2px solid " + getcolor(element.taskTo, element.status),
               }}
             >
-              <h2 className='tasktitle'>
-                {element.title}
-                <span style={{ color: "#B6B6B6", float: "right" }}>
-                  <BsThreeDots
-                    onClick={() => {
-                      handleOnClick(element.id);
-                    }}
-                  />
-
-                  <div className='menu_task' id={element.id}>
-                    <ul>
-                      <li onClick={() => {}}>
-                        {element.PinTask ? "Pin" : "Unpin"}
-                      </li>
-                      <li style={{ color: "red" }} onClick={() => {}}>
-                        Delete
-                      </li>
-                    </ul>
-                  </div>
+              <h2 className="tasktitle">{element.title}</h2>
+              <h5 style={{ paddingLeft: "10px", marginBottom: "5px" }}>
+                Status:{" "}
+                <span
+                  style={{
+                    color: getcolor(element.taskTo, element.status),
+                    marginLeft: "5px",
+                  }}
+                >
+                  {getcolor(element.taskTo, element.status) === "red"
+                    ? "Overdue"
+                    : getcolor(element.taskTo, element.status) === "green"
+                    ? "Finish"
+                    : "To be doing"}
                 </span>
-              </h2>
-              <p className='taskdescription'>{element.describe}</p>
+              </h5>
+              <p className="taskdescription">{element.describe}</p>
             </div>
           );
         })}

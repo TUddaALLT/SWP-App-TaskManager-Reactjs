@@ -51,21 +51,21 @@ const TaskDetails = (props) => {
     return date.toISOString().substring(0, 10);
   };
 
-  return edit === false ? (
-    <div className='content'>
-      <div className='tasksdetail'>
-        <div className='taskheader'>
+  return edit == false ? (
+    <div className="content">
+      <div className="tasksdetail">
+        <div className="taskheader">
           <h1>{taskdetail.title}</h1>
-          <div id='icon_tasks'>
+          <div id="icon_tasks">
             <BsFillPinAngleFill
-              className='icons_task'
+              className="icons_task"
               style={{ color: taskdetail.pinTask ? "red" : "black" }}
               onClick={() => {
                 handleOnpin(taskdetail.id);
               }}
             />
             <BsCheckLg
-              className='icons_task'
+              className="icons_task"
               style={{
                 color: "green",
                 display:
@@ -78,12 +78,12 @@ const TaskDetails = (props) => {
               }}
             />
             <BsThreeDots
-              className='icons_task'
+              className="icons_task"
               onClick={() => {
                 handleOnShow();
               }}
             />
-            <div className='menu_task' id={taskdetail.id}>
+            <div className="menu_task" id={taskdetail.id}>
               <ul>
                 <li
                   onClick={() => {
@@ -103,19 +103,19 @@ const TaskDetails = (props) => {
               </ul>
             </div>
             <BsXLg
-              className='icons_task'
+              className="icons_task"
               onClick={() => {
                 setTaskdetail();
               }}
             />
           </div>
         </div>
-        <div className='taskcontent'>
-          <div className='left'>
-            <h3 className='tag'>
+        <div className="taskcontent">
+          <div className="left">
+            <h3 className="tag">
               Tag:<span>{taskdetail.tagID}</span>
             </h3>
-            <h3 className='status'>
+            <h3 className="status">
               Status:
               <span
                 style={{
@@ -131,53 +131,57 @@ const TaskDetails = (props) => {
               </span>
             </h3>
 
-            <div className='des'>
+            <div className="des">
               <h3>Desctiption</h3>
               <p>{taskdetail.describe}</p>
               <p>{taskdetail.attachment}</p>
             </div>
           </div>
-          <div className='right'>
+          <div className="right">
             <h4>
-              From: <span>{taskdetail.taskFrom}</span>
+              From: <span>{changeDate(taskdetail.taskFrom)}</span>
             </h4>
             <h4>
-              To: <span>{taskdetail.taskTo}</span>
+              To: <span>{changeDate(taskdetail.taskTo)}</span>
             </h4>
-            <h4>
-              From Project <span>{taskdetail.info.workSpace}</span>
-            </h4>
-            <h4>
-              From Section <span>{taskdetail.info.section}</span>
-            </h4>
-            <h4>
-              From User <span>{taskdetail.info.user}</span>
-            </h4>
+            {taskdetail.infor != null && (
+              <>
+                <h4>
+                  From Project <span>{taskdetail.info.workSpace}</span>
+                </h4>
+                <h4>
+                  From Section <span>{taskdetail.info.section}</span>
+                </h4>
+                <h4>
+                  From User <span>{taskdetail.info.user}</span>
+                </h4>
+              </>
+            )}
           </div>
         </div>
       </div>
     </div>
   ) : (
-    <div className='content'>
-      <div className='tasksdetail'>
-        <div className='taskheader'>
+    <div className="content">
+      <div className="tasksdetail">
+        <div className="taskheader">
           <h1>
             <input
-              className='input_title'
-              name='title'
+              className="input_title"
+              name="title"
               defaultValue={taskdetail.title}
             />
           </h1>
-          <div id='icon_tasks'>
+          <div id="icon_tasks">
             <BsFillPinAngleFill
-              className='icons_task'
+              className="icons_task"
               style={{ color: taskdetail.PinTask ? "red" : "black" }}
               onClick={() => {
                 handleOnpin(taskdetail.id);
               }}
             />
             <BsCheckLg
-              className='icons_task'
+              className="icons_task"
               style={{
                 color: "green",
                 display:
@@ -190,12 +194,12 @@ const TaskDetails = (props) => {
               }}
             />
             <BsThreeDots
-              className='icons_task'
+              className="icons_task"
               onClick={() => {
                 handleOnShow();
               }}
             />
-            <div className='menu_task' id={taskdetail.id}>
+            <div className="menu_task" id={taskdetail.id}>
               <ul>
                 {edit === false ? (
                   <li
@@ -219,24 +223,24 @@ const TaskDetails = (props) => {
               </ul>
             </div>
             <BsXLg
-              className='icons_task'
+              className="icons_task"
               onClick={() => {
                 setTaskdetail(null);
               }}
             />
           </div>
         </div>
-        <div className='taskcontent'>
-          <div className='left'>
-            <h3 className='tag'>
+        <div className="taskcontent">
+          <div className="left">
+            <h3 className="tag">
               Tag:{" "}
               <input
-                className='tagh3'
-                name='tag'
+                className="tagh3"
+                name="tag"
                 defaultValue={taskdetail.TagID}
               />
             </h3>
-            <h3 className='status'>
+            <h3 className="status">
               Status:
               <span
                 style={{
@@ -252,33 +256,33 @@ const TaskDetails = (props) => {
               </span>
             </h3>
 
-            <div className='des'>
+            <div className="des">
               <h3>Desctiption</h3>
               <textarea
-                className='textare'
-                name='descrip'
+                className="textare"
+                name="descrip"
                 defaultValue={taskdetail.description}
                 rows={8}
               ></textarea>
             </div>
           </div>
-          <div className='right'>
+          <div className="right">
             <h4>
               From:
               <input
-                className='tagh4'
-                type='date'
-                name='From'
-                defaultValue={changeDate(taskdetail.TaskFrom)}
+                className="tagh4"
+                type="date"
+                name="From"
+                defaultValue={changeDate(taskdetail.taskFrom)}
               />
             </h4>
             <h4>
               To:{" "}
               <input
-                className='tagh4'
-                type='date'
-                name='to'
-                defaultValue={changeDate(taskdetail.TaskTo)}
+                className="tagh4"
+                type="date"
+                name="to"
+                defaultValue={changeDate(taskdetail.taskTo)}
               />
             </h4>
           </div>

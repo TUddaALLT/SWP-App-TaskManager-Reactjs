@@ -1,5 +1,5 @@
 import { Box, Button, Collapse, Modal, TextField } from "@mui/material";
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { BiHomeAlt } from "react-icons/bi";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsFileEarmarkBarGraph } from "react-icons/bs";
@@ -12,6 +12,7 @@ import Calendar from "./../pages/Calendar";
 import MyTasks from "../pages/MyTasks";
 import Project from "../pages/Project";
 import ModalCreateProject from "./ModalCreateProject";
+import authAxios from "../services/AxiosInstance";
 
 const Navigation = (props) => {
   const [open, setOpen] = useState(false);
@@ -20,18 +21,24 @@ const Navigation = (props) => {
   const [description, setDescription] = useState("");
   const [content, setContent] = useState(0);
   const [target, setTarget] = useState("");
-
-  const [listProject, setListProject] = useState([
-    { id: 1, name: "project1" },
-    { id: 2, name: "project2" },
-    { id: 3, name: "project3" },
-  ]);
-  const handleDeleteProject = (key) => {
-    setListProject(
-      listProject.filter((element) => {
-        return element.id !== key;
+  const [propject, setProject] = useState();
+  const [taskdetail, setTaskdetail] = useState();
+  const [listProject, setListProject] = useState();
+  useEffect(() => {
+    authAxios
+      .get(`/WorkSpace/user/${localStorage.getItem("id")}`)
+      .then(function (response) {
+        console.log(response.data.data);
+        const data = response.data.data.sort((a, b) => b.id - a.id);
+        setListProject(data);
       })
-    );
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [openModal]);
+
+  const handleDeleteProject = (key) => {
+    //call api
   };
   const handleOpen = () => {
     setOpen(!open);
@@ -45,13 +52,16 @@ const Navigation = (props) => {
     setDescription("");
   };
 
-  const handleActive = (num, target) => {
+  const handleActive = (num, target, remove) => {
     let lists = document.getElementsByClassName(target);
+    let listr = document.getElementsByClassName(remove);
     let current = lists[num];
     for (const iterator of lists) {
       iterator.classList.remove("isActive");
     }
-
+    for (const iterator of listr) {
+      iterator.classList.remove("isActive");
+    }
     current.classList.add("isActive");
   };
   console.log(content);
@@ -66,7 +76,9 @@ const Navigation = (props) => {
             <div
               className="link isActive"
               onClick={() => {
-                handleActive(0, "link");
+                handleActive(0, "link", "listitems");
+                setProject();
+                setTaskdetail();
                 handleContent(0);
               }}
             >
@@ -89,7 +101,9 @@ const Navigation = (props) => {
             <div
               className="link"
               onClick={() => {
-                handleActive(1, "link");
+                handleActive(1, "link", "listitems");
+                setProject();
+                setTaskdetail();
                 handleContent(1);
               }}
             >
@@ -112,7 +126,9 @@ const Navigation = (props) => {
             <div
               className="link"
               onClick={() => {
-                handleActive(2, "link");
+                handleActive(2, "link", "listitems");
+                setProject();
+                setTaskdetail();
                 handleContent(2);
               }}
             >
@@ -135,7 +151,9 @@ const Navigation = (props) => {
             <div
               className="link"
               onClick={() => {
-                handleActive(3, "link");
+                handleActive(3, "link", "listitems");
+                setProject();
+                setTaskdetail();
                 handleContent(3);
               }}
             >
@@ -179,13 +197,15 @@ const Navigation = (props) => {
             </div>
           </li>
           <Collapse in={open} timeout="auto">
-            {listProject.length === 0 ? (
+            {listProject != null && listProject.length === 0 ? (
               <h4>No Project</h4>
             ) : (
               <DisplayProject
                 listProject={listProject}
                 handleDeleteProject={handleDeleteProject}
                 handleActive={handleActive}
+                setProject={setProject}
+                setContent={setContent}
               />
             )}
           </Collapse>
@@ -195,10 +215,23 @@ const Navigation = (props) => {
           setOpenModal={setOpenModal}
         ></ModalCreateProject>
       </div>
-      {content == 0 && <Dashboard></Dashboard>}
+      {content == 0 && (
+        <Dashboard
+          setContent={setContent}
+          setTaskdetail={setTaskdetail}
+          handleActive={handleActive}
+        ></Dashboard>
+      )}
       {content == 1 && <Calendar></Calendar>}
-      {content == 2 && <MyTasks></MyTasks>}
-      {content == 3 && <Project></Project>}
+      {content == 2 && (
+        <MyTasks
+          taskdetail={taskdetail}
+          setTaskdetail={setTaskdetail}
+        ></MyTasks>
+      )}
+      {content == 3 && (
+        <Project project={propject} setProject={setProject}></Project>
+      )}
     </>
   );
 };
