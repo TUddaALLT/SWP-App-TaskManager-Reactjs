@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <>
       <div
-        className="main-content"
+        className='main-content'
         style={{ height: "100vh", overflow: "hidden" }}
       >
         <Header></Header>

@@ -24,39 +24,11 @@ const getDate = () => {
 };
 const Dashboard = (props) => {
   const date = getDate();
-  // const listTask = [
-  //   {
-  //     id: "1",
-  //     sectionID: "",
-  //     title: "Task 1",
-  //     description:
-  //       "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
-  //     image: "",
-  //     status: "",
-  //     createTime: "",
-  //     TaskTo: "",
-  //     TaskFrom: "",
-  //     PinTask: true,
-  //     TagID: "",
-  //     Attachment: "",
-  //   },
-  //   {
-  //     id: "2",
-  //     sectionID: "",
-  //     title: "Task 2",
-  //     description: "Hello đây là task 2",
-  //     image: "",
-  //     status: "",
-  //     createTime: "",
-  //     TaskTo: "",
-  //     TaskFrom: "",
-  //     PinTask: false,
-  //     TagID: "",
-  //     Attachment: "",
-  //   },
-  // ];
   const [openModal, setOpenModal] = useState();
   const [listTask, setListTask] = useState();
+  const setTaskdetail = props.setTaskdetail;
+  const setContent = props.setContent;
+  const handleActive = props.handleActive;
   useEffect(() => {
     authAxios
       .get(`/Task/AssignedTasks/${localStorage.getItem("id")}`)
@@ -64,11 +36,6 @@ const Dashboard = (props) => {
         console.log(response.data.data);
 
         const currentDate = new Date().toLocaleDateString();
-
-        // const dateString = "2023-03-10T13:35:20.487";
-        // const date = new Date(dateString);
-        // const formattedDate = date.toLocaleDateString();
-        // console.log(formattedDate); // "3/10/2023" (based on the user's locale)
         console.log(
           response.data.data.filter((item) => {
             const to = new Date(item.taskTo).toLocaleDateString();
@@ -77,7 +44,7 @@ const Dashboard = (props) => {
             console.log(currentDate < from);
 
             return currentDate == from;
-          }),
+          })
         );
         setListTask(
           response.data.data.filter((item) => {
@@ -86,7 +53,7 @@ const Dashboard = (props) => {
             console.log(currentDate > from);
             console.log(currentDate < from);
             return currentDate >= from && currentDate <= to;
-          }),
+          })
         );
       })
       .catch(function (error) {
@@ -95,10 +62,10 @@ const Dashboard = (props) => {
   }, [openModal]);
   console.log(listTask);
   return (
-    <div className='content'>
-      <div className='content-header'>
+    <div className="content">
+      <div className="content-header">
         <span
-          id='buttonOpenModal'
+          id="buttonOpenModal"
           onClick={() => {
             setOpenModal(true);
           }}
@@ -107,24 +74,29 @@ const Dashboard = (props) => {
         </span>
         <ModalCreateTask openModal={openModal} setOpenModal={setOpenModal} />
       </div>
-      <div className='dashboard-content'>
-        <div className='element'>
-          <div className='today'>
+      <div className="dashboard-content">
+        <div className="element">
+          <div className="today">
             <h2>Today</h2>
-            <div className='date-box'>
-              <h1 className='month'>{date.month}</h1>
-              <p className='day'>{date.day}</p>
+            <div className="date-box">
+              <h1 className="month">{date.month}</h1>
+              <p className="day">{date.day}</p>
             </div>
           </div>
         </div>
-        <div className='element'>
-          <div className='task-today'>
+        <div className="element">
+          <div className="task-today">
             <h2>Your Task Today</h2>
-            <DisplayTaskToday listTask={listTask} />
+            <DisplayTaskToday
+              setTaskdetail={setTaskdetail}
+              listTask={listTask}
+              setContent={setContent}
+              handleActive={handleActive}
+            />
           </div>
         </div>
-        <div className='element'>
-          <div className='pin-task'>
+        <div className="element">
+          <div className="pin-task">
             <h2>Pin Task</h2>
             <DisplayPinTask />
           </div>
