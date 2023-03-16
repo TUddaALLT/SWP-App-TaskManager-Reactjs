@@ -82,7 +82,10 @@ function ProjectDetails(props) {
   const [opened, setOpened] = useState(false);
   const [userInWorkSpace, setUserInWorkSpace] = useState();
   const [openListMember, setOpenListMember] = React.useState(false);
-  const handleCloseListMember = () => setOpenListMember(false);
+  const handleCloseListMember = () => {
+    setOpenListMember(false);
+    setTaskAss(null);
+  };
   const handleOpenListMember = () => setOpenListMember(true);
   const [kicked, setKicked] = React.useState(false);
   async function kickMemmber(idKicked) {
@@ -194,6 +197,7 @@ function ProjectDetails(props) {
         console.log(error);
       });
     setCheck(!check);
+    setOpened(!opened);
   }
 
   useEffect(() => {

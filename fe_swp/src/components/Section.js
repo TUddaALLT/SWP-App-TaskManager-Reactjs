@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
-import { BsFillPencilFill } from "react-icons/bs";
-import ModalCreateProject from "../components/ModalCreateProject";
 import "../styles/ProjectDetails.css";
 import authAxios from "../services/AxiosInstance";
 import "../styles/Project.css";
 import "../styles/Section.css";
-
-import { Button, Input, TextField } from "@mui/material";
+import { AiOutlinePlus } from "react-icons/ai";
+import { Button } from "@mui/material";
 
 function Section(props) {
   const [opened, setOpened] = useState(false);
@@ -37,6 +34,7 @@ function Section(props) {
       .catch(function (error) {
         console.log(error);
       });
+    setOpened(!opened);
     setDone(!done);
   }
   useEffect(() => {

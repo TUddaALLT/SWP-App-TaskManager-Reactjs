@@ -10,6 +10,9 @@ li {
 .nav-bar {
   width: 15%;
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 48vh;
   height: 100vh;
   float: left;
 }
@@ -90,15 +93,14 @@ li {
   border: 1px solid gray;
   box-shadow: 1px 1px 1px white;
   border-radius: 10px;
-  transform: translate(120%,0);
+  transform: translate(120%, 0);
   z-index: 3;
-  
 }
 .menu_project ul {
   list-style: none;
   margin: 0px 20px;
 }
-.menu_project ul li{
+.menu_project ul li {
   color: black;
   font-size: 16px;
   font-weight: normal;

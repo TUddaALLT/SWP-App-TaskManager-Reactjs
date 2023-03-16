@@ -89,16 +89,7 @@ function MyTasks(props) {
       else if (date1.getTime() < currentDate.getTime()) return "red";
     }
   };
-  // const handleOnChange = (id) => {
-  //   let newA = [...listTask];
-  //   let a = newA.find((element) => {
-  //     return element.id === id;
-  //   }).status;
-  //   newA.forEach((element) => {
-  //     if (element.id === id) element.status = !a;
-  //   });
-  //   setListTask(newA);
-  // };
+
   const handleOnTaskDetails = (alo) => {
     setTaskdetail(alo);
   };
