@@ -4,70 +4,10 @@ import TaskDetails from "../components/TaskDetails";
 import authAxios from "../services/AxiosInstance";
 import "../styles/MyTasks.css";
 function MyTasks(props) {
-  // const listTask1 = [
-  //   {
-  //     id: "1",
-  //     sectionID: "",
-  //     title: "Task 1",
-  //     description:
-  //       "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
-  //     image: "",
-  //     status: true,
-  //     createTime: "",
-  //     TaskTo: "2023/03/19",
-  //     TaskFrom: "2023/03/01",
-  //     PinTask: true,
-  //     TagID: "",
-  //     Attachment: "",
-  //   },
-  //   {
-  //     id: "2",
-  //     sectionID: "",
-  //     title: "Task 2",
-  //     description: "Hello đây là task 2",
-  //     image: "",
-  //     status: false,
-  //     createTime: "",
-  //     TaskTo: "2023/03/20",
-  //     TaskFrom: "2023/02/19",
-  //     PinTask: false,
-  //     TagID: "",
-  //     Attachment: "",
-  //   },
-  //   {
-  //     id: "3",
-  //     sectionID: "",
-  //     title: "Task 3",
-  //     description:
-  //       "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
-  //     image: "",
-  //     status: false,
-  //     createTime: "",
-  //     TaskTo: "2023/03/10",
-  //     TaskFrom: "2023/03/01",
-  //     PinTask: false,
-  //     TagID: "",
-  //     Attachment: "",
-  //   },
-  //   {
-  //     id: "4",
-  //     sectionID: "",
-  //     title: "Task 4",
-  //     description:
-  //       "Task này sắp đến hạn rồi bé ơi Task này sắp đến hạn rồi bé ơi đúng nhận sai cãi",
-  //     image: "",
-  //     status: false,
-  //     createTime: "",
-  //     TaskTo: "2023/04/12",
-  //     TaskFrom: "2023/03/01",
-  //     PinTask: true,
-  //     TagID: "",
-  //     Attachment: "",
-  //   },
-  // ];
   const [openModal, setOpenModal] = useState(false);
   const [listTask, setListTask] = useState();
-  const [taskdetail, setTaskdetail] = useState();
+  const taskdetail = props.taskdetail;
+  const setTaskdetail = props.setTaskdetail;
   const [check, setCheck] = useState();
   useEffect(() => {
     authAxios
@@ -85,11 +25,14 @@ function MyTasks(props) {
     const date1 = new Date(dateTo);
     if (status) return "green";
     else {
-      if (date1.getTime() >= currentDate.getTime()) return "black";
+      if (date1.getTime() >= currentDate.getTime()) return "orange";
       else if (date1.getTime() < currentDate.getTime()) return "red";
     }
   };
-
+  const changeDate = (dt) => {
+    let date = new Date(dt);
+    return date.toISOString().substring(0, 10);
+  };
   const handleOnTaskDetails = (alo) => {
     setTaskdetail(alo);
   };
@@ -122,26 +65,21 @@ function MyTasks(props) {
                   key={element.id}
                   style={{
                     border:
-                      "1px solid " + getcolor(element.TaskTo, element.status),
+                      "1px solid " + getcolor(element.taskTo, element.status),
                   }}
                   onClick={() => {
                     handleOnTaskDetails(element);
                   }}
                 >
-                  <input
-                    type='checkbox'
-                    defaultChecked={element.status}
-                    // onChange={() => handleOnChange(element.id)}
-                    readOnly
-                  />
                   <h4
                     style={{
-                      color: getcolor(element.TaskTo, element.status),
+                      color: getcolor(element.taskTo, element.status),
+                      marginLeft: "3vw",
                     }}
                   >
                     {element.title}
                   </h4>
-                  <p>Time Limited: {element.taskTo}</p>
+                  <p>Time Limited: {changeDate(element.taskTo)}</p>
                   <p
                     style={{
                       color: getcolor(element.taskTo, element.status),

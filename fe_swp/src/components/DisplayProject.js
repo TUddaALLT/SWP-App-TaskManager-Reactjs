@@ -1,5 +1,4 @@
 import { List, ListItemButton, ListItemText } from "@mui/material";
-import { BsThreeDots } from "react-icons/bs";
 
 const style = {
   position: "absolute",
@@ -18,48 +17,37 @@ const DisplayProject = (props) => {
   const listProject = props.listProject;
   const handleDeleteProject = props.handleDeleteProject;
   const handleActive = props.handleActive;
-
-  const showProject = listProject.map((element, index) => {
-    const handleOpentMenu = (id) => {
-      let a = document.getElementById(id);
-      if (a.style.display === "block") {
-        a.style.display = "none";
-      } else {
-        a.style.display = "block";
-      }
-    };
-
-    return (
-      <ListItemButton
-        sx={{ pl: 10, color: "#ADADAD" }}
-        key={element.name}
-        className='listitems'
-        onClick={() => {
-          handleActive(index, "listitems");
-        }}
-      >
-        <ListItemText primary={element.name} />
-        <BsThreeDots
-          className='icons-setting'
-          onClick={() => handleOpentMenu(element.id + "project")}
-        />
-        <div className='menu_project' id={element.id + "project"}>
-          <ul>
-            <li
-              style={{ color: "red" }}
-              onClick={() => handleDeleteProject(element.id)}
-            >
-              Delete
-            </li>
-          </ul>
-        </div>
-      </ListItemButton>
-    );
-  });
+  const setProject = props.setProject;
+  const setContent = props.setContent;
+  const showProject =
+    listProject != null &&
+    listProject.map((element, index) => {
+      return (
+        <ListItemButton
+          sx={{ pl: 4, color: "#ADADAD" }}
+          key={element.name}
+          className="listitems"
+          onClick={() => {
+            handleActive(index, "listitems", "link");
+            setProject(element);
+            setContent(3);
+          }}
+        >
+          <ListItemText primary={element.name} />
+          <span
+            style={{ color: "red", fontSize: "14px", margin: "0px" }}
+            onClick={() => handleDeleteProject(element.id)}
+            className="delete"
+          >
+            Delete
+          </span>
+        </ListItemButton>
+      );
+    });
 
   return (
     <>
-      <List component='div' disablePadding>
+      <List component="div" disablePadding>
         {showProject}
       </List>
     </>

@@ -54,7 +54,7 @@ function Section(props) {
       // /Section/19?userID=1
       await authAxios
         .delete(
-          `/Section/${props.section.id}?userID=${localStorage.getItem("id")}`,
+          `/Section/${props.section.id}?userID=${localStorage.getItem("id")}`
         )
         .then(function (response) {
           if (response.data.status == 400) {
@@ -67,9 +67,22 @@ function Section(props) {
     }
     props.setCheck(!props.check);
   }
+  const getcolor = (dateTo, status) => {
+    const currentDate = new Date();
+    const date1 = new Date(dateTo);
+    if (status) return "green";
+    else {
+      if (date1.getTime() >= currentDate.getTime()) return "orange";
+      else if (date1.getTime() < currentDate.getTime()) return "red";
+    }
+  };
+  const changeDate = (dt) => {
+    let date = new Date(dt);
+    return date.toISOString().substring(0, 10);
+  };
   return (
-    <div className='section'>
-      <div className='section_name '>
+    <div className="section">
+      <div className="section_name ">
         {props.section.title}
         <div
           style={{
@@ -81,37 +94,50 @@ function Section(props) {
           onClick={() => deleteSection(props.section.id)}
         >
           X
-        </div>{" "}
+        </div>
       </div>
-      <div className='content_section'>
+      <div className="content_section">
         {tasks != null &&
           tasks.map((task) => (
-            <div key={task.id} className='task'>
-              <div>{task.title}</div>
-              <div>{task.describe}</div>
-              <div>{task.taskFrom}</div>
-              <div>{task.taskTo}</div>
+            <div
+              key={task.id}
+              className="task"
+              style={{
+                border: "2px solid " + getcolor(task.taskFrom, task.status),
+              }}
+            >
+              <div
+                className="task_title"
+                style={{ color: getcolor(task.taskFrom, task.status) }}
+              >
+                {task.title}
+              </div>
+              <div className="task_des">{task.describe}</div>
+              <div className="task_fromto">
+                From: {changeDate(task.taskFrom)} <br />
+                To: {changeDate(task.taskTo)}
+              </div>
             </div>
           ))}
-        <div className='btnOpen' onClick={openAddTaskProject}>
+        <div className="btnOpen" onClick={openAddTaskProject}>
           {opened ? "X" : <AiOutlinePlus></AiOutlinePlus>}
         </div>
         {opened && (
-          <div className='frmAdd'>
+          <div className="frmAdd">
             <input
-              autoFocus='true'
-              className='title'
-              placeholder='Title'
+              autoFocus="true"
+              className="title"
+              placeholder="Title"
             ></input>
             <textarea
-              className='describe'
-              placeholder='Describe'
+              className="describe"
+              placeholder="Describe"
               rows={4}
               maxLength={100}
             ></textarea>
-            <span>From:</span> <input className='From' type='date' />
-            <span>To:</span> <input className='to' type='date'></input>
-            <Button size='small' onClick={() => addTaskProject()}>
+            <span>From:</span> <input className="From" type="date" />
+            <span>To:</span> <input className="to" type="date"></input>
+            <Button size="small" onClick={() => addTaskProject()}>
               Add Task
             </Button>
           </div>

@@ -51,7 +51,7 @@ const TaskDetails = (props) => {
     return date.toISOString().substring(0, 10);
   };
 
-  return edit === false ? (
+  return edit == false ? (
     <div className='content'>
       <div className='tasksdetail'>
         <div className='taskheader'>
@@ -139,25 +139,24 @@ const TaskDetails = (props) => {
           </div>
           <div className='right'>
             <h4>
-              From: <span>{taskdetail.taskFrom}</span>
+              From: <span>{changeDate(taskdetail.taskFrom)}</span>
             </h4>
             <h4>
-              To: <span>{taskdetail.taskTo}</span>
+              To: <span>{changeDate(taskdetail.taskTo)}</span>
             </h4>
-            <h4>
-              From Project{" "}
-              <span>
-                {taskdetail.info != null && taskdetail.info.workSpace}
-              </span>
-            </h4>
-            <h4>
-              From Section{" "}
-              <span>{taskdetail.info != null && taskdetail.info.section}</span>
-            </h4>
-            <h4>
-              From User{" "}
-              <span>{taskdetail.info != null && taskdetail.info.user}</span>
-            </h4>
+            {taskdetail.infor != null && (
+              <>
+                <h4>
+                  From Project <span>{taskdetail.info.workSpace}</span>
+                </h4>
+                <h4>
+                  From Section <span>{taskdetail.info.section}</span>
+                </h4>
+                <h4>
+                  From User <span>{taskdetail.info.user}</span>
+                </h4>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -274,7 +273,7 @@ const TaskDetails = (props) => {
                 className='tagh4'
                 type='date'
                 name='From'
-                defaultValue={changeDate(taskdetail.TaskFrom)}
+                defaultValue={changeDate(taskdetail.taskFrom)}
               />
             </h4>
             <h4>
@@ -283,7 +282,7 @@ const TaskDetails = (props) => {
                 className='tagh4'
                 type='date'
                 name='to'
-                defaultValue={changeDate(taskdetail.TaskTo)}
+                defaultValue={changeDate(taskdetail.taskTo)}
               />
             </h4>
           </div>
