@@ -3,6 +3,9 @@
     margin: 0;
     box-sizing: border-box;
 }
+.content {
+    padding-bottom: 20vh;
+}
 .content-header {
     margin: 20px 0;
     text-align: left;
@@ -57,10 +60,10 @@
 }
 .tasks {
     background-color: white;
-    height: 10vw;
     border-radius: 10px;
     margin: 20px 0;
     cursor: pointer;
+    padding-bottom: 20px;
 }
 .tasksPin {
     background-color: white;
@@ -69,7 +72,7 @@
     cursor: pointer;
 }
 .tasktitle {
-    padding: 0 20px;
+    padding: 10px 20px;
 }
 .taskdescription {
     padding: 0px 10px;
