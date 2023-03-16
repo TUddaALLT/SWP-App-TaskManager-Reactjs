@@ -145,13 +145,22 @@ const TaskDetails = (props) => {
               To: <span>{taskdetail.taskTo}</span>
             </h4>
             <h4>
-              From Project <span>{taskdetail.info.workSpace}</span>
+              From Project{" "}
+              <span>
+                {taskdetail.info != null ? taskdetail.info.workSpace : "None"}
+              </span>
             </h4>
             <h4>
-              From Section <span>{taskdetail.info.section}</span>
+              From Section{" "}
+              <span>
+                {taskdetail.info != null ? taskdetail.info.section : "None"}
+              </span>
             </h4>
             <h4>
-              From User <span>{taskdetail.info.user}</span>
+              From User{" "}
+              <span>
+                {taskdetail.info != null ? taskdetail.info.user : "None"}
+              </span>
             </h4>
           </div>
         </div>
