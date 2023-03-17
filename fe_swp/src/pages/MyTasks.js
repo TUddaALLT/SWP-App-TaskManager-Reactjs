@@ -37,12 +37,12 @@ function MyTasks(props) {
     setTaskdetail(alo);
   };
   return taskdetail == null ? (
-    <div className='content'>
-      <div className='personal-task'>
-        <h1>List of Tasks</h1>
-        <div className='content-header'>
+    <div className="content">
+      <div className="personal-task">
+        <h1 style={{ color: "white" }}>List of Tasks</h1>
+        <div className="content-header">
           <span
-            id='buttonOpenModal'
+            id="buttonOpenModal"
             onClick={() => {
               setOpenModal(!openModal);
             }}
@@ -56,12 +56,12 @@ function MyTasks(props) {
             setCheck={setCheck}
           />
         </div>
-        <div className='listTaskall'>
+        <div className="listTaskall">
           {listTask != null &&
             listTask.map((element) => {
               return (
                 <div
-                  className='taskDetail'
+                  className="taskDetail"
                   key={element.id}
                   style={{
                     border:
@@ -97,7 +97,6 @@ function MyTasks(props) {
             })}
         </div>
       </div>
-      <div className='listTaskProject'></div>
     </div>
   ) : (
     <TaskDetails

@@ -70,12 +70,12 @@ const Navigation = (props) => {
   }
 
   return (
-    <div>
-      <div className='nav-bar' style={{ borderRight: "2px solid gray" }}>
-        <ul className='navbar-menu'>
+    <>
+      <div className="nav-bar" style={{ borderRight: "2px solid gray" }}>
+        <ul className="navbar-menu">
           <li>
             <div
-              className='link isActive'
+              className="link isActive"
               onClick={() => {
                 handleActive(0, "link", "listitems");
                 setProject();
@@ -84,8 +84,8 @@ const Navigation = (props) => {
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                <AiOutlineDown className='icons-nav hide' />
-                <BiHomeAlt className='icons-nav' size='30px' />
+                <AiOutlineDown className="icons-nav hide" />
+                <BiHomeAlt className="icons-nav" size="30px" />
                 <div
                   style={{
                     display: "flex",
@@ -100,7 +100,7 @@ const Navigation = (props) => {
           </li>
           <li>
             <div
-              className='link'
+              className="link"
               onClick={() => {
                 handleActive(1, "link", "listitems");
                 setProject();
@@ -109,8 +109,8 @@ const Navigation = (props) => {
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                <AiOutlineDown className='icons-nav hide' />
-                <FaRegCalendarAlt className='icons-nav' />
+                <AiOutlineDown className="icons-nav hide" />
+                <FaRegCalendarAlt className="icons-nav" />
                 <div
                   style={{
                     display: "flex",
@@ -125,7 +125,7 @@ const Navigation = (props) => {
           </li>
           <li>
             <div
-              className='link'
+              className="link"
               onClick={() => {
                 handleActive(2, "link", "listitems");
                 setProject();
@@ -134,8 +134,8 @@ const Navigation = (props) => {
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                <AiOutlineDown className='icons-nav hide' />
-                <BsFileEarmarkBarGraph className='icons-nav' />
+                <AiOutlineDown className="icons-nav hide" />
+                <BsFileEarmarkBarGraph className="icons-nav" />
                 <div
                   style={{
                     display: "flex",
@@ -150,7 +150,7 @@ const Navigation = (props) => {
           </li>
           <li>
             <div
-              className='link'
+              className="link"
               onClick={() => {
                 handleActive(3, "link", "listitems");
                 setProject();
@@ -162,20 +162,20 @@ const Navigation = (props) => {
                 <div style={{ display: "flex", alignItems: "center" }}>
                   {open ? (
                     <AiOutlineDown
-                      className='icons-nav-d'
+                      className="icons-nav-d"
                       onClick={() => {
                         handleOpen();
                       }}
                     />
                   ) : (
                     <AiOutlineRight
-                      className='icons-nav-d'
+                      className="icons-nav-d"
                       onClick={() => {
                         handleOpen();
                       }}
                     />
                   )}
-                  <GoFileDirectory className='icons-nav' />
+                  <GoFileDirectory className="icons-nav" />
                   <div
                     style={{
                       display: "flex",
@@ -186,7 +186,7 @@ const Navigation = (props) => {
                     <h4> Project's</h4>
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <AiOutlinePlus
-                        className='icons-nav plus'
+                        className="icons-nav plus"
                         onClick={() => {
                           handleOpenModal();
                         }}
@@ -197,7 +197,7 @@ const Navigation = (props) => {
               </div>
             </div>
           </li>
-          <Collapse in={open} timeout='auto'>
+          <Collapse in={open} timeout="auto">
             {listProject != null && listProject.length === 0 ? (
               <h4>No Project</h4>
             ) : (
@@ -233,7 +233,7 @@ const Navigation = (props) => {
       {content == 3 && (
         <Project project={propject} setProject={setProject}></Project>
       )}
-    </div>
+    </>
   );
 };
 export default Navigation;

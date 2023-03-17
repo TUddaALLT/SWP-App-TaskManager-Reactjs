@@ -30,8 +30,8 @@ function Project(props) {
   return project == null ? (
     <div className="project_component">
       <div style={{}}>
-        <h1 style={{ marginBottom: "3vh" }}>Your Project</h1>
-        <p>Create new project </p>
+        <h1 style={{ marginBottom: "3vh", color: "white" }}>Your Project</h1>
+        <p style={{ color: "yellow" }}>Create new project </p>
       </div>
       <div className="big_btns">
         <div

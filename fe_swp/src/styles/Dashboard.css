@@ -5,6 +5,8 @@
 }
 .content {
     padding-bottom: 20vh;
+    overflow: hidden;
+    
 }
 .content-header {
     margin: 20px 0;
@@ -15,8 +17,10 @@
     justify-content: center;
     cursor: pointer;
     background-color: transparent;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid yellow;
     transition: 0.5s;
+    color: yellow;
+    font-size: 23px;
 }
 #buttonOpenModal:hover {
     color: red;
@@ -26,7 +30,9 @@
 .element {
      width: 30%;
      margin: 0 10px;
+     text-align: left;
 }
+
 .today {
     width: 20vw;
     margin: auto;
@@ -57,18 +63,23 @@
     width: 24vw;
     margin: auto;
     text-align: left;
+    height: 65vh;
+    overflow: auto;
+    background: rgba(172, 175, 175, 0.3);
+    box-shadow: 2px 2px 2px rgb(155, 152, 152);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 .tasks {
     background-color: white;
     border-radius: 10px;
-    margin: 20px 0;
+    margin: 20px 10px;
     cursor: pointer;
-    padding-bottom: 20px;
 }
 .tasksPin {
     background-color: white;
     border-radius: 10px;
-    margin: 20px 0;
+    margin: 20px 10px;
     cursor: pointer;
 }
 .tasktitle {
@@ -81,7 +92,14 @@
 .pin-task { 
     width: 24vw;
     margin: auto;
-    text-align: left;}
+    text-align: left;
+    height: 65vh;
+    overflow: auto;
+    background: rgba(172, 175, 175, 0.3);
+    box-shadow: 2px 2px 2px rgb(155, 152, 152);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
 .menu_task {
     display: flex;
     display: none;
@@ -117,7 +135,7 @@
     justify-content: space-between;
     position: relative;
     padding: 0 20px;
-    margin: 10px 0;
+    margin: 5px 0;
     z-index: 0;
 }
 .iconTask {
@@ -129,4 +147,11 @@
 .iconTask:hover {
     color: black;
     transition: 0.5s;
+}
+.titleabc {
+    color: black;
+    color: white;
+    border-radius: 20px;
+    padding: 5px 30px;
+    margin: auto;
 }

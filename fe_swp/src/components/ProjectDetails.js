@@ -45,10 +45,12 @@ function ProjectDetails(props) {
   const [opened, setOpened] = useState(false);
   const [userInWorkSpace, setUserInWorkSpace] = useState();
   const [openListMember, setOpenListMember] = React.useState(false);
-  const handleCloseListMember = () => {
-    setOpenListMember(false);
-    setTaskAss(null);
+  const drag = (e) => {
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("Text", e.target.getAttribute("id"));
+    e.dataTransfer.setDragImage(e.target, 0, 0);
   };
+  const handleCloseListMember = () => setOpenListMember(false);
   const handleOpenListMember = () => setOpenListMember(true);
   const [kicked, setKicked] = React.useState(false);
   async function kickMemmber(idKicked) {
@@ -200,8 +202,20 @@ function ProjectDetails(props) {
         }}
       >
         <div>
-          <h1 style={{ marginBottom: "1vh" }}>{props.project.name}</h1>
-          <p>{props.project.describe}</p>
+          <h1
+            style={{
+              marginBottom: "1vh",
+              color: "white",
+              backgroundColor: "rgb(27, 193, 223)",
+              padding: "5px 20px",
+              borderRadius: "20px",
+            }}
+          >
+            {props.project.name}
+          </h1>
+          <p style={{ color: "white", fontSize: "19px" }}>
+            {props.project.describe}
+          </p>
         </div>
         <div
           style={{
@@ -385,6 +399,7 @@ function ProjectDetails(props) {
               section={section}
               check={check}
               setCheck={setCheck}
+              drag={drag}
             ></Section>
           ))}
         <div className="section_base">

@@ -1,9 +1,5 @@
 import React from "react";
 const Calendar = () => {
-  return (
-    <div className='calendar' style={{ height: "92vh" }}>
-      Calendar{" "}
-    </div>
-  );
+  return <div className="content">Calendar </div>;
 };
 export default Calendar;

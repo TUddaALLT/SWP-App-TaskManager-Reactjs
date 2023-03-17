@@ -1,23 +1,23 @@
 .section {
   width: 18vw;
-  margin-top: 5vh;
+  margin-top: 3vh;
   height: 65vh;
-  background-color: white;
+  background: rgba(172, 175, 175, 0.3);
   border-radius: 15px;
   /* margin-right: 2vw; */
 }
 .section_base {
   width: 18vw;
-  margin-top: 5vh;
+  margin-top: 3vh;
   height: 65vh;
-  background-color: white;
+  background: rgba(172, 175, 175, 0.3);
   border-radius: 15px;
 }
 .section_in {
   width: 18vw;
-  margin-top: 5vh;
+  margin-top: 3vh;
   height: 65vh;
-  background-color: white;
+  background: rgba(172, 175, 175, 0.3);
   border-radius: 15px;
 }
 .Create_section {
@@ -50,9 +50,9 @@
   align-items: center;
   width: 18vw;
   height: 5vh;
-  background-color: gray;
+  background-color: rgb(88, 56, 230);
   border-radius: 15px;
-  color: yellow;
+  color: rgb(255, 255, 255);
   cursor: default;
   position: relative;
 }
