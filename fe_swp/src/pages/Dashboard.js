@@ -77,7 +77,12 @@ const Dashboard = (props) => {
       <div className="dashboard-content">
         <div className="element">
           <div className="today">
-            <h2>Today</h2>
+            <h2
+              className="titleabc"
+              style={{ backgroundColor: "rgb(228, 140, 39)" }}
+            >
+              Today
+            </h2>
             <div className="date-box">
               <h1 className="month">{date.month}</h1>
               <p className="day">{date.day}</p>
@@ -85,8 +90,16 @@ const Dashboard = (props) => {
           </div>
         </div>
         <div className="element">
+          <h2
+            style={{
+              marginBottom: "20px",
+              backgroundColor: "rgb(90, 40, 207)",
+            }}
+            className="titleabc"
+          >
+            Your Task Today
+          </h2>
           <div className="task-today">
-            <h2>Your Task Today</h2>
             <DisplayTaskToday
               setTaskdetail={setTaskdetail}
               listTask={listTask}
@@ -96,9 +109,21 @@ const Dashboard = (props) => {
           </div>
         </div>
         <div className="element">
+          <h2
+            style={{
+              marginBottom: "20px",
+              backgroundColor: "rgb(27, 193, 223)",
+            }}
+            className="titleabc"
+          >
+            Pin Task
+          </h2>
           <div className="pin-task">
-            <h2>Pin Task</h2>
-            <DisplayPinTask />
+            <DisplayPinTask
+              setTaskdetail={setTaskdetail}
+              setContent={setContent}
+              handleActive={handleActive}
+            />
           </div>
         </div>
       </div>

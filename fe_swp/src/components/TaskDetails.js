@@ -13,6 +13,12 @@ const TaskDetails = (props) => {
   const setTaskdetail = props.setTaskdetail;
   const getColor = props.getColor;
   const [edit, setEdit] = useState(false);
+  const listTag = [
+    { id: "1", name: "tag1" },
+    { id: "2", name: "tag2" },
+    { id: "3", name: "tag3" },
+    { id: "4", name: "tag4" },
+  ];
   const handleOnpin = (id) => {
     //pin task
   };
@@ -113,7 +119,10 @@ const TaskDetails = (props) => {
         <div className="taskcontent">
           <div className="left">
             <h3 className="tag">
-              Tag:<span>{taskdetail.tagID}</span>
+              Tag:
+              <span style={{ marginLeft: "10px", fontWeight: "normal" }}>
+                {taskdetail.tagID == null ? "None" : taskdetail.tagID}
+              </span>
             </h3>
             <h3 className="status">
               Status:
@@ -138,24 +147,26 @@ const TaskDetails = (props) => {
             </div>
           </div>
           <div className="right">
-            <h4>
-              From: <span>{changeDate(taskdetail.taskFrom)}</span>
-            </h4>
-            <h4>
-              To: <span>{changeDate(taskdetail.taskTo)}</span>
-            </h4>
-            {taskdetail.infor != null && (
-              <>
-                <h4>
-                  From Project <span>{taskdetail.info.workSpace}</span>
-                </h4>
-                <h4>
-                  From Section <span>{taskdetail.info.section}</span>
-                </h4>
-                <h4>
+            <div className="time_tas">
+              <h4>
+                From: <span>{changeDate(taskdetail.taskFrom)}</span>
+              </h4>
+              <h4>
+                To: <span>{changeDate(taskdetail.taskTo)}</span>
+              </h4>
+            </div>
+            {taskdetail.info != null && (
+              <div className="projectinfo">
+                <div>
                   From User <span>{taskdetail.info.user}</span>
-                </h4>
-              </>
+                </div>
+                <div>
+                  From Section <span>{taskdetail.info.section}</span>
+                </div>
+                <div>
+                  From Project <span>{taskdetail.info.workSpace}</span>
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -175,7 +186,7 @@ const TaskDetails = (props) => {
           <div id="icon_tasks">
             <BsFillPinAngleFill
               className="icons_task"
-              style={{ color: taskdetail.PinTask ? "red" : "black" }}
+              style={{ color: taskdetail.pinTask ? "red" : "black" }}
               onClick={() => {
                 handleOnpin(taskdetail.id);
               }}
@@ -233,24 +244,30 @@ const TaskDetails = (props) => {
         <div className="taskcontent">
           <div className="left">
             <h3 className="tag">
-              Tag:{" "}
-              <input
-                className="tagh3"
+              Tag:
+              <select
                 name="tag"
-                defaultValue={taskdetail.TagID}
-              />
+                defaultValue={taskdetail.tagID}
+                className="tagh3"
+              >
+                <option value="">None</option>
+                {listTag != null &&
+                  listTag.map((tag) => {
+                    return <option value={tag.id}>{tag.name}</option>;
+                  })}
+              </select>
             </h3>
             <h3 className="status">
               Status:
               <span
                 style={{
-                  color: getColor(taskdetail.TaskTo, taskdetail.status),
+                  color: getColor(taskdetail.taskTo, taskdetail.status),
                   marginLeft: "10px",
                 }}
               >
-                {getColor(taskdetail.TaskTo, taskdetail.status) === "red"
+                {getColor(taskdetail.taskTo, taskdetail.status) === "red"
                   ? "Overdue"
-                  : getColor(taskdetail.TaskTo, taskdetail.status) === "green"
+                  : getColor(taskdetail.taskTo, taskdetail.status) === "green"
                   ? "Finish"
                   : "To be doing"}
               </span>
@@ -267,24 +284,39 @@ const TaskDetails = (props) => {
             </div>
           </div>
           <div className="right">
-            <h4>
-              From:
-              <input
-                className="tagh4"
-                type="date"
-                name="From"
-                defaultValue={changeDate(taskdetail.taskFrom)}
-              />
-            </h4>
-            <h4>
-              To:{" "}
-              <input
-                className="tagh4"
-                type="date"
-                name="to"
-                defaultValue={changeDate(taskdetail.taskTo)}
-              />
-            </h4>
+            <div className="time_tas">
+              <h4>
+                From:
+                <input
+                  className="tagh4"
+                  type="date"
+                  name="From"
+                  defaultValue={changeDate(taskdetail.taskFrom)}
+                />
+              </h4>
+              <h4>
+                To:
+                <input
+                  className="tagh4"
+                  type="date"
+                  name="to"
+                  defaultValue={changeDate(taskdetail.taskTo)}
+                />
+              </h4>
+            </div>
+            {taskdetail.info != null && (
+              <div className="projectinfo">
+                <div>
+                  From User <span>{taskdetail.info.user}</span>
+                </div>
+                <div>
+                  From Section <span>{taskdetail.info.section}</span>
+                </div>
+                <div>
+                  From Project <span>{taskdetail.info.workSpace}</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

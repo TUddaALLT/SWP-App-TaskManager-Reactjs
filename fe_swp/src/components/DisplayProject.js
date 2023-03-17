@@ -24,7 +24,7 @@ const DisplayProject = (props) => {
     listProject.map((element, index) => {
       return (
         <ListItemButton
-          sx={{ pl: 4, color: "#ADADAD" }}
+          sx={{ pl: 8, color: "#645d5d" }}
           key={element.name}
           className="listitems"
           onClick={() => {
@@ -34,13 +34,6 @@ const DisplayProject = (props) => {
           }}
         >
           <ListItemText primary={element.name} />
-          <span
-            style={{ color: "red", fontSize: "14px", margin: "0px" }}
-            onClick={() => handleDeleteProject(element.id)}
-            className="delete"
-          >
-            Delete
-          </span>
         </ListItemButton>
       );
     });

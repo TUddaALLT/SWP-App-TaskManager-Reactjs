@@ -39,7 +39,7 @@ function MyTasks(props) {
   return taskdetail == null ? (
     <div className="content">
       <div className="personal-task">
-        <h1>List of Tasks</h1>
+        <h1 style={{ color: "white" }}>List of Tasks</h1>
         <div className="content-header">
           <span
             id="buttonOpenModal"
@@ -97,7 +97,6 @@ function MyTasks(props) {
             })}
         </div>
       </div>
-      <div className="listTaskProject"></div>
     </div>
   ) : (
     <TaskDetails

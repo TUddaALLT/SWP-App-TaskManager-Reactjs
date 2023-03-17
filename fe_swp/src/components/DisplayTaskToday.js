@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { AiOutlineComment } from "react-icons/ai";
+import { BiCheckboxChecked } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
 
 const DisplayTaskToday = (props) => {
@@ -48,7 +50,27 @@ const DisplayTaskToday = (props) => {
                     : "To be doing"}
                 </span>
               </h5>
-              <p className="taskdescription">{element.describe}</p>
+
+              {element.info != null && (
+                <div id="footer">
+                  <div id="icons">
+                    <BiCheckboxChecked
+                      className="iconTask"
+                      title="Attachment"
+                    />
+                    1
+                    <AiOutlineComment className="iconTask" title="Comment" />2
+                  </div>
+
+                  <div id="userJoin">
+                    <ul>
+                      <li></li>
+                      <li></li>
+                      <li></li>
+                    </ul>
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}

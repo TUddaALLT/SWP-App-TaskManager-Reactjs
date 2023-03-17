@@ -13,7 +13,13 @@ function Section(props) {
   const [opened, setOpened] = useState(false);
   const [done, setDone] = useState(true);
   const [tasks, setTasks] = useState();
-
+  const drag = props.drag;
+  const drop = (e) => {
+    console.log("OK");
+  };
+  const allowDrop = (e) => {
+    e.preventDefault();
+  };
   function openAddTaskProject() {
     console.log(props);
     setOpened(!opened);
@@ -87,10 +93,13 @@ function Section(props) {
       <div className="section_name ">
         {props.section.title}
         <div
+          className="btnDelete"
           style={{
+            color: "red",
             padding: "4px 10px",
             borderRadius: "100%",
-            backgroundColor: "#df8484",
+            border: "1px solid white",
+            backgroundColor: "rgba(105, 238, 205,0.9)",
             cursor: "pointer",
           }}
           onClick={() => deleteSection(props.section.id)}
@@ -98,27 +107,39 @@ function Section(props) {
           X
         </div>
       </div>
-      <div className="content_section">
+      <div
+        className="content_section"
+        onDrop={(event) => drop(event)}
+        onDragOver={(event) => {
+          allowDrop(event);
+        }}
+      >
         {tasks != null &&
           tasks.map((task) => (
             <div
               key={task.id}
+              id={task.id + ""}
               className="task"
               style={{
                 border: "2px solid " + getcolor(task.taskFrom, task.status),
+                cursor: "pointer",
               }}
+              onDragStart={(event) => drag(event)}
+              draggable="true"
             >
               <div
                 className="task_title"
-                style={{ color: getcolor(task.taskFrom, task.status) }}
+                style={{
+                  color: getcolor(task.taskFrom, task.status),
+                }}
               >
                 {task.title}
               </div>
-              <div className="task_des">{task.describe}</div>
+              {/* <div className="task_des">{task.describe}</div>
               <div className="task_fromto">
                 From: {changeDate(task.taskFrom)} <br />
                 To: {changeDate(task.taskTo)}
-              </div>
+              </div> */}
             </div>
           ))}
         <div className="btnOpen" onClick={openAddTaskProject}>

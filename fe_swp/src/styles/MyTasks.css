@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 .content {
-  background-color: #d9d9d9;
+
   height: 92vh;
 }
 .personal-task h1 {
@@ -12,7 +12,7 @@
   margin: 2vw 4vw;
 }
 .listTaskall {
-  max-height: 60vh;
+  max-height: 65vh;
   overflow-y: auto;
 }
 .taskDetail {

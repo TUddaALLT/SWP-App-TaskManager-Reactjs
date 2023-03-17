@@ -9,7 +9,7 @@ li {
 }
 .nav-bar {
   width: 15%;
-  background-color: white;
+  background: rgba(182, 175, 175, 0.9);
   height: 100vh;
   float: left;
 }
@@ -21,7 +21,7 @@ li {
   width: 100%;
   text-align: left;
   padding: 5px 10px;
-  color: #adadad;
+  color: #645d5d;
   margin: 10px 0;
 }
 .navbar-menu .link:hover > .router-link,
@@ -77,10 +77,10 @@ li {
 }
 .router-link {
   text-decoration: none;
-  color: #adadad;
+  color: #645d5d;
 }
 .hide {
-  color: white !important;
+  color: transparent !important;
 }
 .menu_project {
   display: flex;
