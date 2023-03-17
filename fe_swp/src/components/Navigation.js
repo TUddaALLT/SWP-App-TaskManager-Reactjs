@@ -197,7 +197,7 @@ const Navigation = (props) => {
               </div>
             </div>
           </li>
-          <Collapse in={open} timeout="auto">
+          <Collapse in={open} timeout='auto'>
             {listProject != null && listProject.length === 0 ? (
               <h4>No Project</h4>
             ) : (
@@ -233,7 +233,7 @@ const Navigation = (props) => {
       {content == 3 && (
         <Project project={propject} setProject={setProject}></Project>
       )}
-    </>
+    </div>
   );
 };
 export default Navigation;

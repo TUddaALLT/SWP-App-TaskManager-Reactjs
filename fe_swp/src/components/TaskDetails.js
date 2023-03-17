@@ -32,7 +32,7 @@ const TaskDetails = (props) => {
       .delete(`/Task/${id}?userID=${localStorage.getItem("id")}`)
       .then(function (response) {})
       .catch(function (error) {
-        console.log(error);
+        alert("This task you are not allowed to delete");
       });
     props.setCheck(!props.check);
     setTaskdetail(null);
@@ -77,12 +77,14 @@ const TaskDetails = (props) => {
                 hangleOnFinish(taskdetail.id);
               }}
             />
-            <BsThreeDots
-              className='icons_task'
-              onClick={() => {
-                handleOnShow();
-              }}
-            />
+            {taskdetail.info == null && (
+              <BsThreeDots
+                className='icons_task'
+                onClick={() => {
+                  handleOnShow();
+                }}
+              />
+            )}
             <div className='menu_task' id={taskdetail.id}>
               <ul>
                 <li
