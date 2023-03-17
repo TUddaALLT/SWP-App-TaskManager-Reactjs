@@ -162,6 +162,7 @@ function ProjectDetails(props) {
         console.log(error);
       });
     setCheck(!check);
+    setOpened(!opened);
   }
 
   useEffect(() => {

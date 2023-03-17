@@ -36,6 +36,7 @@
 .content_section {
   height: 90%;
   overflow: auto;
+  transition: 0.5s;
 }
 /* custom scroll bar */
 /* webkit-based browsers */
@@ -82,4 +83,14 @@
 }
 .task_des {
  text-align: left;
+}
+.draghere {
+  width: 95%;
+  height: 50px;
+  border: 2px dashed  white;
+  border-radius: 15px;
+  margin: 0 auto;
+  margin-top: 2vh;
+  display: none;
+  transition: 0.5s;
 }

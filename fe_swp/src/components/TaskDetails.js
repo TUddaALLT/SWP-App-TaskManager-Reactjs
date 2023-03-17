@@ -19,10 +19,25 @@ const TaskDetails = (props) => {
     { id: "3", name: "tag3" },
     { id: "4", name: "tag4" },
   ];
-  const handleOnpin = (id) => {
-    //pin task
-  };
-  const hangleOnFinish = () => {
+
+  async function handleOnpin(id) {
+    await authAxios
+      .put(
+        `/Task/UpdatePinTask?taskID=${id}&userID=${localStorage.getItem(
+          "id"
+        )}&status=${!taskdetail.pinTask}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data.data == null) {
+          alert("You are not allowed to Pin");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  const hangleOnFinish = (id) => {
     //status task = true
   };
   const onEdit = () => {

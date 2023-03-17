@@ -1,24 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
-import { BsFillPencilFill } from "react-icons/bs";
-import ModalCreateProject from "../components/ModalCreateProject";
 import "../styles/ProjectDetails.css";
 import authAxios from "../services/AxiosInstance";
 import "../styles/Project.css";
 import "../styles/Section.css";
-
-import { Button, Input, TextField } from "@mui/material";
+import { AiOutlinePlus } from "react-icons/ai";
+import { Button } from "@mui/material";
 
 function Section(props) {
   const [opened, setOpened] = useState(false);
   const [done, setDone] = useState(true);
   const [tasks, setTasks] = useState();
   const drag = props.drag;
-  const drop = (e) => {
-    console.log("OK");
+  const drop = (ev) => {
+    var src = ev.dataTransfer.getData("Text");
+    //call api change section id
+    console.log(ev.target);
+    console.log(document.getElementById(src));
+    let a = document.getElementById(props.section.id + "div");
+    a.style.display = "none";
+    ev.stopPropagation();
+    return false;
   };
-  const allowDrop = (e) => {
-    e.preventDefault();
+  const dragEnter = (ev) => {
+    ev.preventDefault();
+    let a = document.getElementById(props.section.id + "div");
+    a.style.display = "block";
+    return true;
+  };
+  const dragOver = (ev) => {
+    ev.preventDefault();
+    let a = document.getElementById(props.section.id + "div");
+    a.style.display = "block";
+    return false;
+  };
+  const dragleave = (event) => {
+    let a = document.getElementById(props.section.id + "div");
+    a.style.display = "none";
+    event.preventDefault();
+    return true;
   };
   function openAddTaskProject() {
     console.log(props);
@@ -43,6 +62,7 @@ function Section(props) {
       .catch(function (error) {
         console.log(error);
       });
+    setOpened(!opened);
     setDone(!done);
   }
   useEffect(() => {
@@ -90,7 +110,7 @@ function Section(props) {
   };
   return (
     <div className="section">
-      <div className="section_name ">
+      <div className="section_name " draggable="false">
         {props.section.title}
         <div
           className="btnDelete"
@@ -107,46 +127,58 @@ function Section(props) {
           X
         </div>
       </div>
-      <div
-        className="content_section"
-        onDrop={(event) => drop(event)}
-        onDragOver={(event) => {
-          allowDrop(event);
-        }}
-      >
-        {tasks != null &&
-          tasks.map((task) => (
-            <div
-              key={task.id}
-              id={task.id + ""}
-              className="task"
-              style={{
-                border: "2px solid " + getcolor(task.taskFrom, task.status),
-                cursor: "pointer",
-              }}
-              onDragStart={(event) => drag(event)}
-              draggable="true"
-            >
+      <div className="content_section">
+        <div
+          className="listTask"
+          id={props.section.id + ""}
+          onDrop={(event) => {
+            return drop(event);
+          }}
+          onDragOver={(event) => {
+            return dragOver(event);
+          }}
+          ondragenter={(event) => {
+            return dragEnter(event);
+          }}
+          onDragLeave={(event) => {
+            return dragleave(event);
+          }}
+        >
+          {tasks != null &&
+            tasks.map((task) => (
               <div
-                className="task_title"
+                key={task.id}
+                id={task.id + ""}
+                className="task"
                 style={{
-                  color: getcolor(task.taskFrom, task.status),
+                  border: "2px solid " + getcolor(task.taskFrom, task.status),
+                  cursor: "pointer",
                 }}
+                onDragStart={(event) => drag(event)}
+                draggable="true"
               >
-                {task.title}
-              </div>
-              {/* <div className="task_des">{task.describe}</div>
+                <div
+                  className="task_title"
+                  style={{
+                    color: getcolor(task.taskFrom, task.status),
+                  }}
+                >
+                  {task.title}
+                </div>
+                {/* <div className="task_des">{task.describe}</div>
               <div className="task_fromto">
                 From: {changeDate(task.taskFrom)} <br />
                 To: {changeDate(task.taskTo)}
               </div> */}
-            </div>
-          ))}
-        <div className="btnOpen" onClick={openAddTaskProject}>
+              </div>
+            ))}
+          <div className="draghere" id={props.section.id + "div"}></div>
+        </div>
+        <div className="btnOpen" onClick={openAddTaskProject} draggable="false">
           {opened ? "X" : <AiOutlinePlus></AiOutlinePlus>}
         </div>
         {opened && (
-          <div className="frmAdd">
+          <div className="frmAdd" draggable="false">
             <input
               autoFocus="true"
               className="title"

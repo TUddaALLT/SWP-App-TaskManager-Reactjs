@@ -68,6 +68,7 @@ const Navigation = (props) => {
   function handleContent(num) {
     setContent(num);
   }
+
   return (
     <>
       <div className="nav-bar" style={{ borderRight: "2px solid gray" }}>

@@ -10,19 +10,19 @@ import NotFoundPage from "./components/NotFoundPage";
 import Dashboard from "./pages/Dashboard";
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Introduce />} />
-        <Route path="/register" element={<Register />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/' element={<Introduce />} />
+        <Route path='/register' element={<Register />} />
         {localStorage.getItem("token") != null && (
           <>
-            <Route path="/home" element={<Home />} />
-            <Route path="/user" element={<User />} />
+            <Route path='/home' element={<Home />} />
+            <Route path='/user' element={<User />} />
           </>
         )}
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+        <Route path='*' element={<NotFoundPage />} />
+      </Routes>{" "}
     </div>
   );
 }
