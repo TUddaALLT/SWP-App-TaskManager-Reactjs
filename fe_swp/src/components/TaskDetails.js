@@ -12,6 +12,13 @@ const TaskDetails = (props) => {
   console.log(taskdetail);
   const setTaskdetail = props.setTaskdetail;
   const getColor = props.getColor;
+
+  const handleOnShowP = (id) => {
+    props.handleActive(props.indexofId(id), "listitems", "link");
+
+    props.setContent(3);
+    props.setProject(id + "");
+  };
   const [edit, setEdit] = useState(false);
   const listTag = [
     { id: "1", name: "tag1" },
@@ -174,14 +181,22 @@ const TaskDetails = (props) => {
             </div>
             {taskdetail.info != null && (
               <div className="projectinfo">
-                <div>
-                  From User <span>{taskdetail.info.user}</span>
+                <div className="manager_infor">
+                  Manager: <span>{taskdetail.info.user}</span>
                 </div>
-                <div>
-                  From Section <span>{taskdetail.info.section}</span>
+                <div className="section_infor">
+                  Section: <span>{taskdetail.info.section}</span>
                 </div>
-                <div>
-                  From Project <span>{taskdetail.info.workSpace}</span>
+                <div className="project_infor">
+                  Project: <span>{taskdetail.info.workSpace}</span>
+                  <span
+                    className="viewnow"
+                    onClick={() => {
+                      handleOnShowP(taskdetail.info.workSpace);
+                    }}
+                  >
+                    View Now
+                  </span>
                 </div>
               </div>
             )}
@@ -324,13 +339,13 @@ const TaskDetails = (props) => {
             {taskdetail.info != null && (
               <div className="projectinfo">
                 <div>
-                  From User <span>{taskdetail.info.user}</span>
+                  Manager: <span>{taskdetail.info.user}</span>
                 </div>
                 <div>
-                  From Section <span>{taskdetail.info.section}</span>
+                  Section: <span>{taskdetail.info.section}</span>
                 </div>
                 <div>
-                  From Project <span>{taskdetail.info.workSpace}</span>
+                  Project: <span>{taskdetail.info.workSpace}</span>
                 </div>
               </div>
             )}

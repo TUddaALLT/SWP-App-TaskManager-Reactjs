@@ -105,6 +105,10 @@ function MyTasks(props) {
       getColor={getcolor}
       check={check}
       setCheck={setCheck}
+      setContent={props.setContent}
+      handleActive={props.handleActive}
+      setProject={props.setProject}
+      indexofId={props.indexofId}
     />
   );
 }

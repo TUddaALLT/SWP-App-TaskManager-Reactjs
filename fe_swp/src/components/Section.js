@@ -4,23 +4,44 @@ import authAxios from "../services/AxiosInstance";
 import "../styles/Project.css";
 import "../styles/Section.css";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Button } from "@mui/material";
+import { Button, Collapse } from "@mui/material";
 
 function Section(props) {
   const [opened, setOpened] = useState(false);
   const [done, setDone] = useState(true);
   const [tasks, setTasks] = useState();
+  const [reload, setReload] = useState(false);
+  const [sectionPre, setSectionPre] = useState();
+  const showDetails = (id) => {
+    let collap = document.getElementById(id + "cl");
+    if (collap.style.display == "none") collap.style.display = "block";
+    else collap.style.display = "none";
+  };
   const drag = props.drag;
-  const drop = (ev) => {
+  async function drop(ev) {
     var src = ev.dataTransfer.getData("Text");
-    //call api change section id
-    console.log(ev.target);
-    console.log(document.getElementById(src));
+    let sectionNewID = ev.target.getAttribute("sec");
+    let taskid = document.getElementById(src).getAttribute("id");
+    let preSection = document.getElementById(src).getAttribute("sec");
+
+    await authAxios
+      .get(
+        `/Task/UpdateSectionTask/?sectionNewID=${sectionNewID}&taskID=${taskid}&userID=${localStorage.getItem(
+          "id"
+        )}`
+      )
+      .then(function (response) {
+        console.log(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
     let a = document.getElementById(props.section.id + "div");
     a.style.display = "none";
-    ev.stopPropagation();
-    return false;
-  };
+    props.setCheck(!props.check);
+    setReload(!reload);
+  }
   const dragEnter = (ev) => {
     ev.preventDefault();
     let a = document.getElementById(props.section.id + "div");
@@ -43,6 +64,7 @@ function Section(props) {
     console.log(props);
     setOpened(!opened);
   }
+
   async function addTaskProject() {
     const title = document.querySelector(".title").value;
     const describe = document.querySelector(".describe").value;
@@ -65,6 +87,7 @@ function Section(props) {
     setOpened(!opened);
     setDone(!done);
   }
+
   useEffect(() => {
     authAxios
       .get(`/Task/GetTasksInSection?sectionId=${props.section.id}`)
@@ -76,7 +99,8 @@ function Section(props) {
       .catch(function (error) {
         console.log(error);
       });
-  }, [done]);
+  }, [done, reload, props.check]);
+
   async function deleteSection(id) {
     if (window.confirm("Are you sure you want to delete this section")) {
       // /Section/19?userID=1
@@ -131,8 +155,9 @@ function Section(props) {
         <div
           className="listTask"
           id={props.section.id + ""}
+          sec={props.section.id + ""}
           onDrop={(event) => {
-            return drop(event);
+            drop(event);
           }}
           onDragOver={(event) => {
             return dragOver(event);
@@ -143,36 +168,61 @@ function Section(props) {
           onDragLeave={(event) => {
             return dragleave(event);
           }}
+          // onDragEnd={() => {
+          //   props.setCheck(!props.check);
+          // }}
         >
-          {tasks != null &&
+          {tasks != null && tasks.length != 0 ? (
             tasks.map((task) => (
               <div
                 key={task.id}
                 id={task.id + ""}
+                sec={props.section.id + ""}
                 className="task"
                 style={{
-                  border: "2px solid " + getcolor(task.taskFrom, task.status),
+                  border: "2px solid " + getcolor(task.taskTo, task.status),
                   cursor: "pointer",
                 }}
                 onDragStart={(event) => drag(event)}
                 draggable="true"
+                onClick={() => {
+                  showDetails(task.id);
+                }}
               >
                 <div
                   className="task_title"
                   style={{
-                    color: getcolor(task.taskFrom, task.status),
+                    color: getcolor(task.taskTo, task.status),
                   }}
+                  sec={props.section.id + ""}
                 >
                   {task.title}
                 </div>
-                {/* <div className="task_des">{task.describe}</div>
-              <div className="task_fromto">
-                From: {changeDate(task.taskFrom)} <br />
-                To: {changeDate(task.taskTo)}
-              </div> */}
+                <Collapse
+                  id={task.id + "cl"}
+                  in={true}
+                  timeout="auto"
+                  sx={{
+                    display: "none",
+                  }}
+                  sec={props.section.id + ""}
+                >
+                  <div className="task_des">{task.describe}</div>
+                  <div className="task_fromto">
+                    From: {changeDate(task.taskFrom)} <br />
+                    To: {changeDate(task.taskTo)}
+                  </div>
+                </Collapse>
               </div>
-            ))}
-          <div className="draghere" id={props.section.id + "div"}></div>
+            ))
+          ) : (
+            <div style={{ height: "30px" }} sec={props.section.id + ""}></div>
+          )}
+          <div
+            className="draghere"
+            id={props.section.id + "div"}
+            sec={props.section.id + ""}
+          ></div>
         </div>
         <div className="btnOpen" onClick={openAddTaskProject} draggable="false">
           {opened ? "X" : <AiOutlinePlus></AiOutlinePlus>}

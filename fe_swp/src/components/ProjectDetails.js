@@ -24,7 +24,7 @@ const style = {
 };
 const styleList = {
   position: "absolute",
-  top: "40%",
+  top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 600,
@@ -33,6 +33,7 @@ const styleList = {
   borderRadius: "10px",
   boxShadow: 24,
   p: 4,
+  maxHeight: "90vh",
 };
 
 function ProjectDetails(props) {
@@ -45,6 +46,8 @@ function ProjectDetails(props) {
   const [opened, setOpened] = useState(false);
   const [userInWorkSpace, setUserInWorkSpace] = useState();
   const [openListMember, setOpenListMember] = React.useState(false);
+  const [tasksInP, setTasksInP] = useState();
+  const [idUser, setIdUser] = useState();
   const drag = (e) => {
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("Text", e.target.getAttribute("id"));
@@ -53,6 +56,15 @@ function ProjectDetails(props) {
   const handleCloseListMember = () => setOpenListMember(false);
   const handleOpenListMember = () => setOpenListMember(true);
   const [kicked, setKicked] = React.useState(false);
+  const getcolor = (dateTo, status) => {
+    const currentDate = new Date();
+    const date1 = new Date(dateTo);
+    if (status) return "green";
+    else {
+      if (date1.getTime() >= currentDate.getTime()) return "orange";
+      else if (date1.getTime() < currentDate.getTime()) return "red";
+    }
+  };
   async function kickMemmber(idKicked) {
     console.log(idKicked);
     console.log(props.project.id);
@@ -151,8 +163,8 @@ function ProjectDetails(props) {
     await authAxios
       .post(`/Section?userID=${localStorage.getItem("id")}&roleID=1`, {
         workSpaceId: props.project.id,
-        title: "Title " + document.querySelector(".des_section").value,
-        describe: "Describe " + document.querySelector(".des_section").value,
+        title: document.querySelector(".des_section").value,
+        describe: document.querySelector(".des_section").value,
         status: false,
       })
       .then(function (response) {
@@ -192,6 +204,28 @@ function ProjectDetails(props) {
       });
     setTaskAss(null);
   }
+  const showTaskInWs = (id, index) => {
+    // let a = document.getElementById(id + "listtask");
+    let list = document.getElementsByClassName("listTaskOfM");
+    for (let i = 0; i < list.length; i++) {
+      if (i != index) {
+        list[i].style.display = "none";
+      } else list[i].style.display = "block";
+    }
+    setIdUser(id);
+  };
+  useEffect(() => {
+    authAxios
+      .get(`/Task/AssignedTasks/${idUser}?workspaceID=${props.project.id}`)
+      .then(function (response) {
+        console.log(response.data.data);
+        setTasksInP(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [idUser]);
+
   return (
     <div className="project_component">
       <div
@@ -296,7 +330,6 @@ function ProjectDetails(props) {
               {users != null && taskAss == null && (
                 <div
                   style={{
-                    cursor: "pointer",
                     marginTop: "2vh",
                     padding: "2vh 2vw",
                     width: "100%",
@@ -305,41 +338,76 @@ function ProjectDetails(props) {
                     backgroundColor: "white",
                     borderRadius: " 5px",
                     border: "1px solid gray",
+                    maxHeight: "76vh",
                   }}
                   className="modal_add_member"
                 >
                   <Typography
                     id="modal-modal-title"
-                    variant="h6"
+                    variant="h3"
                     component="h2"
                   >
                     Member
                   </Typography>
                   {userInWorkSpace != null &&
-                    userInWorkSpace.map((u) => (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          padding: "2px 0",
-                        }}
-                        onClick={() => {
-                          document.querySelector(".add-member").value =
-                            u.userName;
-                        }}
-                        key={u.id}
-                      >
-                        <div> {u.userName}</div>
-                        <div>
-                          <Button onClick={() => assginTask(u.id)}>
-                            Assign Task
-                          </Button>
-                          <Button onClick={() => kickMemmber(u.id)}>
-                            Kick member
-                          </Button>
+                    userInWorkSpace.map((u, index) => (
+                      <>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            padding: "2px 0",
+                            position: "relative",
+                          }}
+                          key={u.id}
+                        >
+                          <div
+                            onClick={() => {
+                              showTaskInWs(u.id, index);
+                            }}
+                            style={{ cursor: "pointer" }}
+                          >
+                            <span style={{ fontWeight: "bold" }}>
+                              {u.userName}
+                            </span>
+                          </div>
+
+                          <div>
+                            <Button onClick={() => assginTask(u.id)}>
+                              Assign Task
+                            </Button>
+                            <Button onClick={() => kickMemmber(u.id)}>
+                              Kick member
+                            </Button>
+                          </div>
                         </div>
-                      </div>
+                        <div className="listTaskOfM">
+                          <ul>
+                            {tasksInP == null || tasksInP.length == 0 ? (
+                              <li>Not have Task</li>
+                            ) : (
+                              <>
+                                {tasksInP != null &&
+                                  tasksInP.map((task) => {
+                                    return (
+                                      <li
+                                        style={{
+                                          color: getcolor(
+                                            task.taskTo,
+                                            task.status
+                                          ),
+                                        }}
+                                      >
+                                        {task.title}
+                                      </li>
+                                    );
+                                  })}
+                              </>
+                            )}
+                          </ul>
+                        </div>
+                      </>
                     ))}
                 </div>
               )}
@@ -376,7 +444,7 @@ function ProjectDetails(props) {
                         }}
                         key={u.id}
                       >
-                        <div> {u.describe}</div>
+                        <div> {u.title}</div>
                         <div>
                           <Button onClick={() => assginThisTaskTo(u.id)}>
                             Assign This

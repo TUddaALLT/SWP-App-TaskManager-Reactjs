@@ -40,6 +40,22 @@ const Navigation = (props) => {
   const handleDeleteProject = (key) => {
     //call api
   };
+  const setProjectbyID = (id) => {
+    id != null &&
+      setProject(
+        listProject.find((p) => {
+          return p.name + "" === id;
+        })
+      );
+  };
+  const indexofId = (id) => {
+    var indexp;
+    listProject != null &&
+      listProject.forEach((e, index) => {
+        if (e.name + "" === id) indexp = index;
+      });
+    return indexp;
+  };
   const handleOpen = () => {
     setOpen(!open);
   };
@@ -228,6 +244,10 @@ const Navigation = (props) => {
         <MyTasks
           taskdetail={taskdetail}
           setTaskdetail={setTaskdetail}
+          setContent={setContent}
+          handleActive={handleActive}
+          setProject={setProjectbyID}
+          indexofId={indexofId}
         ></MyTasks>
       )}
       {content == 3 && (

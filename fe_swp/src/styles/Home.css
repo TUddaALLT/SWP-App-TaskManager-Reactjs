@@ -17,5 +17,5 @@ body {
     float: right;
     width: 85%;
     height: 100vh;
-    overflow: auto;
+    overflow: hidden;
 }
