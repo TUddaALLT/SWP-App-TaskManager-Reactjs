@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiOutlineComment } from "react-icons/ai";
 import { BiCheckboxChecked } from "react-icons/bi";
-import { BsThreeDots } from "react-icons/bs";
 
 const DisplayTaskToday = (props) => {
   const listTask = props.listTask;
@@ -24,7 +23,7 @@ const DisplayTaskToday = (props) => {
           return (
             <div
               key={element.id}
-              className="tasks"
+              className='tasks'
               onClick={() => {
                 setTaskdetail(element);
                 setContent(2);
@@ -34,7 +33,7 @@ const DisplayTaskToday = (props) => {
                 border: "2px solid " + getcolor(element.taskTo, element.status),
               }}
             >
-              <h2 className="tasktitle">{element.title}</h2>
+              <h2 className='tasktitle'>{element.title}</h2>
               <h5 style={{ paddingLeft: "10px", marginBottom: "5px" }}>
                 Status:{" "}
                 <span
@@ -52,17 +51,17 @@ const DisplayTaskToday = (props) => {
               </h5>
 
               {element.info != null && (
-                <div id="footer">
-                  <div id="icons">
+                <div id='footer'>
+                  <div id='icons'>
                     <BiCheckboxChecked
-                      className="iconTask"
-                      title="Attachment"
+                      className='iconTask'
+                      title='Attachment'
                     />
                     1
-                    <AiOutlineComment className="iconTask" title="Comment" />2
+                    <AiOutlineComment className='iconTask' title='Comment' />2
                   </div>
 
-                  <div id="userJoin">
+                  <div id='userJoin'>
                     <ul>
                       <li></li>
                       <li></li>

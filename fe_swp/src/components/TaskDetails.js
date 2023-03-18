@@ -20,6 +20,7 @@ const TaskDetails = (props) => {
     props.setProject(id + "");
   };
   const [edit, setEdit] = useState(false);
+
   const listTag = [
     { id: "1", name: "tag1" },
     { id: "2", name: "tag2" },
@@ -27,26 +28,137 @@ const TaskDetails = (props) => {
     { id: "4", name: "tag4" },
   ];
 
-  async function handleOnpin(id) {
-    await authAxios
-      .put(
-        `/Task/UpdatePinTask?taskID=${id}&userID=${localStorage.getItem(
-          "id"
-        )}&status=${!taskdetail.pinTask}`
-      )
-      .then(function (response) {
-        console.log(response.data);
-        if (response.data.data == null) {
-          alert("You are not allowed to Pin");
+  async function handleOnpin(id, section) {
+    if (taskdetail.info != null) {
+      // /Task/GetUserTaskRoleByUserID?userId=11&taskID=46
+      let PIN;
+
+      await authAxios
+        .get(
+          `/Task/GetUserTaskRoleByUserID?userId=${localStorage.getItem(
+            "id"
+          )}&taskID=${id}`
+        )
+        .then(function (response) {
+          console.log(response.data.data.pinTask);
+          PIN = response.data.data.pinTask;
+          console.log(response.data.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      if (PIN) {
+        // /Task/UpdatePinTask?taskID=46&userID=11&status=false
+        if (window.confirm("Do you want to UNPIN this task")) {
+          await authAxios
+            .put(
+              `/Task/UpdatePinTask?taskID=${id}&userID=${localStorage.getItem(
+                "id"
+              )}&status=false`
+            )
+            .then(function (response) {
+              console.log(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
         }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      } else {
+        if (window.confirm("Do you want to PIN this task")) {
+          await authAxios
+            .put(
+              `/Task/UpdatePinTask?taskID=${id}&userID=${localStorage.getItem(
+                "id"
+              )}&status=true`
+            )
+            .then(function (response) {
+              console.log(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      }
+    } else {
+      if (taskdetail.pinTask) {
+        if (window.confirm("Do you want to unpin")) {
+          await authAxios
+            .put(`/Task/${id}?userID=${localStorage.getItem("id")}`, {
+              id: id,
+              title: taskdetail.title,
+              taskFrom: taskdetail.taskFrom,
+              taskTo: taskdetail.taskTo,
+              describe: taskdetail.describe,
+              pinTask: false,
+            })
+            .then(function (response) {
+              console.log(response.data);
+              window.location.reload();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      } else {
+        if (window.confirm("Do you want to pin")) {
+          await authAxios
+            .put(`/Task/${id}?userID=${localStorage.getItem("id")}`, {
+              id: id,
+              title: taskdetail.title,
+              taskFrom: taskdetail.taskFrom,
+              taskTo: taskdetail.taskTo,
+              describe: taskdetail.describe,
+              pinTask: true,
+            })
+            .then(function (response) {
+              console.log(response.data);
+              window.location.reload();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      }
+    }
   }
-  const hangleOnFinish = (id) => {
-    //status task = true
-  };
+  async function hangleOnFinish(id, section) {
+    if (taskdetail.info != null) {
+      if (window.confirm("Have you done this task ?")) {
+        await authAxios
+          .put(
+            `/Task/UpdateStatusTask?taskID=${id}&userID=${localStorage.getItem(
+              "id"
+            )}&status=true`
+          )
+          .then(function (response) {
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    } else {
+      if (window.confirm("Have you done this task ?")) {
+        await authAxios
+          .put(`/Task/${id}?userID=${localStorage.getItem("id")}`, {
+            id: id,
+            title: taskdetail.title,
+            taskFrom: taskdetail.taskFrom,
+            taskTo: taskdetail.taskTo,
+            describe: taskdetail.describe,
+            pinTask: taskdetail.pinTask,
+            status: true,
+          })
+          .then(function (response) {
+            console.log(response.data);
+            window.location.reload();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    }
+  }
   const onEdit = () => {
     setEdit(true);
   };
@@ -89,7 +201,7 @@ const TaskDetails = (props) => {
               className="icons_task"
               style={{ color: taskdetail.pinTask ? "red" : "black" }}
               onClick={() => {
-                handleOnpin(taskdetail.id);
+                handleOnpin(taskdetail.id, taskdetail.section);
               }}
             />
             <BsCheckLg
@@ -102,7 +214,7 @@ const TaskDetails = (props) => {
                     : "",
               }}
               onClick={() => {
-                hangleOnFinish(taskdetail.id);
+                hangleOnFinish(taskdetail.id, taskdetail.section);
               }}
             />
             {taskdetail.info == null && (

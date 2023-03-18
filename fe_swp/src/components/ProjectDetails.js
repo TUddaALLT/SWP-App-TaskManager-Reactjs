@@ -53,7 +53,10 @@ function ProjectDetails(props) {
     e.dataTransfer.setData("Text", e.target.getAttribute("id"));
     e.dataTransfer.setDragImage(e.target, 0, 0);
   };
-  const handleCloseListMember = () => setOpenListMember(false);
+  const handleCloseListMember = () => {
+    setTaskAss(null);
+    setOpenListMember(false);
+  };
   const handleOpenListMember = () => setOpenListMember(true);
   const [kicked, setKicked] = React.useState(false);
   const getcolor = (dateTo, status) => {
@@ -117,7 +120,7 @@ function ProjectDetails(props) {
       .catch(function (error) {
         console.log(error);
       });
-  }, [kicked, open]);
+  }, [kicked, open, props.project]);
   useEffect(() => {
     authAxios
       .get(`/User`)
