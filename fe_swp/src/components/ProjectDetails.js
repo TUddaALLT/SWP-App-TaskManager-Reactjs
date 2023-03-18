@@ -50,7 +50,10 @@ function ProjectDetails(props) {
     e.dataTransfer.setData("Text", e.target.getAttribute("id"));
     e.dataTransfer.setDragImage(e.target, 0, 0);
   };
-  const handleCloseListMember = () => setOpenListMember(false);
+  const handleCloseListMember = () => {
+    setTaskAss(null);
+    setOpenListMember(false);
+  };
   const handleOpenListMember = () => setOpenListMember(true);
   const [kicked, setKicked] = React.useState(false);
   async function kickMemmber(idKicked) {
@@ -61,7 +64,7 @@ function ProjectDetails(props) {
       .delete(
         `/User/DeleteUserWorkSpace?workSpaceID=${
           props.project.id
-        }&userIdDeleted=${idKicked}&userAdminId=${localStorage.getItem("id")}`
+        }&userIdDeleted=${idKicked}&userAdminId=${localStorage.getItem("id")}`,
       )
       .then(function (response) {
         console.log(response.data);
@@ -82,7 +85,7 @@ function ProjectDetails(props) {
       .get(
         `/Task/GetTaskInWorkSpace?workSpaceID=${
           props.project.id
-        }&userID=${localStorage.getItem("id")}`
+        }&userID=${localStorage.getItem("id")}`,
       )
       .then(function (response) {
         console.log(response.data.data);
@@ -113,8 +116,8 @@ function ProjectDetails(props) {
         console.log(response.data.data);
         setUsers(
           response.data.data.filter((item) =>
-            item.userName.toLowerCase().includes(searchText.toLowerCase())
-          )
+            item.userName.toLowerCase().includes(searchText.toLowerCase()),
+          ),
         );
       })
       .catch(function (error) {
@@ -132,7 +135,7 @@ function ProjectDetails(props) {
       .post(
         `/WorkSpace/AddMember/${props.project.id}?nameUser=${
           document.querySelector(".add-member").value
-        }&roleID=2&adminID=${localStorage.getItem("id")}`
+        }&roleID=2&adminID=${localStorage.getItem("id")}`,
       )
       .then(function (response) {
         if (response.data.data == null) {
@@ -181,8 +184,8 @@ function ProjectDetails(props) {
     await authAxios
       .post(
         `/Task/AddMemberIntoTask/${idTask}?userID=${localStorage.getItem(
-          "IDDO"
-        )}&roleID=2&adminID=${localStorage.getItem("id")}`
+          "IDDO",
+        )}&roleID=2&adminID=${localStorage.getItem("id")}`,
       )
       .then(function (response) {
         console.log(response.data.data);
@@ -193,7 +196,7 @@ function ProjectDetails(props) {
     setTaskAss(null);
   }
   return (
-    <div className="project_component">
+    <div className='project_component'>
       <div
         style={{
           display: "flex",
@@ -226,31 +229,31 @@ function ProjectDetails(props) {
           }}
         >
           <div
-            className="btn_share kick"
+            className='btn_share kick'
             onClick={() => handleOpenListMember()}
           >
             <FaUserFriends></FaUserFriends>
           </div>
-          <div className="btn_share add" onClick={(e) => handleOpen(e)}>
+          <div className='btn_share add' onClick={(e) => handleOpen(e)}>
             <AiOutlinePlus></AiOutlinePlus>
           </div>
           <Modal
             open={open}
             onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+            aria-labelledby='modal-modal-title'
+            aria-describedby='modal-modal-description'
           >
             <Box sx={style}>
               <div style={{ marginBottom: "20px" }}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
+                <Typography id='modal-modal-title' variant='h6' component='h2'>
                   Add Member
                 </Typography>
               </div>
               <div style={{ display: "flex" }}>
                 <input
                   style={{ width: "100%", padding: "0px 20px" }}
-                  placeholder="Username"
-                  class="add-member"
+                  placeholder='Username'
+                  class='add-member'
                   onChange={(e) => setSearchText(e.target.value)}
                 ></input>
                 <Button onClick={() => addMemmber()}>Add </Button>
@@ -266,7 +269,7 @@ function ProjectDetails(props) {
                     borderRadius: " 0 0 5px 5px",
                     border: "1px solid gray",
                   }}
-                  className="modal_add_member"
+                  className='modal_add_member'
                 >
                   <ul>
                     {users != null &&
@@ -289,8 +292,8 @@ function ProjectDetails(props) {
           <Modal
             open={openListMember}
             onClose={handleCloseListMember}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+            aria-labelledby='modal-modal-title'
+            aria-describedby='modal-modal-description'
           >
             <Box sx={styleList}>
               {users != null && taskAss == null && (
@@ -306,12 +309,12 @@ function ProjectDetails(props) {
                     borderRadius: " 5px",
                     border: "1px solid gray",
                   }}
-                  className="modal_add_member"
+                  className='modal_add_member'
                 >
                   <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
+                    id='modal-modal-title'
+                    variant='h6'
+                    component='h2'
                   >
                     Member
                   </Typography>
@@ -356,12 +359,12 @@ function ProjectDetails(props) {
                     borderRadius: " 5px",
                     border: "1px solid gray",
                   }}
-                  className="modal_add_member"
+                  className='modal_add_member'
                 >
                   <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
+                    id='modal-modal-title'
+                    variant='h6'
+                    component='h2'
                   >
                     Task In Project
                   </Typography>
@@ -391,7 +394,7 @@ function ProjectDetails(props) {
         </div>
       </div>
 
-      <div className="Create_section">
+      <div className='Create_section'>
         {sections != null &&
           sections.map((section) => (
             <Section
@@ -402,22 +405,22 @@ function ProjectDetails(props) {
               drag={drag}
             ></Section>
           ))}
-        <div className="section_base">
-          <div className="section_name">Name section</div>
-          <div className="section_task">
-            <div onClick={() => addSection()} className="section_btnAdd">
-              {opened ? "X" : <AiOutlinePlus size="30px"></AiOutlinePlus>}
+        <div className='section_base'>
+          <div className='section_name'>Name section</div>
+          <div className='section_task'>
+            <div onClick={() => addSection()} className='section_btnAdd'>
+              {opened ? "X" : <AiOutlinePlus size='30px'></AiOutlinePlus>}
             </div>
           </div>
         </div>
         {opened && (
-          <div className="section_input">
-            <div className="section_in">
-              <div className="section_name">
+          <div className='section_input'>
+            <div className='section_in'>
+              <div className='section_name'>
                 <input
-                  autoFocus="true"
-                  name="data"
-                  className="des_section"
+                  autoFocus='true'
+                  name='data'
+                  className='des_section'
                 ></input>
                 <button onClick={() => addSectionApi()}>Add</button>
               </div>
