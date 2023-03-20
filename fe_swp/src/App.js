@@ -15,6 +15,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Introduce />} />
         <Route path='/register' element={<Register />} />
+
         {localStorage.getItem("token") != null && (
           <>
             <Route path='/home' element={<Home />} />
