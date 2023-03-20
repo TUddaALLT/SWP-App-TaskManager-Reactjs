@@ -32,9 +32,10 @@ const Calendar = (props) => {
 
   return (
     <div className='Task-list' style={{ height: "65vh", overflowY: "auto" }}>
-      {ListTasks.map((Task) => (
-        <TaskDetailComponent key={Task.id} task={Task} />
-      ))}
+      {ListTasks != null &&
+        ListTasks.map((Task) => (
+          <TaskDetailComponent key={Task.id} task={Task} />
+        ))}
     </div>
   );
 };

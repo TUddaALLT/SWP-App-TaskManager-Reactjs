@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import "../styles/Register.css";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authAxios from "../services/AxiosInstance";
+
 function Register() {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -24,16 +25,18 @@ function Register() {
     }
     authAxios
       .post(`/User/Register`, {
-        Username: email,
-        Password: password,
+        userName: email,
+        password: password,
       })
       .then(function (response) {
-        console.log(response.data.data.token);
-        localStorage.setItem("token", response.data.data.token);
+        if (response.data.message == "Bad requestuser name already exists") {
+          alert("Email exist");
+        } else {
+          navigate("../login");
+        }
       })
       .catch(function (error) {
         console.log(error);
-        localStorage.removeItem("token");
       });
   };
 
