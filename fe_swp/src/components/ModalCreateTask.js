@@ -1,8 +1,9 @@
 import { Button, Checkbox, Modal, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Modal.css";
-
+import authAxios from "../services/AxiosInstance";
+import MyTasks from "../pages/MyTasks";
 const style = {
   position: "absolute",
   top: "50%",
@@ -25,7 +26,8 @@ const ModalCreateTask = (props) => {
   const [addAttach, setAttach] = useState(false);
   const [description, setDescription] = useState("");
   const [checkList, setCheckList] = useState([]);
-
+  const date12 = new Date();
+  const currentDate = date12.toISOString().substring(0, 10);
   const handleCloseModal = () => {
     setOpenModal(false);
     setName("");
@@ -37,13 +39,36 @@ const ModalCreateTask = (props) => {
   const handleCheckList = (e) => {
     setCheckList([...checkList, e]);
   };
-  const handleSubmitModal = () => {
-    //listProject.push({ id: 5, name: name });
-    // call api
-    console.log({ name: name, description: description });
-    setName("");
-    setDescription("");
+  const handleOnchangeCL = (index) => {
+    let a = document.getElementById(index).value;
+    checkList[index] = a;
   };
+  const handleDeleteCheckList = (index) => {
+    setCheckList(
+      checkList.filter((element, indexs) => {
+        return indexs !== index;
+      }),
+    );
+  };
+
+  async function handleSubmitModal() {
+    const taskFrom = document.querySelector(".From").value;
+    const taskTo = document.querySelector(".to").value;
+    await authAxios
+      .post(`/Task?userID=${localStorage.getItem("id")}&roleID=1`, {
+        title: name,
+        describe: description,
+        taskFrom: taskFrom,
+        taskTo: taskTo,
+      })
+
+      .then(function (response) {})
+      .catch(function (error) {
+        console.log(error);
+      });
+    props.setCheck(!props.check);
+    console.log(checkList);
+  }
 
   const handleOnChangeName = (event) => {
     setName(event.target.value);
@@ -54,9 +79,23 @@ const ModalCreateTask = (props) => {
   return (
     <>
       <Modal open={openModal} onClose={handleCloseModal}>
-        <Box sx={{ ...style, borderRadius: 3, overflow: "auto" }}>
+        <Box
+          sx={{ ...style, borderRadius: 3, overflow: "auto" }}
+          className='box'
+        >
           <h2 id='modal-header'>New Task</h2>
           <div id='modal-content'>
+            <div className='date'>
+              From:
+              <input
+                type='date'
+                className='From'
+                name='datefrom'
+                defaultValue={currentDate}
+              />
+              To:
+              <input type='date' className='to' name='dateto' />
+            </div>
             <div className='name'>
               <TextField
                 fullwidth
@@ -96,21 +135,36 @@ const ModalCreateTask = (props) => {
                     <span style={{ color: "red" }}>Check List</span> <br />
                   </>
                 )}
-                {checkList.map((element) => {
+                {checkList.map((element, index) => {
                   return (
-                    <>
+                    <div key={element.id} className='checkListElement'>
                       <input type='checkbox' className='checkList' />
                       <TextField
+                        id={index + ""}
                         sx={{
                           width: "30%",
                           fontSize: "16px",
                           marginLeft: "20px",
                         }}
-                        label={element}
                         variant='standard'
+                        defaultValue={element}
+                        onChange={() => handleOnchangeCL(index)}
                       />
+                      {index === checkList.length - 1 ? (
+                        <span
+                          className='delete'
+                          onClick={() => {
+                            handleDeleteCheckList(index);
+                          }}
+                        >
+                          x
+                        </span>
+                      ) : (
+                        <></>
+                      )}
+
                       <br />
-                    </>
+                    </div>
                   );
                 })}
                 <div

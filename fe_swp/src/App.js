@@ -7,6 +7,7 @@ import Introduce from "./pages/Introduce";
 import Home from "./pages/Home";
 import User from "./pages/User";
 import NotFoundPage from "./components/NotFoundPage";
+import Dashboard from "./pages/Dashboard";
 function App() {
   return (
     <div className='App'>
@@ -23,7 +24,7 @@ function App() {
           </>
         )}
         <Route path='*' element={<NotFoundPage />} />
-      </Routes>
+      </Routes>{" "}
     </div>
   );
 }

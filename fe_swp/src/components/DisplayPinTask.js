@@ -1,71 +1,179 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { BiCheckboxChecked } from "react-icons/bi";
 import { AiOutlineComment } from "react-icons/ai";
+import authAxios from "../services/AxiosInstance";
 
 const DisplayPinTask = (props) => {
-  const listTask = props.listTask;
-
-  const handleOnClick = (id) => {
-    let a = document.getElementById(id);
-    if (a.style.display === "block") {
-      a.style.display = "none";
-      // document
-      //   .getElementsByClassName("content")[0]
-      //   .removeEventListener("click");
-    } else {
-      a.style.display = "block";
-
-      // document
-      //   .getElementsByClassName("content")[0]
-      //   .addEventListener("click", () => handleOnClick(id));
+  const [listTask, setListTask] = useState();
+  useEffect(() => {
+    authAxios
+      .get(`/Task/AssignedTasks/${localStorage.getItem("id")}`)
+      .then(function (response) {
+        console.log(response.data.data);
+        setListTask(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+  const [listTaskReceive, setListTaskReceive] = useState();
+  useEffect(() => {
+    authAxios
+      .get(
+        `/Task/GetUserTaskRoleAllByUserID?userId=${localStorage.getItem("id")}`,
+      )
+      .then(function (response) {
+        console.log(response.data.data);
+        setListTaskReceive(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+  const setContent = props.setContent;
+  const setTaskdetail = props.setTaskdetail;
+  const handleActive = props.handleActive;
+  const getcolor = (dateTo, status) => {
+    const currentDate = new Date();
+    const date1 = new Date(dateTo);
+    if (status) return "green";
+    else {
+      if (date1.getTime() >= currentDate.getTime()) return "orange";
+      else if (date1.getTime() < currentDate.getTime()) return "red";
     }
   };
-
   return (
-    <>
-      {listTask.map((element) => {
-        return (
-          <div key={element.id} className="tasksPin" onClick={() => {}}>
-            <h2 className="tasktitle">
-              {element.title}
-              <span style={{ color: "#B6B6B6", float: "right" }}>
-                <BsThreeDots
-                  onClick={() => {
-                    handleOnClick(element.id + "pin");
+    <div>
+      <div>
+        {listTask != null &&
+          listTask.map((element) => {
+            return (
+              element.pinTask && (
+                <div
+                  key={element.id}
+                  className='tasksPin'
+                  style={{
+                    border:
+                      "2px solid " + getcolor(element.taskTo, element.status),
                   }}
-                />
-                <div className="menu_task" id={element.id + "pin"}>
-                  <ul>
-                    <li onClick={() => {}}>
-                      {element.PinTask ? "Pin" : "Unpin"}
-                    </li>
-                    <li style={{ color: "red" }} onClick={() => {}}>
-                      Delete
-                    </li>
-                  </ul>
-                </div>
-              </span>
-            </h2>
-            <p className="taskdescription">{element.description}</p>
-            <div id="footer">
-              <div id="icons">
-                <BiCheckboxChecked className="iconTask" title="Attachment" />1
-                <AiOutlineComment className="iconTask" title="Comment" />2
-              </div>
+                  onClick={() => {
+                    setTaskdetail(element);
+                    setContent(2);
+                    handleActive(2, "link", "listitems");
+                  }}
+                >
+                  <h2 className='tasktitle'>{element.title}</h2>
+                  <h5 style={{ paddingLeft: "10px", marginBottom: "5px" }}>
+                    Status:{" "}
+                    <span
+                      style={{
+                        color: getcolor(element.taskTo, element.status),
+                        marginLeft: "5px",
+                      }}
+                    >
+                      {getcolor(element.taskTo, element.status) === "red"
+                        ? "Overdue"
+                        : getcolor(element.taskTo, element.status) === "green"
+                        ? "Finish"
+                        : "To be doing"}
+                    </span>
+                  </h5>
 
-              <div id="userJoin">
-                <ul>
-                  <li></li>
-                  <li></li>
-                  <li></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        );
-      })}
-    </>
+                  {element.info != null && (
+                    <div id='footer'>
+                      <div id='icons'>
+                        <BiCheckboxChecked
+                          className='iconTask'
+                          title='Attachment'
+                        />
+                        1
+                        <AiOutlineComment
+                          className='iconTask'
+                          title='Comment'
+                        />
+                        2
+                      </div>
+
+                      <div id='userJoin'>
+                        <ul>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
+            );
+          })}
+      </div>
+      <div>
+        {listTaskReceive != null &&
+          listTaskReceive.map((element) => {
+            return (
+              element.pinTask && (
+                <div
+                  key={element.id}
+                  className='tasksPin'
+                  style={{
+                    border:
+                      "2px solid " + getcolor(element.taskTo, element.status),
+                  }}
+                  onClick={() => {
+                    setTaskdetail(element);
+                    setContent(2);
+                    handleActive(2, "link", "listitems");
+                  }}
+                >
+                  <h2 className='tasktitle'>{element.title}</h2>
+                  <h5 style={{ paddingLeft: "10px", marginBottom: "5px" }}>
+                    Status:{" "}
+                    <span
+                      style={{
+                        color: getcolor(element.taskTo, element.status),
+                        marginLeft: "5px",
+                      }}
+                    >
+                      {getcolor(element.taskTo, element.status) === "red"
+                        ? "Overdue"
+                        : getcolor(element.taskTo, element.status) === "green"
+                        ? "Finish"
+                        : "To be doing"}
+                    </span>
+                  </h5>
+
+                  {element.info != null && (
+                    <div id='footer'>
+                      <div id='icons'>
+                        <BiCheckboxChecked
+                          className='iconTask'
+                          title='Attachment'
+                        />
+                        1
+                        <AiOutlineComment
+                          className='iconTask'
+                          title='Comment'
+                        />
+                        2
+                      </div>
+
+                      <div id='userJoin'>
+                        <ul>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
+            );
+          })}
+      </div>
+    </div>
   );
 };
 export default DisplayPinTask;

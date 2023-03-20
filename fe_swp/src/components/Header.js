@@ -21,6 +21,7 @@ function Header() {
   }
   return (
     <div
+      className='header'
       style={{
         display: "flex",
         justifyContent: "space-between",
