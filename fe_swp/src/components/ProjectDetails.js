@@ -188,6 +188,7 @@ function ProjectDetails(props) {
         )}&roleID=2&adminID=${localStorage.getItem("id")}`,
       )
       .then(function (response) {
+        alert("Assign Successfully");
         console.log(response.data.data);
       })
       .catch(function (error) {
