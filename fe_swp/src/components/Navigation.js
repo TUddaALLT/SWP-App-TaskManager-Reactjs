@@ -87,7 +87,7 @@ const Navigation = (props) => {
 
   return (
     <>
-      <div className="nav-bar" style={{ borderRight: "2px solid gray" }}>
+      <div className="nav-bar">
         <ul className="navbar-menu">
           <li>
             <div
@@ -239,7 +239,14 @@ const Navigation = (props) => {
           handleActive={handleActive}
         ></Dashboard>
       )}
-      {content == 1 && <Calendar></Calendar>}
+      {content == 1 && (
+        <Calendar
+          taskdetail={taskdetail}
+          setTaskdetail={setTaskdetail}
+          setContent={setContent}
+          handleActive={handleActive}
+        ></Calendar>
+      )}
       {content == 2 && (
         <MyTasks
           taskdetail={taskdetail}

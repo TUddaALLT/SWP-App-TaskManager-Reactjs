@@ -7,22 +7,22 @@ const Calendar = (props) => {
     setListTasks([]);
     fetch(
       `https://localhost:7239/api/Task/GetTasksRangeByTime?userID=${localStorage.getItem(
-        "id",
+        "id"
       )}&timeFrom=` +
         props.daystring +
         "&timeTo=" +
-        props.daystring,
+        props.daystring
     )
       .then((response) => response.json())
       .then((data) => {
         setListTasks(data.data);
         console.log(
           `https://localhost:7239/api/Task/GetTasksRangeByTime?userID=${localStorage.getItem(
-            "id",
+            "id"
           )}&timeFrom=` +
             props.daystring +
             "&timeTo=" +
-            props.daystring,
+            props.daystring
         );
       })
       .catch((err) => {
@@ -31,10 +31,19 @@ const Calendar = (props) => {
   }, [props.daystring]);
 
   return (
-    <div className='Task-list' style={{ height: "65vh", overflowY: "auto" }}>
+    <div className="Task-list" style={{ height: "65vh", overflowY: "auto" }}>
       {ListTasks != null &&
         ListTasks.map((Task) => (
-          <TaskDetailComponent key={Task.id} task={Task} />
+          <div
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              props.setTaskdetail(Task);
+              props.setContent(2);
+              props.handleActive(2, "link", "listitems");
+            }}
+          >
+            <TaskDetailComponent key={Task.id} task={Task} />
+          </div>
         ))}
     </div>
   );

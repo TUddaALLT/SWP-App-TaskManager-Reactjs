@@ -21,13 +21,13 @@ function Header() {
   }
   return (
     <div
-      className='header'
+      className="header"
       style={{
         display: "flex",
         justifyContent: "space-between",
-        backgroundColor: "white",
+        backgroundColor: "#9cc4e4",
         height: "8vh",
-        borderBottom: "2px solid gray",
+        boxShadow: "1px 2px 3px 4px rgba(0, 0, 0, .1)",
       }}
     >
       {opened && (
@@ -47,7 +47,7 @@ function Header() {
           }}
         >
           <ul style={{ listStyle: "none" }}>
-            <li className='userNav'>
+            <li className="userNav">
               <div
                 style={{
                   display: "flex",
@@ -56,7 +56,7 @@ function Header() {
                 }}
                 onClick={updateUser}
               >
-                <BiUser size='20px' className='icon'></BiUser>
+                <BiUser size="20px" className="icon"></BiUser>
                 <div
                   style={{
                     display: "flex",
@@ -67,7 +67,7 @@ function Header() {
                 </div>
               </div>
             </li>
-            <li className='userNav'>
+            <li className="userNav">
               <div
                 style={{
                   display: "flex",
@@ -76,7 +76,7 @@ function Header() {
                 }}
                 onClick={logout}
               >
-                <BiLockAlt size='20px' className='icon' />
+                <BiLockAlt size="20px" className="icon" />
                 <div
                   style={{
                     display: "flex",
@@ -95,8 +95,8 @@ function Header() {
       <div
         style={{ display: "flex", alignItems: "center", marginRight: "30vw" }}
       >
-        <input
-          type='text'
+        {/* <input
+          type="text"
           style={{
             width: "20vw",
             height: "5vh",
@@ -106,9 +106,9 @@ function Header() {
           //   onChange={(e) => setEmail(e.target.value)}
         />
         <ImSearch
-          className='icon'
+          className="icon"
           style={{ position: "relative", right: "30px" }}
-        ></ImSearch>
+        ></ImSearch> */}
       </div>
       <div
         style={{
@@ -119,7 +119,7 @@ function Header() {
           width: "8vw",
         }}
       >
-        <RiNotification3Fill size='25px' className='icon'></RiNotification3Fill>
+        <RiNotification3Fill size="25px" className="icon"></RiNotification3Fill>
         <div
           style={{
             display: "flex",
@@ -127,8 +127,8 @@ function Header() {
           }}
           onClick={openUser}
         >
-          <BiUser size='25px' className='icon'></BiUser>
-          <AiOutlineDown size='20px' className='icon'></AiOutlineDown>
+          <BiUser size="25px" className="icon"></BiUser>
+          <AiOutlineDown size="20px" className="icon"></AiOutlineDown>
         </div>
       </div>
     </div>
