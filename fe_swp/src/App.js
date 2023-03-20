@@ -15,10 +15,12 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Introduce />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/home' element={<Home />} />
         {localStorage.getItem("token") != null && (
           <>
-            <Route path='/home' element={<Home />} />
+            {/* <Route path='/home' element={<Home />} /> */}
             <Route path='/user' element={<User />} />
+           
           </>
         )}
         <Route path='*' element={<NotFoundPage />} />
