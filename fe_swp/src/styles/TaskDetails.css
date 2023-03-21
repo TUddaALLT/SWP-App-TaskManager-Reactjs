@@ -120,3 +120,14 @@
     width: 100%;
     padding: 30px 20px;
 }
+.viewnow {
+  margin-left:20px;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.viewnow:hover {
+  color: rgb(0, 110, 255);
+  transform: 0.5s;
+  border-bottom: 1px solid rgb(0, 110, 255);
+}

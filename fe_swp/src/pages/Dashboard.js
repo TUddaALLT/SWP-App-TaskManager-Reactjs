@@ -68,6 +68,7 @@ const Dashboard = (props) => {
           id="buttonOpenModal"
           onClick={() => {
             setOpenModal(true);
+           
           }}
         >
           Create Task

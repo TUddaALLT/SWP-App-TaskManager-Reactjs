@@ -12,6 +12,13 @@ const TaskDetails = (props) => {
   console.log(taskdetail);
   const setTaskdetail = props.setTaskdetail;
   const getColor = props.getColor;
+
+  const handleOnShowP = (id) => {
+    props.handleActive(props.indexofId(id), "listitems", "link");
+
+    props.setContent(3);
+    props.setProject(id + "");
+  };
   const [edit, setEdit] = useState(false);
 
   const listTag = [
@@ -29,8 +36,8 @@ const TaskDetails = (props) => {
       await authAxios
         .get(
           `/Task/GetUserTaskRoleByUserID?userId=${localStorage.getItem(
-            "id",
-          )}&taskID=${id}`,
+            "id"
+          )}&taskID=${id}`
         )
         .then(function (response) {
           console.log(response.data.data.pinTask);
@@ -46,8 +53,8 @@ const TaskDetails = (props) => {
           await authAxios
             .put(
               `/Task/UpdatePinTask?taskID=${id}&userID=${localStorage.getItem(
-                "id",
-              )}&status=false`,
+                "id"
+              )}&status=false`
             )
             .then(function (response) {
               console.log(response.data);
@@ -61,8 +68,8 @@ const TaskDetails = (props) => {
           await authAxios
             .put(
               `/Task/UpdatePinTask?taskID=${id}&userID=${localStorage.getItem(
-                "id",
-              )}&status=true`,
+                "id"
+              )}&status=true`
             )
             .then(function (response) {
               console.log(response.data);
@@ -120,8 +127,8 @@ const TaskDetails = (props) => {
         await authAxios
           .put(
             `/Task/UpdateStatusTask?taskID=${id}&userID=${localStorage.getItem(
-              "id",
-            )}&status=true`,
+              "id"
+            )}&status=true`
           )
           .then(function (response) {
             console.log(response.data);
@@ -185,20 +192,20 @@ const TaskDetails = (props) => {
   };
 
   return edit == false ? (
-    <div className='content'>
-      <div className='tasksdetail'>
-        <div className='taskheader'>
+    <div className="content">
+      <div className="tasksdetail">
+        <div className="taskheader">
           <h1>{taskdetail.title}</h1>
-          <div id='icon_tasks'>
+          <div id="icon_tasks">
             <BsFillPinAngleFill
-              className='icons_task'
+              className="icons_task"
               style={{ color: taskdetail.pinTask ? "red" : "black" }}
               onClick={() => {
                 handleOnpin(taskdetail.id, taskdetail.section);
               }}
             />
             <BsCheckLg
-              className='icons_task'
+              className="icons_task"
               style={{
                 color: "green",
                 display:
@@ -212,13 +219,13 @@ const TaskDetails = (props) => {
             />
             {taskdetail.info == null && (
               <BsThreeDots
-                className='icons_task'
+                className="icons_task"
                 onClick={() => {
                   handleOnShow();
                 }}
               />
             )}
-            <div className='menu_task' id={taskdetail.id}>
+            <div className="menu_task" id={taskdetail.id}>
               <ul>
                 <li
                   onClick={() => {
@@ -238,22 +245,22 @@ const TaskDetails = (props) => {
               </ul>
             </div>
             <BsXLg
-              className='icons_task'
+              className="icons_task"
               onClick={() => {
                 setTaskdetail();
               }}
             />
           </div>
         </div>
-        <div className='taskcontent'>
-          <div className='left'>
-            <h3 className='tag'>
+        <div className="taskcontent">
+          <div className="left">
+            <h3 className="tag">
               Tag:
               <span style={{ marginLeft: "10px", fontWeight: "normal" }}>
                 {taskdetail.tagID == null ? "None" : taskdetail.tagID}
               </span>
             </h3>
-            <h3 className='status'>
+            <h3 className="status">
               Status:
               <span
                 style={{
@@ -269,14 +276,14 @@ const TaskDetails = (props) => {
               </span>
             </h3>
 
-            <div className='des'>
+            <div className="des">
               <h3>Desctiption</h3>
               <p>{taskdetail.describe}</p>
               <p>{taskdetail.attachment}</p>
             </div>
           </div>
-          <div className='right'>
-            <div className='time_tas'>
+          <div className="right">
+            <div className="time_tas">
               <h4>
                 From: <span>{changeDate(taskdetail.taskFrom)}</span>
               </h4>
@@ -285,15 +292,23 @@ const TaskDetails = (props) => {
               </h4>
             </div>
             {taskdetail.info != null && (
-              <div className='projectinfo'>
-                <div>
-                  From User <span>{taskdetail.info.user}</span>
+              <div className="projectinfo">
+                <div className="manager_infor">
+                  Manager: <span>{taskdetail.info.user}</span>
                 </div>
-                <div>
-                  From Section <span>{taskdetail.info.section}</span>
+                <div className="section_infor">
+                  Section: <span>{taskdetail.info.section}</span>
                 </div>
-                <div>
-                  From Project <span>{taskdetail.info.workSpace}</span>
+                <div className="project_infor">
+                  Project: <span>{taskdetail.info.workSpace}</span>
+                  <span
+                    className="viewnow"
+                    onClick={() => {
+                      handleOnShowP(taskdetail.info.workSpace);
+                    }}
+                  >
+                    View Now
+                  </span>
                 </div>
               </div>
             )}
@@ -302,26 +317,26 @@ const TaskDetails = (props) => {
       </div>
     </div>
   ) : (
-    <div className='content'>
-      <div className='tasksdetail'>
-        <div className='taskheader'>
+    <div className="content">
+      <div className="tasksdetail">
+        <div className="taskheader">
           <h1>
             <input
-              className='input_title'
-              name='title'
+              className="input_title"
+              name="title"
               defaultValue={taskdetail.title}
             />
           </h1>
-          <div id='icon_tasks'>
+          <div id="icon_tasks">
             <BsFillPinAngleFill
-              className='icons_task'
+              className="icons_task"
               style={{ color: taskdetail.pinTask ? "red" : "black" }}
               onClick={() => {
                 handleOnpin(taskdetail.id);
               }}
             />
             <BsCheckLg
-              className='icons_task'
+              className="icons_task"
               style={{
                 color: "green",
                 display:
@@ -334,12 +349,12 @@ const TaskDetails = (props) => {
               }}
             />
             <BsThreeDots
-              className='icons_task'
+              className="icons_task"
               onClick={() => {
                 handleOnShow();
               }}
             />
-            <div className='menu_task' id={taskdetail.id}>
+            <div className="menu_task" id={taskdetail.id}>
               <ul>
                 {edit === false ? (
                   <li
@@ -363,30 +378,30 @@ const TaskDetails = (props) => {
               </ul>
             </div>
             <BsXLg
-              className='icons_task'
+              className="icons_task"
               onClick={() => {
                 setTaskdetail(null);
               }}
             />
           </div>
         </div>
-        <div className='taskcontent'>
-          <div className='left'>
-            <h3 className='tag'>
+        <div className="taskcontent">
+          <div className="left">
+            <h3 className="tag">
               Tag:
               <select
-                name='tag'
+                name="tag"
                 defaultValue={taskdetail.tagID}
-                className='tagh3'
+                className="tagh3"
               >
-                <option value=''>None</option>
+                <option value="">None</option>
                 {listTag != null &&
                   listTag.map((tag) => {
                     return <option value={tag.id}>{tag.name}</option>;
                   })}
               </select>
             </h3>
-            <h3 className='status'>
+            <h3 className="status">
               Status:
               <span
                 style={{
@@ -402,47 +417,47 @@ const TaskDetails = (props) => {
               </span>
             </h3>
 
-            <div className='des'>
+            <div className="des">
               <h3>Desctiption</h3>
               <textarea
-                className='textare'
-                name='descrip'
+                className="textare"
+                name="descrip"
                 defaultValue={taskdetail.description}
                 rows={8}
               ></textarea>
             </div>
           </div>
-          <div className='right'>
-            <div className='time_tas'>
+          <div className="right">
+            <div className="time_tas">
               <h4>
                 From:
                 <input
-                  className='tagh4'
-                  type='date'
-                  name='From'
+                  className="tagh4"
+                  type="date"
+                  name="From"
                   defaultValue={changeDate(taskdetail.taskFrom)}
                 />
               </h4>
               <h4>
                 To:
                 <input
-                  className='tagh4'
-                  type='date'
-                  name='to'
+                  className="tagh4"
+                  type="date"
+                  name="to"
                   defaultValue={changeDate(taskdetail.taskTo)}
                 />
               </h4>
             </div>
             {taskdetail.info != null && (
-              <div className='projectinfo'>
+              <div className="projectinfo">
                 <div>
-                  From User <span>{taskdetail.info.user}</span>
+                  Manager: <span>{taskdetail.info.user}</span>
                 </div>
                 <div>
-                  From Section <span>{taskdetail.info.section}</span>
+                  Section: <span>{taskdetail.info.section}</span>
                 </div>
                 <div>
-                  From Project <span>{taskdetail.info.workSpace}</span>
+                  Project: <span>{taskdetail.info.workSpace}</span>
                 </div>
               </div>
             )}

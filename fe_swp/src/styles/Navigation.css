@@ -9,9 +9,11 @@ li {
 }
 .nav-bar {
   width: 15%;
-  background: rgba(182, 175, 175, 0.9);
+  background-color: #9cc4e4 ;
   height: 100vh;
   float: left;
+  box-shadow: 1px 2px 3px 4px rgba(0, 0, 0, .1);
+  
 }
 .navbar-menu {
   list-style-type: none;

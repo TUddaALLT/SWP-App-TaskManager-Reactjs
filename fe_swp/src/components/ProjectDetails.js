@@ -24,7 +24,7 @@ const style = {
 };
 const styleList = {
   position: "absolute",
-  top: "40%",
+  top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 600,
@@ -33,6 +33,7 @@ const styleList = {
   borderRadius: "10px",
   boxShadow: 24,
   p: 4,
+  maxHeight: "90vh",
 };
 
 function ProjectDetails(props) {
@@ -45,6 +46,8 @@ function ProjectDetails(props) {
   const [opened, setOpened] = useState(false);
   const [userInWorkSpace, setUserInWorkSpace] = useState();
   const [openListMember, setOpenListMember] = React.useState(false);
+  const [tasksInP, setTasksInP] = useState();
+  const [idUser, setIdUser] = useState();
   const drag = (e) => {
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("Text", e.target.getAttribute("id"));
@@ -56,6 +59,15 @@ function ProjectDetails(props) {
   };
   const handleOpenListMember = () => setOpenListMember(true);
   const [kicked, setKicked] = React.useState(false);
+  const getcolor = (dateTo, status) => {
+    const currentDate = new Date();
+    const date1 = new Date(dateTo);
+    if (status) return "green";
+    else {
+      if (date1.getTime() >= currentDate.getTime()) return "orange";
+      else if (date1.getTime() < currentDate.getTime()) return "red";
+    }
+  };
   async function kickMemmber(idKicked) {
     console.log(idKicked);
     console.log(props.project.id);
@@ -64,7 +76,7 @@ function ProjectDetails(props) {
       .delete(
         `/User/DeleteUserWorkSpace?workSpaceID=${
           props.project.id
-        }&userIdDeleted=${idKicked}&userAdminId=${localStorage.getItem("id")}`,
+        }&userIdDeleted=${idKicked}&userAdminId=${localStorage.getItem("id")}`
       )
       .then(function (response) {
         console.log(response.data);
@@ -85,7 +97,7 @@ function ProjectDetails(props) {
       .get(
         `/Task/GetTaskInWorkSpace?workSpaceID=${
           props.project.id
-        }&userID=${localStorage.getItem("id")}`,
+        }&userID=${localStorage.getItem("id")}`
       )
       .then(function (response) {
         console.log(response.data.data);
@@ -108,7 +120,7 @@ function ProjectDetails(props) {
       .catch(function (error) {
         console.log(error);
       });
-  }, [kicked, open]);
+  }, [kicked, open, props.project]);
   useEffect(() => {
     authAxios
       .get(`/User`)
@@ -116,8 +128,8 @@ function ProjectDetails(props) {
         console.log(response.data.data);
         setUsers(
           response.data.data.filter((item) =>
-            item.userName.toLowerCase().includes(searchText.toLowerCase()),
-          ),
+            item.userName.toLowerCase().includes(searchText.toLowerCase())
+          )
         );
       })
       .catch(function (error) {
@@ -135,7 +147,7 @@ function ProjectDetails(props) {
       .post(
         `/WorkSpace/AddMember/${props.project.id}?nameUser=${
           document.querySelector(".add-member").value
-        }&roleID=2&adminID=${localStorage.getItem("id")}`,
+        }&roleID=2&adminID=${localStorage.getItem("id")}`
       )
       .then(function (response) {
         if (response.data.data == null) {
@@ -154,8 +166,8 @@ function ProjectDetails(props) {
     await authAxios
       .post(`/Section?userID=${localStorage.getItem("id")}&roleID=1`, {
         workSpaceId: props.project.id,
-        title: "Title " + document.querySelector(".des_section").value,
-        describe: "Describe " + document.querySelector(".des_section").value,
+        title: document.querySelector(".des_section").value,
+        describe: document.querySelector(".des_section").value,
         status: false,
       })
       .then(function (response) {
@@ -184,8 +196,8 @@ function ProjectDetails(props) {
     await authAxios
       .post(
         `/Task/AddMemberIntoTask/${idTask}?userID=${localStorage.getItem(
-          "IDDO",
-        )}&roleID=2&adminID=${localStorage.getItem("id")}`,
+          "IDDO"
+        )}&roleID=2&adminID=${localStorage.getItem("id")}`
       )
       .then(function (response) {
         alert("Assign Successfully");
@@ -196,8 +208,31 @@ function ProjectDetails(props) {
       });
     setTaskAss(null);
   }
+  const showTaskInWs = (id, index) => {
+    // let a = document.getElementById(id + "listtask");
+    let list = document.getElementsByClassName("listTaskOfM");
+    for (let i = 0; i < list.length; i++) {
+      if (i != index) {
+        list[i].style.display = "none";
+      } else list[i].style.display = "block";
+    }
+    setIdUser(id);
+  };
+  //get Task by Id member
+  useEffect(() => {
+    authAxios
+      .get(`/Task/AssignedTasks/${idUser}?workspaceID=${props.project.id}`)
+      .then(function (response) {
+        console.log(response.data.data);
+        setTasksInP(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [idUser]);
+
   return (
-    <div className='project_component'>
+    <div className="project_component">
       <div
         style={{
           display: "flex",
@@ -230,31 +265,31 @@ function ProjectDetails(props) {
           }}
         >
           <div
-            className='btn_share kick'
+            className="btn_share kick"
             onClick={() => handleOpenListMember()}
           >
             <FaUserFriends></FaUserFriends>
           </div>
-          <div className='btn_share add' onClick={(e) => handleOpen(e)}>
+          <div className="btn_share add" onClick={(e) => handleOpen(e)}>
             <AiOutlinePlus></AiOutlinePlus>
           </div>
           <Modal
             open={open}
             onClose={handleClose}
-            aria-labelledby='modal-modal-title'
-            aria-describedby='modal-modal-description'
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
               <div style={{ marginBottom: "20px" }}>
-                <Typography id='modal-modal-title' variant='h6' component='h2'>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
                   Add Member
                 </Typography>
               </div>
               <div style={{ display: "flex" }}>
                 <input
                   style={{ width: "100%", padding: "0px 20px" }}
-                  placeholder='Username'
-                  class='add-member'
+                  placeholder="Username"
+                  class="add-member"
                   onChange={(e) => setSearchText(e.target.value)}
                 ></input>
                 <Button onClick={() => addMemmber()}>Add </Button>
@@ -270,7 +305,7 @@ function ProjectDetails(props) {
                     borderRadius: " 0 0 5px 5px",
                     border: "1px solid gray",
                   }}
-                  className='modal_add_member'
+                  className="modal_add_member"
                 >
                   <ul>
                     {users != null &&
@@ -293,14 +328,13 @@ function ProjectDetails(props) {
           <Modal
             open={openListMember}
             onClose={handleCloseListMember}
-            aria-labelledby='modal-modal-title'
-            aria-describedby='modal-modal-description'
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
           >
             <Box sx={styleList}>
               {users != null && taskAss == null && (
                 <div
                   style={{
-                    cursor: "pointer",
                     marginTop: "2vh",
                     padding: "2vh 2vw",
                     width: "100%",
@@ -309,41 +343,76 @@ function ProjectDetails(props) {
                     backgroundColor: "white",
                     borderRadius: " 5px",
                     border: "1px solid gray",
+                    maxHeight: "76vh",
                   }}
-                  className='modal_add_member'
+                  className="modal_add_member"
                 >
                   <Typography
-                    id='modal-modal-title'
-                    variant='h6'
-                    component='h2'
+                    id="modal-modal-title"
+                    variant="h3"
+                    component="h2"
                   >
                     Member
                   </Typography>
                   {userInWorkSpace != null &&
-                    userInWorkSpace.map((u) => (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          padding: "2px 0",
-                        }}
-                        onClick={() => {
-                          document.querySelector(".add-member").value =
-                            u.userName;
-                        }}
-                        key={u.id}
-                      >
-                        <div> {u.userName}</div>
-                        <div>
-                          <Button onClick={() => assginTask(u.id)}>
-                            Assign Task
-                          </Button>
-                          <Button onClick={() => kickMemmber(u.id)}>
-                            Kick member
-                          </Button>
+                    userInWorkSpace.map((u, index) => (
+                      <>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            padding: "2px 0",
+                            position: "relative",
+                          }}
+                          key={u.id}
+                        >
+                          <div
+                            onClick={() => {
+                              showTaskInWs(u.id, index);
+                            }}
+                            style={{ cursor: "pointer" }}
+                          >
+                            <span style={{ fontWeight: "bold" }}>
+                              {u.userName}
+                            </span>
+                          </div>
+
+                          <div>
+                            <Button onClick={() => assginTask(u.id)}>
+                              Assign Task
+                            </Button>
+                            <Button onClick={() => kickMemmber(u.id)}>
+                              Kick member
+                            </Button>
+                          </div>
                         </div>
-                      </div>
+                        <div className="listTaskOfM">
+                          <ul>
+                            {tasksInP == null || tasksInP.length == 0 ? (
+                              <li>Not have Task</li>
+                            ) : (
+                              <>
+                                {tasksInP != null &&
+                                  tasksInP.map((task) => {
+                                    return (
+                                      <li
+                                        style={{
+                                          color: getcolor(
+                                            task.taskTo,
+                                            task.status
+                                          ),
+                                        }}
+                                      >
+                                        {task.title}
+                                      </li>
+                                    );
+                                  })}
+                              </>
+                            )}
+                          </ul>
+                        </div>
+                      </>
                     ))}
                 </div>
               )}
@@ -360,12 +429,12 @@ function ProjectDetails(props) {
                     borderRadius: " 5px",
                     border: "1px solid gray",
                   }}
-                  className='modal_add_member'
+                  className="modal_add_member"
                 >
                   <Typography
-                    id='modal-modal-title'
-                    variant='h6'
-                    component='h2'
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
                   >
                     Task In Project
                   </Typography>
@@ -380,7 +449,7 @@ function ProjectDetails(props) {
                         }}
                         key={u.id}
                       >
-                        <div> {u.describe}</div>
+                        <div> {u.title}</div>
                         <div>
                           <Button onClick={() => assginThisTaskTo(u.id)}>
                             Assign This
@@ -395,7 +464,7 @@ function ProjectDetails(props) {
         </div>
       </div>
 
-      <div className='Create_section'>
+      <div className="Create_section">
         {sections != null &&
           sections.map((section) => (
             <Section
@@ -406,22 +475,22 @@ function ProjectDetails(props) {
               drag={drag}
             ></Section>
           ))}
-        <div className='section_base'>
-          <div className='section_name'>Name section</div>
-          <div className='section_task'>
-            <div onClick={() => addSection()} className='section_btnAdd'>
-              {opened ? "X" : <AiOutlinePlus size='30px'></AiOutlinePlus>}
+        <div className="section_base">
+          <div className="section_name">Name section</div>
+          <div className="section_task">
+            <div onClick={() => addSection()} className="section_btnAdd">
+              {opened ? "X" : <AiOutlinePlus size="30px"></AiOutlinePlus>}
             </div>
           </div>
         </div>
         {opened && (
-          <div className='section_input'>
-            <div className='section_in'>
-              <div className='section_name'>
+          <div className="section_input">
+            <div className="section_in">
+              <div className="section_name">
                 <input
-                  autoFocus='true'
-                  name='data'
-                  className='des_section'
+                  autoFocus="true"
+                  name="data"
+                  className="des_section"
                 ></input>
                 <button onClick={() => addSectionApi()}>Add</button>
               </div>
