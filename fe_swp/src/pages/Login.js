@@ -9,6 +9,7 @@ import { FcGoogle } from "react-icons/fc";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState();
   const navigate = useNavigate();
   const handleLogin = (e) => {
     e.preventDefault();
@@ -24,10 +25,15 @@ function Login() {
       .then(function (response) {
         console.log(response.data.data.token);
         localStorage.setItem("token", response.data.data.token);
+        console.log(response.data.data);
         localStorage.setItem("id", response.data.data.usernameID);
         navigate("../home");
+        setTimeout(() => {
+          window.location.reload();
+        }, 0);
       })
       .catch(function (error) {
+        setMessage("Login Failed, Please check your account!!!");
         console.log(error);
       });
   };
@@ -109,6 +115,7 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          <h3 style={{ color: "red" }}>{message != null && message}</h3>
           <Button
             className='btn-login'
             type='submit'

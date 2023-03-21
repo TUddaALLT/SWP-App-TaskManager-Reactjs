@@ -36,7 +36,6 @@
   padding-top: 2vh;
   width: 75vw;
   display: flex;
-  justify-content: space-between;
   overflow: auto; /* or overflow: scroll; */
   padding-bottom: 2vh;
   /* add margin to the div */

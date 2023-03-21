@@ -3,15 +3,15 @@ import "../styles/ProjectDetails.css";
 import authAxios from "../services/AxiosInstance";
 import "../styles/Project.css";
 import "../styles/Section.css";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiFillDelete, AiOutlinePlus } from "react-icons/ai";
 import { Button, Collapse } from "@mui/material";
+import { swal } from "sweetalert";
 
 function Section(props) {
   const [opened, setOpened] = useState(false);
   const [done, setDone] = useState(true);
   const [tasks, setTasks] = useState();
   const [reload, setReload] = useState(false);
-  const [sectionPre, setSectionPre] = useState();
   const showDetails = (id) => {
     let collap = document.getElementById(id + "cl");
     if (collap.style.display == "none") collap.style.display = "block";
@@ -19,16 +19,15 @@ function Section(props) {
   };
   const drag = props.drag;
   async function drop(ev) {
-    var src = ev.dataTransfer.getData("Text");
+    let src = ev.dataTransfer.getData("Text");
     let sectionNewID = ev.target.getAttribute("sec");
     let taskid = document.getElementById(src).getAttribute("id");
-    let preSection = document.getElementById(src).getAttribute("sec");
 
     await authAxios
       .get(
         `/Task/UpdateSectionTask/?sectionNewID=${sectionNewID}&taskID=${taskid}&userID=${localStorage.getItem(
-          "id"
-        )}`
+          "id",
+        )}`,
       )
       .then(function (response) {
         console.log(response.data.data);
@@ -93,7 +92,6 @@ function Section(props) {
       .get(`/Task/GetTasksInSection?sectionId=${props.section.id}`)
       .then(function (response) {
         console.log(response.data.data);
-        // const data = response.data.data.sort((a, b) => b.id - a.id);
         setTasks(response.data.data);
       })
       .catch(function (error) {
@@ -101,12 +99,12 @@ function Section(props) {
       });
   }, [done, reload, props.check]);
 
-  async function deleteSection(id) {
+  async function deleteSection() {
     if (window.confirm("Are you sure you want to delete this section")) {
       // /Section/19?userID=1
       await authAxios
         .delete(
-          `/Section/${props.section.id}?userID=${localStorage.getItem("id")}`
+          `/Section/${props.section.id}?userID=${localStorage.getItem("id")}`,
         )
         .then(function (response) {
           if (response.data.status == 400) {
@@ -133,27 +131,23 @@ function Section(props) {
     return date.toISOString().substring(0, 10);
   };
   return (
-    <div className="section">
-      <div className="section_name " draggable="false">
+    <div className='section'>
+      <div className='section_name ' draggable='false'>
         {props.section.title}
         <div
-          className="btnDelete"
+          className='btnDelete'
           style={{
-            color: "red",
-            padding: "4px 10px",
             borderRadius: "100%",
-            border: "1px solid white",
-            backgroundColor: "rgba(105, 238, 205,0.9)",
             cursor: "pointer",
           }}
-          onClick={() => deleteSection(props.section.id)}
+          onClick={() => deleteSection()}
         >
-          X
+          <AiFillDelete size='20px' />
         </div>
       </div>
-      <div className="content_section">
+      <div className='content_section'>
         <div
-          className="listTask"
+          className='listTask'
           id={props.section.id + ""}
           sec={props.section.id + ""}
           onDrop={(event) => {
@@ -178,19 +172,19 @@ function Section(props) {
                 key={task.id}
                 id={task.id + ""}
                 sec={props.section.id + ""}
-                className="task"
+                className='task'
                 style={{
                   border: "2px solid " + getcolor(task.taskTo, task.status),
                   cursor: "pointer",
                 }}
                 onDragStart={(event) => drag(event)}
-                draggable="true"
+                draggable='true'
                 onClick={() => {
                   showDetails(task.id);
                 }}
               >
                 <div
-                  className="task_title"
+                  className='task_title'
                   style={{
                     color: getcolor(task.taskTo, task.status),
                   }}
@@ -201,14 +195,14 @@ function Section(props) {
                 <Collapse
                   id={task.id + "cl"}
                   in={true}
-                  timeout="auto"
+                  timeout='auto'
                   sx={{
                     display: "none",
                   }}
                   sec={props.section.id + ""}
                 >
-                  <div className="task_des">{task.describe}</div>
-                  <div className="task_fromto">
+                  <div className='task_des'>{task.describe}</div>
+                  <div className='task_fromto'>
                     From: {changeDate(task.taskFrom)} <br />
                     To: {changeDate(task.taskTo)}
                   </div>
@@ -219,30 +213,30 @@ function Section(props) {
             <div style={{ height: "30px" }} sec={props.section.id + ""}></div>
           )}
           <div
-            className="draghere"
+            className='draghere'
             id={props.section.id + "div"}
             sec={props.section.id + ""}
           ></div>
         </div>
-        <div className="btnOpen" onClick={openAddTaskProject} draggable="false">
+        <div className='btnOpen' onClick={openAddTaskProject} draggable='false'>
           {opened ? "X" : <AiOutlinePlus></AiOutlinePlus>}
         </div>
         {opened && (
-          <div className="frmAdd" draggable="false">
+          <div className='frmAdd' draggable='false'>
             <input
-              autoFocus="true"
-              className="title"
-              placeholder="Title"
+              autoFocus='true'
+              className='title'
+              placeholder='Title'
             ></input>
             <textarea
-              className="describe"
-              placeholder="Describe"
+              className='describe'
+              placeholder='Describe'
               rows={4}
               maxLength={100}
             ></textarea>
-            <span>From:</span> <input className="From" type="date" />
-            <span>To:</span> <input className="to" type="date"></input>
-            <Button size="small" onClick={() => addTaskProject()}>
+            <span>From:</span> <input className='From' type='date' />
+            <span>To:</span> <input className='to' type='date'></input>
+            <Button size='small' onClick={() => addTaskProject()}>
               Add Task
             </Button>
           </div>

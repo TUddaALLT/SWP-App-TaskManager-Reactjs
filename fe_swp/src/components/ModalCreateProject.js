@@ -23,11 +23,11 @@ const ModalCreateProject = (props) => {
   const [description, setDescription] = useState("");
 
   const handleCloseModal = () => {
-    setOpenModal(false);
+    setOpenModal(!openModal);
   };
 
-  const handleSubmitModal = () => {
-    authAxios
+  async function handleSubmitModal() {
+    await authAxios
       .post(`/WorkSpace?userID=${localStorage.getItem("id")}&roleID=1`, {
         name: name,
         describe: description,
@@ -40,9 +40,8 @@ const ModalCreateProject = (props) => {
         console.log(error);
         localStorage.removeItem("token");
       });
-
-    console.log({ name: name, description: description });
-  };
+    handleCloseModal();
+  }
 
   const handleOnChangeName = (event) => {
     setName(event.target.value);
@@ -54,25 +53,25 @@ const ModalCreateProject = (props) => {
     <>
       <Modal open={openModal} onClose={handleCloseModal}>
         <Box sx={{ ...style, borderRadius: 3 }}>
-          <h2 id="modal-header">New Project</h2>
-          <div id="modal-content">
-            <div className="name">
+          <h2 id='modal-header'>New Project</h2>
+          <div id='modal-content'>
+            <div className='name'>
               <TextField
-                fullwidth="true"
+                fullwidth='true'
                 sx={{ width: "100%" }}
-                type="text"
-                label="Name"
-                variant="outlined"
+                type='text'
+                label='Name'
+                variant='outlined'
                 onChange={(event) => handleOnChangeName(event)}
               />
             </div>
-            <div className="description">
+            <div className='description'>
               <TextField
-                fullwidth="true"
+                fullwidth='true'
                 sx={{ width: "100%" }}
-                type="text"
-                label="Description"
-                variant="outlined"
+                type='text'
+                label='Description'
+                variant='outlined'
                 multiline
                 maxRows={5}
                 rows={5}
@@ -80,23 +79,20 @@ const ModalCreateProject = (props) => {
               />
             </div>
           </div>
-          <div id="modal-footer">
+          <div id='modal-footer'>
             <Button
-              variant="outlined"
-              color="error"
+              variant='outlined'
+              color='error'
               onClick={handleCloseModal}
               sx={{ margin: "0 20px" }}
             >
               Cancel
             </Button>
             <Button
-              variant="contained"
+              variant='contained'
               disabled={name === "" ? true : false}
               onClick={() => {
                 handleSubmitModal();
-                handleCloseModal();
-                setName("");
-                setDescription("");
               }}
             >
               Create

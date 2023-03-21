@@ -16,8 +16,8 @@ function Project(props) {
       .get(`/WorkSpace/user/${localStorage.getItem("id")}`)
       .then(function (response) {
         console.log(response.data.data);
-        const data = response.data.data.sort((a, b) => b.id - a.id);
-        setProjects(data);
+        // const data = response.data.data.sort((a, b) => b.id - a.id);
+        setProjects(response.data.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -28,20 +28,20 @@ function Project(props) {
     setProject(project);
   }
   return project == null ? (
-    <div className="project_component">
+    <div className='project_component'>
       <div style={{}}>
         <h1 style={{ marginBottom: "3vh", color: "white" }}>Your Project</h1>
         <p style={{ color: "yellow" }}>Create new project </p>
       </div>
-      <div className="big_btns">
+      <div className='big_btns'>
         <div
-          className="big_btn"
+          className='big_btn'
           onClick={() => {
             setOpenModal(!openModal);
           }}
         >
           <div>
-            <AiOutlinePlus size="30px"></AiOutlinePlus>
+            <AiOutlinePlus size='30px'></AiOutlinePlus>
           </div>
           <div> Create empty project</div>
         </div>
@@ -49,9 +49,9 @@ function Project(props) {
           openModal={openModal}
           setOpenModal={setOpenModal}
         ></ModalCreateProject>
-        <div className="big_btn">
+        <div className='big_btn'>
           <div>
-            <BsFillPencilFill size="25px"></BsFillPencilFill>
+            <BsFillPencilFill size='25px'></BsFillPencilFill>
           </div>
           <div>Use Template</div>
         </div>
@@ -59,16 +59,16 @@ function Project(props) {
       <div style={{ marginTop: "5vh" }}>
         <p>Your Project</p>
         {/* map */}
-        <div className="your_pr">
+        <div className='your_pr'>
           {projects != null &&
             projects.map((project) => (
               <div
-                className="project"
+                className='project'
                 onClick={() => openProject(project)}
                 key={project.id}
               >
-                <div className="project_img"></div>
-                <div className="project_title"> {project.name}</div>
+                <div className='project_img'></div>
+                <div className='project_title'> {project.name}</div>
               </div>
             ))}
         </div>
