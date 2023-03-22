@@ -26,8 +26,8 @@ function Section(props) {
     await authAxios
       .get(
         `/Task/UpdateSectionTask/?sectionNewID=${sectionNewID}&taskID=${taskid}&userID=${localStorage.getItem(
-          "id",
-        )}`,
+          "id"
+        )}`
       )
       .then(function (response) {
         console.log(response.data.data);
@@ -69,22 +69,33 @@ function Section(props) {
     const describe = document.querySelector(".describe").value;
     const taskFrom = document.querySelector(".From").value;
     const taskTo = document.querySelector(".to").value;
-    await authAxios
-      .post(`/Task?userID=${localStorage.getItem("id")}&roleID=1`, {
-        sectionId: props.section.id,
-        title: title,
-        describe: describe,
-        taskFrom: taskFrom,
-        taskTo: taskTo,
-      })
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    setOpened(!opened);
-    setDone(!done);
+    if (title == "") alert("Title is empty, Please check again !!");
+    else if (taskFrom == "" || taskTo == "")
+      alert("Date From and Date To is invalid, Please check again !!");
+    else {
+      const dateF = new Date(taskFrom);
+      const dateT = new Date(taskTo);
+
+      if (dateT.getTime() <= dateF.getTime()) alert("Please check date input");
+      else {
+        await authAxios
+          .post(`/Task?userID=${localStorage.getItem("id")}&roleID=1`, {
+            sectionId: props.section.id,
+            title: title,
+            describe: describe,
+            taskFrom: taskFrom,
+            taskTo: taskTo,
+          })
+          .then(function (response) {
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        setOpened(!opened);
+        setDone(!done);
+      }
+    }
   }
 
   useEffect(() => {
@@ -104,7 +115,7 @@ function Section(props) {
       // /Section/19?userID=1
       await authAxios
         .delete(
-          `/Section/${props.section.id}?userID=${localStorage.getItem("id")}`,
+          `/Section/${props.section.id}?userID=${localStorage.getItem("id")}`
         )
         .then(function (response) {
           if (response.data.status == 400) {
@@ -117,13 +128,23 @@ function Section(props) {
     }
     props.setCheck(!props.check);
   }
-  const getcolor = (dateTo, status) => {
+  const getcolor = (dateF, dateTo, status) => {
     const currentDate = new Date();
-    const date1 = new Date(dateTo);
+    const dateEnd = new Date(dateTo);
+    const dateStart = new Date(dateF);
     if (status) return "green";
     else {
-      if (date1.getTime() >= currentDate.getTime()) return "orange";
-      else if (date1.getTime() < currentDate.getTime()) return "red";
+      if (
+        dateEnd.getTime() >= currentDate.getTime() &&
+        dateStart.getTime() <= currentDate.getTime()
+      )
+        return "orange";
+      else if (dateEnd.getTime() < currentDate.getTime()) return "red";
+      else if (
+        dateEnd.getTime() >= currentDate.getTime() &&
+        dateStart.getTime() >= currentDate.getTime()
+      )
+        return "black";
     }
   };
   const changeDate = (dt) => {
@@ -131,23 +152,23 @@ function Section(props) {
     return date.toISOString().substring(0, 10);
   };
   return (
-    <div className='section'>
-      <div className='section_name ' draggable='false'>
+    <div className="section">
+      <div className="section_name " draggable="false">
         {props.section.title}
         <div
-          className='btnDelete'
+          className="btnDelete"
           style={{
             borderRadius: "100%",
             cursor: "pointer",
           }}
           onClick={() => deleteSection()}
         >
-          <AiFillDelete size='20px' />
+          <AiFillDelete size="20px" />
         </div>
       </div>
-      <div className='content_section'>
+      <div className="content_section">
         <div
-          className='listTask'
+          className="listTask"
           id={props.section.id + ""}
           sec={props.section.id + ""}
           onDrop={(event) => {
@@ -172,21 +193,20 @@ function Section(props) {
                 key={task.id}
                 id={task.id + ""}
                 sec={props.section.id + ""}
-                className='task'
+                className="task"
                 style={{
-                  border: "2px solid " + getcolor(task.taskTo, task.status),
                   cursor: "pointer",
                 }}
                 onDragStart={(event) => drag(event)}
-                draggable='true'
-                onClick={() => {
+                draggable="true"
+                onDoubleClick={() => {
                   showDetails(task.id);
                 }}
               >
                 <div
-                  className='task_title'
+                  className="task_title"
                   style={{
-                    color: getcolor(task.taskTo, task.status),
+                    color: getcolor(task.taskFrom, task.taskTo, task.status),
                   }}
                   sec={props.section.id + ""}
                 >
@@ -195,14 +215,47 @@ function Section(props) {
                 <Collapse
                   id={task.id + "cl"}
                   in={true}
-                  timeout='auto'
+                  timeout="auto"
                   sx={{
                     display: "none",
                   }}
                   sec={props.section.id + ""}
+                  className="detailsTaskOnP"
                 >
-                  <div className='task_des'>{task.describe}</div>
-                  <div className='task_fromto'>
+                  {" "}
+                  <div className="task_des">
+                    <h4>
+                      Status:{" "}
+                      <span
+                        style={{
+                          color: getcolor(
+                            task.taskFrom,
+                            task.taskTo,
+                            task.status
+                          ),
+                        }}
+                      >
+                        {getcolor(task.taskFrom, task.taskTo, task.status) ===
+                        "red"
+                          ? "Overdue"
+                          : getcolor(
+                              task.taskFrom,
+                              task.taskTo,
+                              task.status
+                            ) === "green"
+                          ? "Finish"
+                          : getcolor(
+                              task.taskFrom,
+                              task.taskTo,
+                              task.status
+                            ) === "black"
+                          ? "Not Time yet"
+                          : "To be doing"}
+                      </span>
+                    </h4>
+                  </div>
+                  <div className="task_des">{task.describe}</div>
+                  <div className="task_fromto">
                     From: {changeDate(task.taskFrom)} <br />
                     To: {changeDate(task.taskTo)}
                   </div>
@@ -213,30 +266,30 @@ function Section(props) {
             <div style={{ height: "30px" }} sec={props.section.id + ""}></div>
           )}
           <div
-            className='draghere'
+            className="draghere"
             id={props.section.id + "div"}
             sec={props.section.id + ""}
           ></div>
         </div>
-        <div className='btnOpen' onClick={openAddTaskProject} draggable='false'>
+        <div className="btnOpen" onClick={openAddTaskProject} draggable="false">
           {opened ? "X" : <AiOutlinePlus></AiOutlinePlus>}
         </div>
         {opened && (
-          <div className='frmAdd' draggable='false'>
+          <div className="frmAdd" draggable="false">
             <input
-              autoFocus='true'
-              className='title'
-              placeholder='Title'
+              autoFocus="true"
+              className="title"
+              placeholder="Title"
             ></input>
             <textarea
-              className='describe'
-              placeholder='Describe'
+              className="describe"
+              placeholder="Describe"
               rows={4}
               maxLength={100}
             ></textarea>
-            <span>From:</span> <input className='From' type='date' />
-            <span>To:</span> <input className='to' type='date'></input>
-            <Button size='small' onClick={() => addTaskProject()}>
+            <span>From:</span> <input className="From" type="date" />
+            <span>To:</span> <input className="to" type="date"></input>
+            <Button size="small" onClick={() => addTaskProject()}>
               Add Task
             </Button>
           </div>

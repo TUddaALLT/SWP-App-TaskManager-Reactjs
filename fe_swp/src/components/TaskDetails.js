@@ -11,7 +11,6 @@ import swal from "sweetalert";
 
 const TaskDetails = (props) => {
   const taskdetail = props.taskdetail;
-  console.log(taskdetail);
   const setTaskdetail = props.setTaskdetail;
   const getColor = props.getColor;
 
@@ -29,7 +28,10 @@ const TaskDetails = (props) => {
     { id: "3", name: "tag3" },
     { id: "4", name: "tag4" },
   ];
-
+  const handleOnCancel = () => {
+    handleOnShow();
+    setEdit(false);
+  };
   async function handleOnpin(id, section) {
     if (taskdetail.info != null) {
       // /Task/GetUserTaskRoleByUserID?userId=11&taskID=46
@@ -38,8 +40,8 @@ const TaskDetails = (props) => {
       await authAxios
         .get(
           `/Task/GetUserTaskRoleByUserID?userId=${localStorage.getItem(
-            "id",
-          )}&taskID=${id}`,
+            "id"
+          )}&taskID=${id}`
         )
         .then(function (response) {
           console.log(response.data.data.pinTask);
@@ -62,8 +64,8 @@ const TaskDetails = (props) => {
             authAxios
               .put(
                 `/Task/UpdatePinTask?taskID=${id}&userID=${localStorage.getItem(
-                  "id",
-                )}&status=false`,
+                  "id"
+                )}&status=false`
               )
               .then(function (response) {
                 window.location.reload();
@@ -89,8 +91,8 @@ const TaskDetails = (props) => {
             authAxios
               .put(
                 `/Task/UpdatePinTask?taskID=${id}&userID=${localStorage.getItem(
-                  "id",
-                )}&status=true`,
+                  "id"
+                )}&status=true`
               )
               .then(function (response) {
                 window.location.reload();
@@ -173,8 +175,8 @@ const TaskDetails = (props) => {
           authAxios
             .put(
               `/Task/UpdateStatusTask?taskID=${id}&userID=${localStorage.getItem(
-                "id",
-              )}&status=true`,
+                "id"
+              )}&status=true`
             )
             .then(function (response) {
               console.log(response.data);
@@ -215,13 +217,74 @@ const TaskDetails = (props) => {
     }
   }
   const onEdit = () => {
+    handleOnShow();
     setEdit(true);
   };
-  const onSave = (id) => {
-    //update
-    setEdit(false);
-  };
+  async function onSave(id) {
+    handleOnShow();
+    let title = document.getElementsByName("title")[0].value;
+    let describe = document.getElementsByName("descrip")[0].value;
+    let tagid = document.getElementsByName("tag")[0].value;
+    let from = document.getElementsByName("from")[0].value;
+    let to = document.getElementsByName("to")[0].value;
+    console.log(
+      `${title},${describe},${tagid == "" ? null : tagid},${from},${to}`
+    );
+    if (title == "")
+      swal({
+        title: "Error",
+        text: "Title is empty, Please check again !!",
+        icon: "warning",
+      });
+    else if (from == "" || to == "")
+      swal({
+        title: "Error",
+        text: "Date From and Date To is invalid, Please check again !!",
+        icon: "warning",
+      });
+    else {
+      const dateF = new Date(from);
+      const dateT = new Date(to);
+      if (dateT.getTime() <= dateF.getTime())
+        swal({
+          title: "Error",
+          text: "Please check date input !!",
+          icon: "warning",
+        });
+      else {
+        if (window.confirm("Save now ?")) {
+          swal({
+            title: "Edit success",
+            text: "",
+            icon: "success",
+          });
+          await authAxios
+            .put(`/Task/${id}?userID=${localStorage.getItem("id")}`, {
+              id: id,
+              sectionId: taskdetail.sectionId,
+              title: title,
+              describe: describe,
+              image: taskdetail.image,
+              status: taskdetail.status,
+              taskTo: dateT,
+              taskFrom: dateF,
+              pinTask: taskdetail.pinTask,
+              tagId: tagid == "" ? null : tagid,
+              attachment: taskdetail.attachment,
+            })
+            .then(function (response) {
+              setTaskdetail(response.data.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          setEdit(false);
+        }
+      }
+    }
+  }
   async function handleOnDelete(id) {
+    handleOnShow();
     //delete
     await authAxios
       .delete(`/Task/${id}?userID=${localStorage.getItem("id")}`)
@@ -247,20 +310,20 @@ const TaskDetails = (props) => {
   };
 
   return edit == false ? (
-    <div className='content'>
-      <div className='tasksdetail'>
-        <div className='taskheader'>
+    <div className="content">
+      <div className="tasksdetail">
+        <div className="taskheader">
           <h1>{taskdetail.title}</h1>
-          <div id='icon_tasks'>
+          <div id="icon_tasks">
             <BsFillPinAngleFill
-              className='icons_task'
+              className="icons_task"
               style={{ color: taskdetail.pinTask ? "red" : "black" }}
               onClick={() => {
                 handleOnpin(taskdetail.id, taskdetail.section);
               }}
             />
             <BsCheckLg
-              className='icons_task'
+              className="icons_task"
               style={{
                 color: "green",
                 display:
@@ -274,13 +337,13 @@ const TaskDetails = (props) => {
             />
             {taskdetail.info == null && (
               <BsThreeDots
-                className='icons_task'
+                className="icons_task"
                 onClick={() => {
                   handleOnShow();
                 }}
               />
             )}
-            <div className='menu_task' id={taskdetail.id}>
+            <div className="menu_task" id={taskdetail.id}>
               <ul>
                 <li
                   onClick={() => {
@@ -300,22 +363,22 @@ const TaskDetails = (props) => {
               </ul>
             </div>
             <BsXLg
-              className='icons_task'
+              className="icons_task"
               onClick={() => {
                 setTaskdetail();
               }}
             />
           </div>
         </div>
-        <div className='taskcontent'>
-          <div className='left'>
-            <h3 className='tag'>
+        <div className="taskcontent">
+          <div className="left">
+            <h3 className="tag">
               Tag:
               <span style={{ marginLeft: "10px", fontWeight: "normal" }}>
                 {taskdetail.tagID == null ? "None" : taskdetail.tagID}
               </span>
             </h3>
-            <h3 className='status'>
+            <h3 className="status">
               Status:
               <span
                 style={{
@@ -331,14 +394,14 @@ const TaskDetails = (props) => {
               </span>
             </h3>
 
-            <div className='des'>
+            <div className="des">
               <h3>Desctiption</h3>
               <p>{taskdetail.describe}</p>
               <p>{taskdetail.attachment}</p>
             </div>
           </div>
-          <div className='right'>
-            <div className='time_tas'>
+          <div className="right">
+            <div className="time_tas">
               <h4>
                 From: <span>{changeDate(taskdetail.taskFrom)}</span>
               </h4>
@@ -347,17 +410,17 @@ const TaskDetails = (props) => {
               </h4>
             </div>
             {taskdetail.info != null && (
-              <div className='projectinfo'>
-                <div className='manager_infor'>
+              <div className="projectinfo">
+                <div className="manager_infor">
                   Manager: <span>{taskdetail.info.user}</span>
                 </div>
-                <div className='section_infor'>
+                <div className="section_infor">
                   Section: <span>{taskdetail.info.section}</span>
                 </div>
-                <div className='project_infor'>
+                <div className="project_infor">
                   Project: <span>{taskdetail.info.workSpace}</span>
                   <span
-                    className='viewnow'
+                    className="viewnow"
                     onClick={() => {
                       handleOnShowP(taskdetail.info.workSpace);
                     }}
@@ -372,26 +435,26 @@ const TaskDetails = (props) => {
       </div>
     </div>
   ) : (
-    <div className='content'>
-      <div className='tasksdetail'>
-        <div className='taskheader'>
+    <div className="content">
+      <div className="tasksdetail">
+        <div className="taskheader">
           <h1>
             <input
-              className='input_title'
-              name='title'
+              className="input_title"
+              name="title"
               defaultValue={taskdetail.title}
             />
           </h1>
-          <div id='icon_tasks'>
+          <div id="icon_tasks">
             <BsFillPinAngleFill
-              className='icons_task'
+              className="icons_task"
               style={{ color: taskdetail.pinTask ? "red" : "black" }}
               onClick={() => {
                 handleOnpin(taskdetail.id);
               }}
             />
             <BsCheckLg
-              className='icons_task'
+              className="icons_task"
               style={{
                 color: "green",
                 display:
@@ -404,22 +467,14 @@ const TaskDetails = (props) => {
               }}
             />
             <BsThreeDots
-              className='icons_task'
+              className="icons_task"
               onClick={() => {
                 handleOnShow();
               }}
             />
-            <div className='menu_task' id={taskdetail.id}>
+            <div className="menu_task" id={taskdetail.id}>
               <ul>
-                {edit === false ? (
-                  <li
-                    onClick={() => {
-                      onEdit(taskdetail.id);
-                    }}
-                  >
-                    Edit
-                  </li>
-                ) : (
+                <>
                   <li
                     onClick={() => {
                       onSave(taskdetail.id);
@@ -427,36 +482,37 @@ const TaskDetails = (props) => {
                   >
                     Save
                   </li>
-                )}
-
-                <li style={{ color: "red" }}>Delete</li>
+                  <li style={{ color: "red" }} onClick={() => handleOnCancel()}>
+                    Cancel
+                  </li>
+                </>
               </ul>
             </div>
             <BsXLg
-              className='icons_task'
+              className="icons_task"
               onClick={() => {
                 setTaskdetail(null);
               }}
             />
           </div>
         </div>
-        <div className='taskcontent'>
-          <div className='left'>
-            <h3 className='tag'>
+        <div className="taskcontent">
+          <div className="left">
+            <h3 className="tag">
               Tag:
               <select
-                name='tag'
+                name="tag"
                 defaultValue={taskdetail.tagID}
-                className='tagh3'
+                className="tagh3"
               >
-                <option value=''>None</option>
+                <option value="">None</option>
                 {listTag != null &&
                   listTag.map((tag) => {
                     return <option value={tag.id}>{tag.name}</option>;
                   })}
               </select>
             </h3>
-            <h3 className='status'>
+            <h3 className="status">
               Status:
               <span
                 style={{
@@ -472,39 +528,39 @@ const TaskDetails = (props) => {
               </span>
             </h3>
 
-            <div className='des'>
+            <div className="des">
               <h3>Desctiption</h3>
               <textarea
-                className='textare'
-                name='descrip'
+                className="textare"
+                name="descrip"
                 defaultValue={taskdetail.description}
                 rows={8}
               ></textarea>
             </div>
           </div>
-          <div className='right'>
-            <div className='time_tas'>
+          <div className="right">
+            <div className="time_tas">
               <h4>
                 From:
                 <input
-                  className='tagh4'
-                  type='date'
-                  name='From'
+                  className="tagh4"
+                  type="date"
+                  name="from"
                   defaultValue={changeDate(taskdetail.taskFrom)}
                 />
               </h4>
               <h4>
                 To:
                 <input
-                  className='tagh4'
-                  type='date'
-                  name='to'
+                  className="tagh4"
+                  type="date"
+                  name="to"
                   defaultValue={changeDate(taskdetail.taskTo)}
                 />
               </h4>
             </div>
             {taskdetail.info != null && (
-              <div className='projectinfo'>
+              <div className="projectinfo">
                 <div>
                   Manager: <span>{taskdetail.info.user}</span>
                 </div>

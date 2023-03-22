@@ -32,6 +32,7 @@ function Register() {
         if (response.data.message == "Bad requestuser name already exists") {
           alert("Email exist");
         } else {
+          alert("Register successful");
           navigate("../login");
         }
       })
@@ -64,51 +65,51 @@ function Register() {
           Login
         </Link>
       </div>
-      <div className='Register'>
+      <div className="Register">
         <form onSubmit={handleRegister}>
           <h2>Register</h2>
           <br></br>
-          <div className='Register_input'>
+          <div className="Register_input">
             <TextField
               fullWidth
-              type='email'
-              label='Username or Email'
-              variant='outlined'
+              type="email"
+              label="Email"
+              variant="outlined"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <br></br>
-          <div className='Register_input'>
+          <div className="Register_input">
             <TextField
               fullWidth
-              type='password'
-              label='Password'
-              variant='outlined'
+              type="password"
+              label="Password"
+              variant="outlined"
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <br></br>
-          <div className='Register_input'>
+          <div className="Register_input">
             <TextField
               fullWidth
-              type='password'
-              label='Confirm Password'
-              variant='outlined'
+              type="password"
+              label="Confirm Password"
+              variant="outlined"
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
           <br></br>
           <h3 style={{ color: "red" }}>{message}</h3>
           <Button
-            className='btn-Register'
-            type='submit'
+            className="btn-Register"
+            type="submit"
             fullWidth
             style={{ marginBottom: "20px", color: "white" }}
           >
             Register
           </Button>
           <a
-            href='Login'
+            href="Login"
             style={{
               textDecoration: "none",
               margin: "20px 0",

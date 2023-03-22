@@ -44,28 +44,27 @@ const Dashboard = (props) => {
             console.log(currentDate < from);
 
             return currentDate == from;
-          }),
+          })
         );
         setListTask(
           response.data.data.filter((item) => {
             const to = new Date(item.taskTo).toLocaleDateString();
             const from = new Date(item.taskFrom).toLocaleDateString();
-            console.log(currentDate > from);
-            console.log(currentDate < from);
+            console.log(item);
             return currentDate >= from && currentDate <= to;
-          }),
+          })
         );
       })
       .catch(function (error) {
         console.log(error);
       });
   }, [openModal]);
-  console.log(listTask);
+
   return (
-    <div className='content'>
-      <div className='content-header'>
+    <div className="content">
+      <div className="content-header">
         <span
-          id='buttonOpenModal'
+          id="buttonOpenModal"
           onClick={() => {
             setOpenModal(true);
           }}
@@ -74,32 +73,32 @@ const Dashboard = (props) => {
         </span>
         <ModalCreateTask openModal={openModal} setOpenModal={setOpenModal} />
       </div>
-      <div className='dashboard-content'>
-        <div className='element'>
-          <div className='today'>
+      <div className="dashboard-content">
+        <div className="element">
+          <div className="today">
             <h2
-              className='titleabc'
+              className="titleabc"
               style={{ backgroundColor: "rgb(228, 140, 39)" }}
             >
               Today
             </h2>
-            <div className='date-box'>
-              <h1 className='month'>{date.month}</h1>
-              <p className='day'>{date.day}</p>
+            <div className="date-box">
+              <h1 className="month">{date.month}</h1>
+              <p className="day">{date.day}</p>
             </div>
           </div>
         </div>
-        <div className='element'>
+        <div className="element">
           <h2
             style={{
               marginBottom: "20px",
               backgroundColor: "rgb(150 105 255)",
             }}
-            className='titleabc'
+            className="titleabc"
           >
             Your Task Today
           </h2>
-          <div className='task-today'>
+          <div className="task-today">
             <DisplayTaskToday
               setTaskdetail={setTaskdetail}
               listTask={listTask}
@@ -108,17 +107,17 @@ const Dashboard = (props) => {
             />
           </div>
         </div>
-        <div className='element'>
+        <div className="element">
           <h2
             style={{
               marginBottom: "20px",
               backgroundColor: "rgb(27, 193, 223)",
             }}
-            className='titleabc'
+            className="titleabc"
           >
             Pin Task
           </h2>
-          <div className='pin-task'>
+          <div className="pin-task">
             <DisplayPinTask
               setTaskdetail={setTaskdetail}
               setContent={setContent}

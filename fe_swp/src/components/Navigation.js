@@ -234,6 +234,7 @@ const Navigation = (props) => {
       </div>
       {content == 0 && (
         <Dashboard
+          content={content}
           setContent={setContent}
           setTaskdetail={setTaskdetail}
           handleActive={handleActive}
