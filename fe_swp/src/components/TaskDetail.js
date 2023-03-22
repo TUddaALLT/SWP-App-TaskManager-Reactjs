@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/TaskDetail.css";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -14,6 +14,7 @@ function TaskDetailComponent({ task }) {
       else if (date1.getTime() < currentDate.getTime()) return "red";
     }
   };
+  useEffect(() => {});
   return (
     <div className="Task-Detail">
       <div className="Task-Detail-Title">

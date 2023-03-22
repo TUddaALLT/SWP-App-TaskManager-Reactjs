@@ -1,183 +1,299 @@
 import { Button, TextField } from "@mui/material";
+import { border } from "@mui/system";
+import { useEffect, useState } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
-
+import authAxios from "../services/AxiosInstance";
+import swal from "sweetalert";
 function User() {
-  function handleUpdateUser() {}
-  const handleInputChange = (event) => {};
+  const [edit, setEdit] = useState(false);
+  const [user, setUser] = useState();
+
+  async function handleUpdateUser(e) {
+    e.preventDefault();
+    let dob = document.getElementsByName("dob")[0].value;
+    let email = document.getElementsByName("email")[0].value;
+    let phone = document.getElementsByName("phone")[0].value;
+    let work = document.getElementsByName("work")[0].value;
+    let name = document.getElementsByName("name")[0].value;
+    let ok = document.getElementsByName("img")[0].files[0];
+    var formData = new FormData();
+    formData.append("image", ok);
+    console.log(ok);
+    if (name == "")
+      swal({
+        title: "Error",
+        text: "Name is not empty !!",
+        icon: "warning",
+      });
+    else if (phone.size != 10 && phone != "")
+      swal({
+        title: "Error",
+        text: "Phone is 10 number !!",
+        icon: "warning",
+      });
+    else {
+      if (window.confirm("Save now ?")) {
+        swal({
+          title: "Edit success",
+          text: "",
+          icon: "success",
+        });
+        await authAxios
+          .put(`/User/Image/${localStorage.getItem("id")}`, { file: formData })
+          .then(function (response) {
+            console.log(response.data);
+          })
+          .catch(function (error) {});
+        await authAxios
+          .put(`/User/${localStorage.getItem("id")}`, {
+            id: user.id,
+            userName: user.userName,
+            name: user.name,
+            dateOfBirth: dob,
+            phone: phone,
+            email: email,
+            work: work,
+            image: user.image,
+          })
+          .then(function (response) {})
+          .catch(function (error) {});
+
+        setEdit(false);
+      }
+    }
+  }
+  useEffect(() => {
+    authAxios
+      .get(`/User`)
+      .then(function (response) {
+        console.log(response.data.data);
+        response.data.data.find(
+          (user) => user.id == localStorage.getItem("id")
+        ) != undefined &&
+          setUser(
+            response.data.data.find(
+              (user) => user.id == localStorage.getItem("id")
+            )
+          );
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [user != null]);
 
   return (
-    <>
-      <div style={{ display: "flex" }}>
+    user != null && (
+      <>
         <div
           style={{
-            height: "100vh",
-            width: "20vw",
-            backgroundColor: "#f7f9fa",
-            paddingTop: "5vh",
-            paddingLeft: "5vw",
+            display: "flex",
+            margin: "5vh 10vw",
+            backgroundColor: "rgb(243 223 142)",
+            height: "80vh",
+            borderRadius: "1vw",
           }}
         >
           <div
             style={{
-              marginBottom: "5vh",
-              display: "flex",
-              justifyContent: "flex-start",
+              height: "100vh",
+              width: "20vw",
+              paddingTop: "10vh",
+              paddingLeft: "10vw",
             }}
           >
-            <img
-              src="https://scontent.fhan2-5.fna.fbcdn.net/v/t39.30808-6/311816848_1453053658537009_7901211323118956372_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=174925&_nc_ohc=0cGqPjxofkQAX-qdRs4&_nc_ht=scontent.fhan2-5.fna&oh=00_AfC8FZuH8xwLwutlkPXaB2_byshBIML8Vu6EnYrCaeWGZA&oe=6402D1F5"
+            <div
               style={{
-                width: "60px",
-                height: "60px",
-                borderRadius: "20%",
-                objectFit: "cover",
-                marginBottom: "5px",
+                marginBottom: "5vh",
+                display: "flex",
+                justifyContent: "center",
+                width: "30vh",
+                height: "30vh",
+                borderRadius: "50%",
+                border: "1px solid red",
               }}
-              alt=""
-            ></img>
-          </div>{" "}
-          <div
-            style={{
-              marginBottom: "5vh",
-              display: "flex",
-              justifyContent: "flex-start",
-            }}
-          >
-            <h2>Usernamae</h2>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              width: "50%",
-              marginBottom: "2vh",
-              cursor: "pointer",
-            }}
-          >
-            <img
-              style={{ width: "30px", height: "30px" }}
-              src="https://accounts.meister.co/assets/account-8521bd03889259122efcc4b47da57bf89294ae554ea15e19bea4c25fa98daa24.svg"
-              kr=""
-              alt=""
-            />
-            <span style={{ marginLeft: "15px" }}>Me</span>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              width: "50%",
-              marginBottom: "2vh",
-              cursor: "pointer",
-            }}
-          >
-            <img
-              style={{ width: "30px", height: "30px" }}
-              src="https://accounts.meister.co/assets/license-743744543dc9182bb0bae0b0443ab5783fd1c08db723df32ebb75402010e24c6.svg"
-              kr=""
-              alt=""
-            />
-            <span style={{ marginLeft: "15px" }}>Plans</span>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              width: "50%",
-              marginBottom: "2vh",
-              cursor: "pointer",
-            }}
-          >
-            <img
-              src="https://accounts.meister.co/assets/team-a09746f77198711dc54e2b6bf4283aa306f351da1ffff1a08babca7a6333242d.svg"
-              kr=""
-              alt=""
-              style={{ width: "30px", height: "30px" }}
-            ></img>
-            <span style={{ marginLeft: "15px" }}> Team</span>
-          </div>
-        </div>
-        <div style={{ height: "100vh", width: "80vw", paddingTop: "5vh" }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginRight: "5vw",
-            }}
-          >
-            <AiFillCheckCircle
-              size="30px"
-              style={{ color: "rgb(0 170 255)", marginRight: "5px" }}
-            ></AiFillCheckCircle>
-            <a href="home" style={{ color: "rgb(0 170 255)" }}>
-              Back to Stock Task
-            </a>
-          </div>
-          <div style={{ marginLeft: "5vw" }}>
-            <form onSubmit={handleUpdateUser}>
-              <div className="login_input">
+            >
+              {" "}
+              {user.image != null ? (
+                <img
+                  src={user.image}
+                  style={{
+                    width: "30vh",
+                    height: "30vh",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                    marginBottom: "5px",
+                  }}
+                  alt=""
+                ></img>
+              ) : (
+                <p style={{ margin: "auto" }}>Đây là Image</p>
+              )}
+            </div>
+            {edit == true && <input type="file" name="img" />}
+            <div
+              style={{
+                marginTop: "3vh",
+                marginBottom: "5vh",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {edit == false ? (
+                <h1>{user.name}</h1>
+              ) : (
                 <TextField
                   fullWidth
                   type="text"
-                  label="update data"
+                  label="Name"
                   variant="outlined"
-                  onChange={handleInputChange}
+                  name="name"
+                  defaultValue={user.name}
                 />
-              </div>
-              <br></br>
-              <div className="login_input">
-                <TextField
-                  fullWidth
-                  type="text"
-                  label="update data"
-                  variant="outlined"
-                  onChange={handleInputChange}
-                />
-              </div>
-              <br></br>
-              <div className="login_input">
-                <TextField
-                  fullWidth
-                  type="text"
-                  label="update data"
-                  variant="outlined"
-                  onChange={handleInputChange}
-                />
-              </div>
-              <br></br>
-              <div className="login_input">
-                <TextField
-                  fullWidth
-                  type="text"
-                  label="update data"
-                  variant="outlined"
-                  onChange={handleInputChange}
-                />
-              </div>
-              <br></br>
-              <div className="login_input">
-                <TextField
-                  fullWidth
-                  type="text"
-                  variant="outlined"
-                  id="outlined-multiline-static"
-                  label="Multiline"
-                  multiline
-                  rows={4}
-                  onChange={handleInputChange}
-                />
-              </div>
+              )}
+            </div>
+          </div>
+          <div style={{ height: "100vh", width: "80vw", paddingTop: "5vh" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginRight: "2vw",
+              }}
+            >
+              <AiFillCheckCircle
+                size="30px"
+                style={{ color: "red", marginRight: "5px" }}
+              ></AiFillCheckCircle>
+              <a href="home" style={{ color: "red" }}>
+                Back to Stock Task
+              </a>
+            </div>
+            <div style={{ textAlign: "left" }}>
+              {edit == false ? (
+                <>
+                  <div
+                    className="infor"
+                    style={{
+                      marginLeft: "10vw",
+                      marginRight: "10vw",
+                      marginTop: "3vh",
+                    }}
+                  >
+                    <h2>
+                      Date Of Birth:
+                      <span
+                        style={{ fontWeight: "normal", marginLeft: "10px" }}
+                      >
+                        {user.dateOfBirth.substring(0, 10)}
+                      </span>
+                    </h2>
+                    <h2>
+                      Email:{" "}
+                      <span
+                        style={{ fontWeight: "normal", marginLeft: "10px" }}
+                      >
+                        {user.email}
+                      </span>
+                    </h2>
+                    <h2>
+                      Phone:{" "}
+                      <span
+                        style={{ fontWeight: "normal", marginLeft: "10px" }}
+                      >
+                        {user.phone}
+                      </span>
+                    </h2>
+                    <h2>
+                      Work:{" "}
+                      <span
+                        style={{ fontWeight: "normal", marginLeft: "10px" }}
+                      >
+                        {user.work}
+                      </span>
+                    </h2>
+                  </div>
+                  <div className="custom">
+                    <Button
+                      className="btn-login"
+                      type="button"
+                      style={{ marginLeft: "10vw", color: "white" }}
+                      onClick={() => {
+                        setEdit(true);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <form
+                  onSubmit={(e) => handleUpdateUser(e)}
+                  style={{
+                    marginLeft: "10vw",
+                    marginRight: "10vw",
+                    marginTop: "3vh",
+                  }}
+                >
+                  <div className="login_input">
+                    <TextField
+                      fullWidth
+                      type="text"
+                      label="Date Of Birth"
+                      variant="outlined"
+                      name="dob"
+                      defaultValue={user.dateOfBirth.substring(0, 10)}
+                    />
+                  </div>
+                  <br></br>
+                  <div className="login_input">
+                    <TextField
+                      fullWidth
+                      type="email"
+                      label="Email"
+                      variant="outlined"
+                      name="email"
+                      defaultValue={user.email}
+                    />
+                  </div>
+                  <br></br>
+                  <div className="login_input">
+                    <TextField
+                      fullWidth
+                      type="number"
+                      label="Phone"
+                      variant="outlined"
+                      name="phone"
+                      defaultValue={user.phone}
+                    />
+                  </div>
+                  <br></br>
+                  <div className="login_input">
+                    <TextField
+                      fullWidth
+                      type="text"
+                      label="Work"
+                      variant="outlined"
+                      name="work"
+                      defaultValue={user.work}
+                    />
+                  </div>
+                  <br></br>
 
-              <Button
-                className="btn-login"
-                type="submit"
-                fullWidth
-                style={{ marginBottom: "20px", color: "white" }}
-              >
-                Save changes
-              </Button>
-            </form>
+                  <Button
+                    className="btn-login"
+                    type="submit"
+                    fullWidth
+                    style={{ marginBottom: "20px", color: "white" }}
+                  >
+                    Save changes
+                  </Button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </>
+      </>
+    )
   );
 }
 
