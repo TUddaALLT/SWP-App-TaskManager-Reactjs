@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, Input, TextField } from "@mui/material";
 import { border } from "@mui/system";
 import { useEffect, useState } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
@@ -15,10 +15,7 @@ function User() {
     let phone = document.getElementsByName("phone")[0].value;
     let work = document.getElementsByName("work")[0].value;
     let name = document.getElementsByName("name")[0].value;
-    let ok = document.getElementsByName("img")[0].files[0];
-    var formData = new FormData();
-    formData.append("image", ok);
-    console.log(ok);
+
     if (name == "")
       swal({
         title: "Error",
@@ -39,23 +36,19 @@ function User() {
           icon: "success",
         });
         await authAxios
-          .put(`/User/Image/${localStorage.getItem("id")}`, { file: formData })
-          .then(function (response) {
-            console.log(response.data);
-          })
-          .catch(function (error) {});
-        await authAxios
           .put(`/User/${localStorage.getItem("id")}`, {
             id: user.id,
             userName: user.userName,
-            name: user.name,
+            name: name,
             dateOfBirth: dob,
             phone: phone,
             email: email,
             work: work,
             image: user.image,
           })
-          .then(function (response) {})
+          .then(function (response) {
+            console.log(response.data.data);
+          })
           .catch(function (error) {});
 
         setEdit(false);
@@ -64,22 +57,49 @@ function User() {
   }
   useEffect(() => {
     authAxios
-      .get(`/User`)
+      .get("/User")
       .then(function (response) {
         console.log(response.data.data);
         response.data.data.find(
-          (user) => user.id == localStorage.getItem("id")
+          (user) => user.id == localStorage.getItem("id"),
         ) != undefined &&
           setUser(
             response.data.data.find(
-              (user) => user.id == localStorage.getItem("id")
-            )
+              (user) => user.id == localStorage.getItem("id"),
+            ),
           );
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, [user != null]);
+  }, [user != null, edit]);
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("file", file);
+    console.log(formData);
+    await authAxios
+      .put(`/User/Image/${localStorage.getItem("id")}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(function (response) {
+        swal({
+          text: "Update Avatar Successfull!!!",
+          icon: "success",
+        });
+        console.log(response.data.data);
+      })
+      .catch(function (error) {});
+    setEdit(!edit);
+  }
 
   return (
     user != null && (
@@ -88,7 +108,7 @@ function User() {
           style={{
             display: "flex",
             margin: "5vh 10vw",
-            backgroundColor: "rgb(243 223 142)",
+            backgroundColor: "rgb(202 233 186)",
             height: "80vh",
             borderRadius: "1vw",
           }}
@@ -123,33 +143,40 @@ function User() {
                     objectFit: "cover",
                     marginBottom: "5px",
                   }}
-                  alt=""
+                  alt=''
                 ></img>
               ) : (
                 <p style={{ margin: "auto" }}>Đây là Image</p>
               )}
             </div>
-            {edit == true && <input type="file" name="img" />}
+
             <div
               style={{
                 marginTop: "3vh",
                 marginBottom: "5vh",
-                display: "flex",
-                justifyContent: "center",
               }}
             >
-              {edit == false ? (
-                <h1>{user.name}</h1>
-              ) : (
+              <form onSubmit={handleSubmit} encType='multipart/form-data'>
                 <TextField
-                  fullWidth
-                  type="text"
-                  label="Name"
-                  variant="outlined"
-                  name="name"
-                  defaultValue={user.name}
+                  style={{ width: "190px", marginRight: "60px" }}
+                  type='file'
+                  onChange={handleFileChange}
                 />
-              )}
+                <Button
+                  type='button'
+                  style={{
+                    backgroundColor: "#ffacac",
+                    marginTop: "30px",
+                    marginRight: "60px",
+                  }}
+                  onClick={() => {
+                    setEdit(true);
+                  }}
+                  type='submit'
+                >
+                  Update Avatar
+                </Button>
+              </form>
             </div>
           </div>
           <div style={{ height: "100vh", width: "80vw", paddingTop: "5vh" }}>
@@ -161,10 +188,10 @@ function User() {
               }}
             >
               <AiFillCheckCircle
-                size="30px"
-                style={{ color: "red", marginRight: "5px" }}
+                size='30px'
+                style={{ color: "black", marginRight: "5px" }}
               ></AiFillCheckCircle>
-              <a href="home" style={{ color: "red" }}>
+              <a href='home' style={{ color: "black" }}>
                 Back to Stock Task
               </a>
             </div>
@@ -172,19 +199,22 @@ function User() {
               {edit == false ? (
                 <>
                   <div
-                    className="infor"
+                    className='infor'
                     style={{
                       marginLeft: "10vw",
                       marginRight: "10vw",
                       marginTop: "3vh",
                     }}
                   >
+                    <h2>{user.name}</h2>
+
                     <h2>
                       Date Of Birth:
                       <span
                         style={{ fontWeight: "normal", marginLeft: "10px" }}
                       >
-                        {user.dateOfBirth.substring(0, 10)}
+                        {user.dateOfBirth != null &&
+                          user.dateOfBirth.substring(0, 10)}
                       </span>
                     </h2>
                     <h2>
@@ -212,10 +242,10 @@ function User() {
                       </span>
                     </h2>
                   </div>
-                  <div className="custom">
+                  <div className='custom'>
                     <Button
-                      className="btn-login"
-                      type="button"
+                      className='btn-login'
+                      type='button'
                       style={{ marginLeft: "10vw", color: "white" }}
                       onClick={() => {
                         setEdit(true);
@@ -234,54 +264,66 @@ function User() {
                     marginTop: "3vh",
                   }}
                 >
-                  <div className="login_input">
+                  <div className='login_input'>
                     <TextField
                       fullWidth
-                      type="text"
-                      label="Date Of Birth"
-                      variant="outlined"
-                      name="dob"
-                      defaultValue={user.dateOfBirth.substring(0, 10)}
+                      type='text'
+                      label='Name'
+                      variant='outlined'
+                      name='name'
+                      defaultValue={user.name}
                     />
                   </div>
                   <br></br>
-                  <div className="login_input">
+                  <div className='login_input'>
                     <TextField
                       fullWidth
-                      type="email"
-                      label="Email"
-                      variant="outlined"
-                      name="email"
+                      type='date'
+                      name='dob'
+                      defaultValue={
+                        user.dateOfBirth != null &&
+                        user.dateOfBirth.substring(0, 10)
+                      }
+                    />
+                  </div>
+                  <br></br>
+                  <div className='login_input'>
+                    <TextField
+                      fullWidth
+                      type='email'
+                      label='Email'
+                      variant='outlined'
+                      name='email'
                       defaultValue={user.email}
                     />
                   </div>
                   <br></br>
-                  <div className="login_input">
+                  <div className='login_input'>
                     <TextField
                       fullWidth
-                      type="number"
-                      label="Phone"
-                      variant="outlined"
-                      name="phone"
+                      type='number'
+                      label='Phone'
+                      variant='outlined'
+                      name='phone'
                       defaultValue={user.phone}
                     />
                   </div>
                   <br></br>
-                  <div className="login_input">
+                  <div className='login_input'>
                     <TextField
                       fullWidth
-                      type="text"
-                      label="Work"
-                      variant="outlined"
-                      name="work"
+                      type='text'
+                      label='Work'
+                      variant='outlined'
+                      name='work'
                       defaultValue={user.work}
                     />
                   </div>
                   <br></br>
 
                   <Button
-                    className="btn-login"
-                    type="submit"
+                    className='btn-login'
+                    type='submit'
                     fullWidth
                     style={{ marginBottom: "20px", color: "white" }}
                   >

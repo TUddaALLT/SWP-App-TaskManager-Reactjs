@@ -1,17 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ImSearch } from "react-icons/im";
 import { RiNotification3Fill } from "react-icons/ri";
 import { BiLockAlt, BiUser } from "react-icons/bi";
 import { AiOutlineDown } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { Avatar } from "@mui/material";
+import authAxios from "./../services/AxiosInstance";
 function Header() {
   const [opened, setOpened] = useState(false);
   const navigate = useNavigate();
+  const [user, setUser] = useState();
 
   function openUser() {
     setOpened(!opened);
   }
-
+  useEffect(() => {
+    authAxios
+      .get("/User")
+      .then(function (response) {
+        console.log(response.data.data);
+        response.data.data.find(
+          (user) => user.id == localStorage.getItem("id"),
+        ) != undefined &&
+          setUser(
+            response.data.data.find(
+              (user) => user.id == localStorage.getItem("id"),
+            ),
+          );
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
   function logout() {
     localStorage.removeItem("token");
     navigate("../login");
@@ -21,7 +41,7 @@ function Header() {
   }
   return (
     <div
-      className="header"
+      className='header'
       style={{
         display: "flex",
         justifyContent: "space-between",
@@ -47,7 +67,7 @@ function Header() {
           }}
         >
           <ul style={{ listStyle: "none" }}>
-            <li className="userNav">
+            <li className='userNav'>
               <div
                 style={{
                   display: "flex",
@@ -56,7 +76,7 @@ function Header() {
                 }}
                 onClick={updateUser}
               >
-                <BiUser size="20px" className="icon"></BiUser>
+                <BiUser size='20px' className='icon'></BiUser>
                 <div
                   style={{
                     display: "flex",
@@ -67,7 +87,7 @@ function Header() {
                 </div>
               </div>
             </li>
-            <li className="userNav">
+            <li className='userNav'>
               <div
                 style={{
                   display: "flex",
@@ -76,7 +96,7 @@ function Header() {
                 }}
                 onClick={logout}
               >
-                <BiLockAlt size="20px" className="icon" />
+                <BiLockAlt size='20px' className='icon' />
                 <div
                   style={{
                     display: "flex",
@@ -94,22 +114,7 @@ function Header() {
       <h1 style={{ padding: "1vh 2vw", cursor: "pointer" }}>Stock Task</h1>
       <div
         style={{ display: "flex", alignItems: "center", marginRight: "30vw" }}
-      >
-        {/* <input
-          type="text"
-          style={{
-            width: "20vw",
-            height: "5vh",
-            borderRadius: "8px",
-            borderColor: "blueviolet",
-          }}
-          //   onChange={(e) => setEmail(e.target.value)}
-        />
-        <ImSearch
-          className="icon"
-          style={{ position: "relative", right: "30px" }}
-        ></ImSearch> */}
-      </div>
+      ></div>
       <div
         style={{
           display: "flex",
@@ -119,16 +124,18 @@ function Header() {
           width: "8vw",
         }}
       >
-        <RiNotification3Fill size="25px" className="icon"></RiNotification3Fill>
+        <RiNotification3Fill size='25px' className='icon'></RiNotification3Fill>
         <div
           style={{
             display: "flex",
             alignItems: "center",
+            cursor: "pointer",
           }}
           onClick={openUser}
         >
-          <BiUser size="25px" className="icon"></BiUser>
-          <AiOutlineDown size="20px" className="icon"></AiOutlineDown>
+          <Avatar alt='Remy Sharp' src={user != null ? user.image : ""} />
+
+          {/* <AiOutlineDown size='20px' className='icon'></AiOutlineDown> */}
         </div>
       </div>
     </div>
