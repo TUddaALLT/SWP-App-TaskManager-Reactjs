@@ -396,15 +396,31 @@ function ProjectDetails(props) {
                                 {tasksInP != null &&
                                   tasksInP.map((task) => {
                                     return (
-                                      <li
-                                        style={{
-                                          color: getcolor(
-                                            task.taskTo,
-                                            task.status
-                                          ),
-                                        }}
-                                      >
-                                        {task.title}
+                                      <li style={{}}>
+                                        <h5>{task.title}</h5>
+                                        <p>
+                                          Status:{" "}
+                                          <span
+                                            style={{
+                                              color: getcolor(
+                                                task.taskTo,
+                                                task.status
+                                              ),
+                                            }}
+                                          >
+                                            {getcolor(
+                                              task.taskTo,
+                                              task.status
+                                            ) === "red"
+                                              ? "Overdue"
+                                              : getcolor(
+                                                  task.taskTo,
+                                                  task.status
+                                                ) === "green"
+                                              ? "Finish"
+                                              : "To be doing"}
+                                          </span>
+                                        </p>
                                       </li>
                                     );
                                   })}

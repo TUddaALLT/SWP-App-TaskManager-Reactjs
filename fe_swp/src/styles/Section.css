@@ -32,6 +32,7 @@
   width: 95%;
   margin: 0 auto;
   margin-top: 2vh;
+  transition: 0.5s;
 }
 .content_section {
   height: 90%;
@@ -93,4 +94,12 @@
   margin-top: 2vh;
   display: none;
   transition: 0.5s;
+}
+.detailsTaskOnP {
+  animation: fade 1s ease-in-out;
+  margin: 10px 20px;
+}
+@keyframes fade {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }

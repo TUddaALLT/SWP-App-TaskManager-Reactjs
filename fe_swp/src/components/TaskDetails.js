@@ -162,10 +162,28 @@ const TaskDetails = (props) => {
   const onEdit = () => {
     setEdit(true);
   };
-  const onSave = (id) => {
-    //update
-    setEdit(false);
-  };
+  async function onSave(id) {
+    if (window.confirm("Save now ?")) {
+      // await authAxios
+      //   .put(`/Task/${id}?userID=${localStorage.getItem("id")}`, {
+      //     id: id,
+      //     title: taskdetail.title,
+      //     taskFrom: taskdetail.taskFrom,
+      //     taskTo: taskdetail.taskTo,
+      //     describe: taskdetail.describe,
+      //     pinTask: taskdetail.pinTask,
+      //     status: true,
+      //   })
+      //   .then(function (response) {
+      //     console.log(response.data);
+      //     window.location.reload();
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
+      setEdit(false);
+    }
+  }
   async function handleOnDelete(id) {
     //delete
     await authAxios

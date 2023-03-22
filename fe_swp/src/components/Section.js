@@ -180,7 +180,6 @@ function Section(props) {
                 sec={props.section.id + ""}
                 className="task"
                 style={{
-                  border: "2px solid " + getcolor(task.taskTo, task.status),
                   cursor: "pointer",
                 }}
                 onDragStart={(event) => drag(event)}
@@ -206,7 +205,23 @@ function Section(props) {
                     display: "none",
                   }}
                   sec={props.section.id + ""}
+                  className="detailsTaskOnP"
                 >
+                  {" "}
+                  <div className="task_des">
+                    <h4>
+                      Status:{" "}
+                      <span
+                        style={{ color: getcolor(task.taskTo, task.status) }}
+                      >
+                        {getcolor(task.taskTo, task.status) === "red"
+                          ? "Overdue"
+                          : getcolor(task.taskTo, task.status) === "green"
+                          ? "Finish"
+                          : "To be doing"}
+                      </span>
+                    </h4>
+                  </div>
                   <div className="task_des">{task.describe}</div>
                   <div className="task_fromto">
                     From: {changeDate(task.taskFrom)} <br />

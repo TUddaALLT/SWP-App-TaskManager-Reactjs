@@ -25,7 +25,7 @@ function User() {
             }}
           >
             <img
-              src='https://scontent.fhan2-5.fna.fbcdn.net/v/t39.30808-6/311816848_1453053658537009_7901211323118956372_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=174925&_nc_ohc=0cGqPjxofkQAX-qdRs4&_nc_ht=scontent.fhan2-5.fna&oh=00_AfC8FZuH8xwLwutlkPXaB2_byshBIML8Vu6EnYrCaeWGZA&oe=6402D1F5'
+              src="https://scontent.fhan2-5.fna.fbcdn.net/v/t39.30808-6/311816848_1453053658537009_7901211323118956372_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=174925&_nc_ohc=0cGqPjxofkQAX-qdRs4&_nc_ht=scontent.fhan2-5.fna&oh=00_AfC8FZuH8xwLwutlkPXaB2_byshBIML8Vu6EnYrCaeWGZA&oe=6402D1F5"
               style={{
                 width: "60px",
                 height: "60px",
@@ -33,6 +33,7 @@ function User() {
                 objectFit: "cover",
                 marginBottom: "5px",
               }}
+              alt=""
             ></img>
           </div>{" "}
           <div
@@ -54,8 +55,9 @@ function User() {
           >
             <img
               style={{ width: "30px", height: "30px" }}
-              src='https://accounts.meister.co/assets/account-8521bd03889259122efcc4b47da57bf89294ae554ea15e19bea4c25fa98daa24.svg'
-              kr=''
+              src="https://accounts.meister.co/assets/account-8521bd03889259122efcc4b47da57bf89294ae554ea15e19bea4c25fa98daa24.svg"
+              kr=""
+              alt=""
             />
             <span style={{ marginLeft: "15px" }}>Me</span>
           </div>
@@ -69,8 +71,9 @@ function User() {
           >
             <img
               style={{ width: "30px", height: "30px" }}
-              src='https://accounts.meister.co/assets/license-743744543dc9182bb0bae0b0443ab5783fd1c08db723df32ebb75402010e24c6.svg'
-              kr=''
+              src="https://accounts.meister.co/assets/license-743744543dc9182bb0bae0b0443ab5783fd1c08db723df32ebb75402010e24c6.svg"
+              kr=""
+              alt=""
             />
             <span style={{ marginLeft: "15px" }}>Plans</span>
           </div>
@@ -83,8 +86,9 @@ function User() {
             }}
           >
             <img
-              src='https://accounts.meister.co/assets/team-a09746f77198711dc54e2b6bf4283aa306f351da1ffff1a08babca7a6333242d.svg'
-              kr=''
+              src="https://accounts.meister.co/assets/team-a09746f77198711dc54e2b6bf4283aa306f351da1ffff1a08babca7a6333242d.svg"
+              kr=""
+              alt=""
               style={{ width: "30px", height: "30px" }}
             ></img>
             <span style={{ marginLeft: "15px" }}> Team</span>
@@ -99,62 +103,62 @@ function User() {
             }}
           >
             <AiFillCheckCircle
-              size='30px'
+              size="30px"
               style={{ color: "rgb(0 170 255)", marginRight: "5px" }}
             ></AiFillCheckCircle>
-            <a href='Login' style={{ color: "rgb(0 170 255)" }}>
-              Back to home
+            <a href="home" style={{ color: "rgb(0 170 255)" }}>
+              Back to Stock Task
             </a>
           </div>
           <div style={{ marginLeft: "5vw" }}>
             <form onSubmit={handleUpdateUser}>
-              <div className='login_input'>
+              <div className="login_input">
                 <TextField
                   fullWidth
-                  type='text'
-                  label='update data'
-                  variant='outlined'
+                  type="text"
+                  label="update data"
+                  variant="outlined"
                   onChange={handleInputChange}
                 />
               </div>
               <br></br>
-              <div className='login_input'>
+              <div className="login_input">
                 <TextField
                   fullWidth
-                  type='text'
-                  label='update data'
-                  variant='outlined'
+                  type="text"
+                  label="update data"
+                  variant="outlined"
                   onChange={handleInputChange}
                 />
               </div>
               <br></br>
-              <div className='login_input'>
+              <div className="login_input">
                 <TextField
                   fullWidth
-                  type='text'
-                  label='update data'
-                  variant='outlined'
+                  type="text"
+                  label="update data"
+                  variant="outlined"
                   onChange={handleInputChange}
                 />
               </div>
               <br></br>
-              <div className='login_input'>
+              <div className="login_input">
                 <TextField
                   fullWidth
-                  type='text'
-                  label='update data'
-                  variant='outlined'
+                  type="text"
+                  label="update data"
+                  variant="outlined"
                   onChange={handleInputChange}
                 />
               </div>
               <br></br>
-              <div className='login_input'>
+              <div className="login_input">
                 <TextField
                   fullWidth
-                  type='text'
-                  variant='outlined'
-                  id='outlined-multiline-static'
-                  label='Multiline'
+                  type="text"
+                  variant="outlined"
+                  id="outlined-multiline-static"
+                  label="Multiline"
                   multiline
                   rows={4}
                   onChange={handleInputChange}
@@ -162,8 +166,8 @@ function User() {
               </div>
 
               <Button
-                className='btn-login'
-                type='submit'
+                className="btn-login"
+                type="submit"
                 fullWidth
                 style={{ marginBottom: "20px", color: "white" }}
               >
