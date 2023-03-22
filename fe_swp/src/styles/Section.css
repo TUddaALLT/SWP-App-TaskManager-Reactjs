@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #afafaf;
+  background-color: #becff0;
   height: 4vh;
   border-radius: 15px;
   width: 90%;
@@ -14,7 +14,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background-color: #afafaf;
+  background-color: #becff0;
   /* height: 25vh; */
   border-radius: 15px;
   width: 90%;
@@ -67,7 +67,8 @@
 .frmAdd span {
   margin: 5px 20px;
 }
-.From ,.to {
+.From,
+.to {
   margin: 0px 30px;
   padding: 5px;
   border-radius: 5px;
@@ -80,15 +81,14 @@
   font-weight: bold;
   font-size: 19px;
   margin: 5px 10px;
-  
 }
 .task_des {
- text-align: left;
+  text-align: left;
 }
 .draghere {
   width: 95%;
   height: 50px;
-  border: 2px dashed  white;
+  border: 2px dashed white;
   border-radius: 15px;
   margin: 0 auto;
   margin-top: 2vh;

@@ -56,7 +56,7 @@ const ModalCreateTask = (props) => {
     const taskTo = document.querySelector(".to").value;
     const dateF = new Date(taskFrom);
     const dateT = new Date(taskTo);
-    if (dateT.getTime() < dateF.getTime()) alert("Please check date input");
+    if (dateT.getTime() <= dateF.getTime()) alert("Please check date input");
     else {
       handleCloseModal();
       await authAxios

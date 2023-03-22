@@ -3,15 +3,15 @@ import "../styles/ProjectDetails.css";
 import authAxios from "../services/AxiosInstance";
 import "../styles/Project.css";
 import "../styles/Section.css";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiFillDelete, AiOutlinePlus } from "react-icons/ai";
 import { Button, Collapse } from "@mui/material";
+import { swal } from "sweetalert";
 
 function Section(props) {
   const [opened, setOpened] = useState(false);
   const [done, setDone] = useState(true);
   const [tasks, setTasks] = useState();
   const [reload, setReload] = useState(false);
-  const [sectionPre, setSectionPre] = useState();
   const showDetails = (id) => {
     let collap = document.getElementById(id + "cl");
     if (collap.style.display == "none") collap.style.display = "block";
@@ -19,10 +19,9 @@ function Section(props) {
   };
   const drag = props.drag;
   async function drop(ev) {
-    var src = ev.dataTransfer.getData("Text");
+    let src = ev.dataTransfer.getData("Text");
     let sectionNewID = ev.target.getAttribute("sec");
     let taskid = document.getElementById(src).getAttribute("id");
-    let preSection = document.getElementById(src).getAttribute("sec");
 
     await authAxios
       .get(
@@ -70,22 +69,33 @@ function Section(props) {
     const describe = document.querySelector(".describe").value;
     const taskFrom = document.querySelector(".From").value;
     const taskTo = document.querySelector(".to").value;
-    await authAxios
-      .post(`/Task?userID=${localStorage.getItem("id")}&roleID=1`, {
-        sectionId: props.section.id,
-        title: title,
-        describe: describe,
-        taskFrom: taskFrom,
-        taskTo: taskTo,
-      })
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    setOpened(!opened);
-    setDone(!done);
+    if (title == "") alert("Title is empty, Please check again !!");
+    else if (taskFrom == "" || taskTo == "")
+      alert("Date From and Date To is invalid, Please check again !!");
+    else {
+      const dateF = new Date(taskFrom);
+      const dateT = new Date(taskTo);
+
+      if (dateT.getTime() <= dateF.getTime()) alert("Please check date input");
+      else {
+        await authAxios
+          .post(`/Task?userID=${localStorage.getItem("id")}&roleID=1`, {
+            sectionId: props.section.id,
+            title: title,
+            describe: describe,
+            taskFrom: taskFrom,
+            taskTo: taskTo,
+          })
+          .then(function (response) {
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        setOpened(!opened);
+        setDone(!done);
+      }
+    }
   }
 
   useEffect(() => {
@@ -93,7 +103,6 @@ function Section(props) {
       .get(`/Task/GetTasksInSection?sectionId=${props.section.id}`)
       .then(function (response) {
         console.log(response.data.data);
-        // const data = response.data.data.sort((a, b) => b.id - a.id);
         setTasks(response.data.data);
       })
       .catch(function (error) {
@@ -101,7 +110,7 @@ function Section(props) {
       });
   }, [done, reload, props.check]);
 
-  async function deleteSection(id) {
+  async function deleteSection() {
     if (window.confirm("Are you sure you want to delete this section")) {
       // /Section/19?userID=1
       await authAxios
@@ -119,13 +128,23 @@ function Section(props) {
     }
     props.setCheck(!props.check);
   }
-  const getcolor = (dateTo, status) => {
+  const getcolor = (dateF, dateTo, status) => {
     const currentDate = new Date();
-    const date1 = new Date(dateTo);
+    const dateEnd = new Date(dateTo);
+    const dateStart = new Date(dateF);
     if (status) return "green";
     else {
-      if (date1.getTime() >= currentDate.getTime()) return "orange";
-      else if (date1.getTime() < currentDate.getTime()) return "red";
+      if (
+        dateEnd.getTime() >= currentDate.getTime() &&
+        dateStart.getTime() <= currentDate.getTime()
+      )
+        return "orange";
+      else if (dateEnd.getTime() < currentDate.getTime()) return "red";
+      else if (
+        dateEnd.getTime() >= currentDate.getTime() &&
+        dateStart.getTime() >= currentDate.getTime()
+      )
+        return "black";
     }
   };
   const changeDate = (dt) => {
@@ -139,16 +158,12 @@ function Section(props) {
         <div
           className="btnDelete"
           style={{
-            color: "red",
-            padding: "4px 10px",
             borderRadius: "100%",
-            border: "1px solid white",
-            backgroundColor: "rgba(105, 238, 205,0.9)",
             cursor: "pointer",
           }}
-          onClick={() => deleteSection(props.section.id)}
+          onClick={() => deleteSection()}
         >
-          X
+          <AiFillDelete size="20px" />
         </div>
       </div>
       <div className="content_section">
@@ -184,14 +199,14 @@ function Section(props) {
                 }}
                 onDragStart={(event) => drag(event)}
                 draggable="true"
-                onClick={() => {
+                onDoubleClick={() => {
                   showDetails(task.id);
                 }}
               >
                 <div
                   className="task_title"
                   style={{
-                    color: getcolor(task.taskTo, task.status),
+                    color: getcolor(task.taskFrom, task.taskTo, task.status),
                   }}
                   sec={props.section.id + ""}
                 >
@@ -212,12 +227,29 @@ function Section(props) {
                     <h4>
                       Status:{" "}
                       <span
-                        style={{ color: getcolor(task.taskTo, task.status) }}
+                        style={{
+                          color: getcolor(
+                            task.taskFrom,
+                            task.taskTo,
+                            task.status
+                          ),
+                        }}
                       >
-                        {getcolor(task.taskTo, task.status) === "red"
+                        {getcolor(task.taskFrom, task.taskTo, task.status) ===
+                        "red"
                           ? "Overdue"
-                          : getcolor(task.taskTo, task.status) === "green"
+                          : getcolor(
+                              task.taskFrom,
+                              task.taskTo,
+                              task.status
+                            ) === "green"
                           ? "Finish"
+                          : getcolor(
+                              task.taskFrom,
+                              task.taskTo,
+                              task.status
+                            ) === "black"
+                          ? "Not Time yet"
                           : "To be doing"}
                       </span>
                     </h4>

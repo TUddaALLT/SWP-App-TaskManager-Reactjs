@@ -7,9 +7,10 @@ import {
   BsXLg,
 } from "react-icons/bs";
 import authAxios from "../services/AxiosInstance";
+import swal from "sweetalert";
+
 const TaskDetails = (props) => {
   const taskdetail = props.taskdetail;
-  console.log(taskdetail);
   const setTaskdetail = props.setTaskdetail;
   const getColor = props.getColor;
 
@@ -27,7 +28,10 @@ const TaskDetails = (props) => {
     { id: "3", name: "tag3" },
     { id: "4", name: "tag4" },
   ];
-
+  const handleOnCancel = () => {
+    handleOnShow();
+    setEdit(false);
+  };
   async function handleOnpin(id, section) {
     if (taskdetail.info != null) {
       // /Task/GetUserTaskRoleByUserID?userId=11&taskID=46
@@ -49,25 +53,128 @@ const TaskDetails = (props) => {
         });
       if (PIN) {
         // /Task/UpdatePinTask?taskID=46&userID=11&status=false
-        if (window.confirm("Do you want to UNPIN this task")) {
-          await authAxios
-            .put(
-              `/Task/UpdatePinTask?taskID=${id}&userID=${localStorage.getItem(
-                "id"
-              )}&status=false`
-            )
-            .then(function (response) {
-              console.log(response.data);
-            })
-            .catch(function (error) {
-              console.log(error);
+        swal({
+          title: "Do you want to UNPIN this task",
+          text: "Do you want to UNPIN this task",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((willDelete) => {
+          if (willDelete) {
+            authAxios
+              .put(
+                `/Task/UpdatePinTask?taskID=${id}&userID=${localStorage.getItem(
+                  "id"
+                )}&status=false`
+              )
+              .then(function (response) {
+                window.location.reload();
+                console.log(response.data);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+            swal("Upin successfully", {
+              icon: "success",
             });
-        }
+          }
+        });
       } else {
-        if (window.confirm("Do you want to PIN this task")) {
-          await authAxios
+        swal({
+          title: "Do you want to PIN this task",
+          text: "Do you want to PIN this task",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((willDelete) => {
+          if (willDelete) {
+            authAxios
+              .put(
+                `/Task/UpdatePinTask?taskID=${id}&userID=${localStorage.getItem(
+                  "id"
+                )}&status=true`
+              )
+              .then(function (response) {
+                window.location.reload();
+                console.log(response.data);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }
+        });
+      }
+    } else {
+      if (taskdetail.pinTask) {
+        swal({
+          title: "Do you want to UNPIN this task",
+          text: "Do you want to UNPIN this task",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((willDelete) => {
+          if (willDelete) {
+            authAxios
+              .put(`/Task/${id}?userID=${localStorage.getItem("id")}`, {
+                id: id,
+                title: taskdetail.title,
+                taskFrom: taskdetail.taskFrom,
+                taskTo: taskdetail.taskTo,
+                describe: taskdetail.describe,
+                pinTask: false,
+              })
+              .then(function (response) {
+                console.log(response.data);
+                window.location.reload();
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }
+        });
+      } else {
+        swal({
+          title: "Do you want to pin",
+          text: "Do you want to pin",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((willDelete) => {
+          if (willDelete) {
+            authAxios
+              .put(`/Task/${id}?userID=${localStorage.getItem("id")}`, {
+                id: id,
+                title: taskdetail.title,
+                taskFrom: taskdetail.taskFrom,
+                taskTo: taskdetail.taskTo,
+                describe: taskdetail.describe,
+                pinTask: true,
+              })
+              .then(function (response) {
+                console.log(response.data);
+                window.location.reload();
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }
+        });
+      }
+    }
+  }
+  async function hangleOnFinish(id, section) {
+    if (taskdetail.info != null) {
+      swal({
+        title: "Have you done this task ?",
+        text: "Have you done this task ?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          authAxios
             .put(
-              `/Task/UpdatePinTask?taskID=${id}&userID=${localStorage.getItem(
+              `/Task/UpdateStatusTask?taskID=${id}&userID=${localStorage.getItem(
                 "id"
               )}&status=true`
             )
@@ -78,18 +185,25 @@ const TaskDetails = (props) => {
               console.log(error);
             });
         }
-      }
+      });
     } else {
-      if (taskdetail.pinTask) {
-        if (window.confirm("Do you want to unpin")) {
-          await authAxios
+      swal({
+        title: "Have you done this task ?",
+        text: "Have you done this task ?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          authAxios
             .put(`/Task/${id}?userID=${localStorage.getItem("id")}`, {
               id: id,
               title: taskdetail.title,
               taskFrom: taskdetail.taskFrom,
               taskTo: taskdetail.taskTo,
               describe: taskdetail.describe,
-              pinTask: false,
+              pinTask: taskdetail.pinTask,
+              status: true,
             })
             .then(function (response) {
               console.log(response.data);
@@ -99,92 +213,78 @@ const TaskDetails = (props) => {
               console.log(error);
             });
         }
-      } else {
-        if (window.confirm("Do you want to pin")) {
-          await authAxios
-            .put(`/Task/${id}?userID=${localStorage.getItem("id")}`, {
-              id: id,
-              title: taskdetail.title,
-              taskFrom: taskdetail.taskFrom,
-              taskTo: taskdetail.taskTo,
-              describe: taskdetail.describe,
-              pinTask: true,
-            })
-            .then(function (response) {
-              console.log(response.data);
-              window.location.reload();
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        }
-      }
-    }
-  }
-  async function hangleOnFinish(id, section) {
-    if (taskdetail.info != null) {
-      if (window.confirm("Have you done this task ?")) {
-        await authAxios
-          .put(
-            `/Task/UpdateStatusTask?taskID=${id}&userID=${localStorage.getItem(
-              "id"
-            )}&status=true`
-          )
-          .then(function (response) {
-            console.log(response.data);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    } else {
-      if (window.confirm("Have you done this task ?")) {
-        await authAxios
-          .put(`/Task/${id}?userID=${localStorage.getItem("id")}`, {
-            id: id,
-            title: taskdetail.title,
-            taskFrom: taskdetail.taskFrom,
-            taskTo: taskdetail.taskTo,
-            describe: taskdetail.describe,
-            pinTask: taskdetail.pinTask,
-            status: true,
-          })
-          .then(function (response) {
-            console.log(response.data);
-            window.location.reload();
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
+      });
     }
   }
   const onEdit = () => {
+    handleOnShow();
     setEdit(true);
   };
   async function onSave(id) {
-    if (window.confirm("Save now ?")) {
-      // await authAxios
-      //   .put(`/Task/${id}?userID=${localStorage.getItem("id")}`, {
-      //     id: id,
-      //     title: taskdetail.title,
-      //     taskFrom: taskdetail.taskFrom,
-      //     taskTo: taskdetail.taskTo,
-      //     describe: taskdetail.describe,
-      //     pinTask: taskdetail.pinTask,
-      //     status: true,
-      //   })
-      //   .then(function (response) {
-      //     console.log(response.data);
-      //     window.location.reload();
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
-      setEdit(false);
+    handleOnShow();
+    let title = document.getElementsByName("title")[0].value;
+    let describe = document.getElementsByName("descrip")[0].value;
+    let tagid = document.getElementsByName("tag")[0].value;
+    let from = document.getElementsByName("from")[0].value;
+    let to = document.getElementsByName("to")[0].value;
+    console.log(
+      `${title},${describe},${tagid == "" ? null : tagid},${from},${to}`
+    );
+    if (title == "")
+      swal({
+        title: "Error",
+        text: "Title is empty, Please check again !!",
+        icon: "warning",
+      });
+    else if (from == "" || to == "")
+      swal({
+        title: "Error",
+        text: "Date From and Date To is invalid, Please check again !!",
+        icon: "warning",
+      });
+    else {
+      const dateF = new Date(from);
+      const dateT = new Date(to);
+      if (dateT.getTime() <= dateF.getTime())
+        swal({
+          title: "Error",
+          text: "Please check date input !!",
+          icon: "warning",
+        });
+      else {
+        if (window.confirm("Save now ?")) {
+          swal({
+            title: "Edit success",
+            text: "",
+            icon: "success",
+          });
+          await authAxios
+            .put(`/Task/${id}?userID=${localStorage.getItem("id")}`, {
+              id: id,
+              sectionId: taskdetail.sectionId,
+              title: title,
+              describe: describe,
+              image: taskdetail.image,
+              status: taskdetail.status,
+              taskTo: dateT,
+              taskFrom: dateF,
+              pinTask: taskdetail.pinTask,
+              tagId: tagid == "" ? null : tagid,
+              attachment: taskdetail.attachment,
+            })
+            .then(function (response) {
+              setTaskdetail(response.data.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          setEdit(false);
+        }
+      }
     }
   }
   async function handleOnDelete(id) {
+    handleOnShow();
     //delete
     await authAxios
       .delete(`/Task/${id}?userID=${localStorage.getItem("id")}`)
@@ -374,15 +474,7 @@ const TaskDetails = (props) => {
             />
             <div className="menu_task" id={taskdetail.id}>
               <ul>
-                {edit === false ? (
-                  <li
-                    onClick={() => {
-                      onEdit(taskdetail.id);
-                    }}
-                  >
-                    Edit
-                  </li>
-                ) : (
+                <>
                   <li
                     onClick={() => {
                       onSave(taskdetail.id);
@@ -390,9 +482,10 @@ const TaskDetails = (props) => {
                   >
                     Save
                   </li>
-                )}
-
-                <li style={{ color: "red" }}>Delete</li>
+                  <li style={{ color: "red" }} onClick={() => handleOnCancel()}>
+                    Cancel
+                  </li>
+                </>
               </ul>
             </div>
             <BsXLg
@@ -452,7 +545,7 @@ const TaskDetails = (props) => {
                 <input
                   className="tagh4"
                   type="date"
-                  name="From"
+                  name="from"
                   defaultValue={changeDate(taskdetail.taskFrom)}
                 />
               </h4>

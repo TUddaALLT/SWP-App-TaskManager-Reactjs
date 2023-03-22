@@ -50,8 +50,7 @@ const Dashboard = (props) => {
           response.data.data.filter((item) => {
             const to = new Date(item.taskTo).toLocaleDateString();
             const from = new Date(item.taskFrom).toLocaleDateString();
-            console.log(currentDate > from);
-            console.log(currentDate < from);
+            console.log(item);
             return currentDate >= from && currentDate <= to;
           })
         );
@@ -60,7 +59,7 @@ const Dashboard = (props) => {
         console.log(error);
       });
   }, [openModal]);
-  console.log(listTask);
+
   return (
     <div className="content">
       <div className="content-header">
@@ -68,7 +67,6 @@ const Dashboard = (props) => {
           id="buttonOpenModal"
           onClick={() => {
             setOpenModal(true);
-           
           }}
         >
           Create Task
@@ -94,7 +92,7 @@ const Dashboard = (props) => {
           <h2
             style={{
               marginBottom: "20px",
-              backgroundColor: "rgb(90, 40, 207)",
+              backgroundColor: "rgb(150 105 255)",
             }}
             className="titleabc"
           >

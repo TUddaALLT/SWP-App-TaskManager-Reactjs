@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import swal from "sweetalert";
 import { FaUserFriends } from "react-icons/fa";
 import "../styles/ProjectDetails.css";
 import authAxios from "../services/AxiosInstance";
@@ -80,8 +81,13 @@ function ProjectDetails(props) {
       )
       .then(function (response) {
         console.log(response.data);
-        if (response.data.data == null) {
-          alert("You are not allowed to kick");
+        if (response.data.message != "Request processed successfully") {
+          swal("You are not allowed to kick");
+        } else {
+          swal({
+            text: "Kick successfully",
+            icon: "success",
+          });
         }
         setKicked(!kicked);
       })
@@ -150,8 +156,16 @@ function ProjectDetails(props) {
         }&roleID=2&adminID=${localStorage.getItem("id")}`
       )
       .then(function (response) {
-        if (response.data.data == null) {
-          alert("you are not allowed to add members");
+        if (response.data.status == 200) {
+          swal({
+            text: "Add successfully",
+            icon: "success",
+          });
+        } else {
+          swal({
+            text: "Add Failed, Please check !!",
+            icon: "warning",
+          });
         }
         console.log(response.data);
       })
@@ -200,7 +214,7 @@ function ProjectDetails(props) {
         )}&roleID=2&adminID=${localStorage.getItem("id")}`
       )
       .then(function (response) {
-        alert("Assign Successfully");
+        swal("Assign Successfully");
         console.log(response.data.data);
       })
       .catch(function (error) {
@@ -245,16 +259,13 @@ function ProjectDetails(props) {
             style={{
               marginBottom: "1vh",
               color: "white",
-              backgroundColor: "rgb(27, 193, 223)",
+              backgroundColor: "rgb(116 113 92)",
               padding: "5px 20px",
               borderRadius: "20px",
             }}
           >
             {props.project.name}
           </h1>
-          <p style={{ color: "white", fontSize: "19px" }}>
-            {props.project.describe}
-          </p>
         </div>
         <div
           style={{

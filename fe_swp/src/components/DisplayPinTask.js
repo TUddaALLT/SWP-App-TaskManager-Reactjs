@@ -21,7 +21,7 @@ const DisplayPinTask = (props) => {
   useEffect(() => {
     authAxios
       .get(
-        `/Task/GetUserTaskRoleAllByUserID?userId=${localStorage.getItem("id")}`,
+        `/Task/GetUserTaskRoleAllByUserID?userId=${localStorage.getItem("id")}`
       )
       .then(function (response) {
         console.log(response.data.data);
@@ -34,13 +34,23 @@ const DisplayPinTask = (props) => {
   const setContent = props.setContent;
   const setTaskdetail = props.setTaskdetail;
   const handleActive = props.handleActive;
-  const getcolor = (dateTo, status) => {
+  const getcolor = (dateF, dateTo, status) => {
     const currentDate = new Date();
-    const date1 = new Date(dateTo);
+    const dateEnd = new Date(dateTo);
+    const dateStart = new Date(dateF);
     if (status) return "green";
     else {
-      if (date1.getTime() >= currentDate.getTime()) return "orange";
-      else if (date1.getTime() < currentDate.getTime()) return "red";
+      if (
+        dateEnd.getTime() >= currentDate.getTime() &&
+        dateStart.getTime() <= currentDate.getTime()
+      )
+        return "orange";
+      else if (dateEnd.getTime() < currentDate.getTime()) return "red";
+      else if (
+        dateEnd.getTime() >= currentDate.getTime() &&
+        dateStart.getTime() >= currentDate.getTime()
+      )
+        return "black";
     }
   };
   return (
@@ -52,10 +62,15 @@ const DisplayPinTask = (props) => {
               element.pinTask && (
                 <div
                   key={element.id}
-                  className='tasksPin'
+                  className="tasksPin"
                   style={{
                     border:
-                      "2px solid " + getcolor(element.taskTo, element.status),
+                      "2px solid " +
+                      getcolor(
+                        element.taskFrom,
+                        element.taskTo,
+                        element.status
+                      ),
                   }}
                   onClick={() => {
                     setTaskdetail(element);
@@ -63,39 +78,57 @@ const DisplayPinTask = (props) => {
                     handleActive(2, "link", "listitems");
                   }}
                 >
-                  <h2 className='tasktitle'>{element.title}</h2>
+                  <h2 className="tasktitle">{element.title}</h2>
                   <h5 style={{ paddingLeft: "10px", marginBottom: "5px" }}>
                     Status:{" "}
                     <span
                       style={{
-                        color: getcolor(element.taskTo, element.status),
+                        color: getcolor(
+                          element.taskFrom,
+                          element.taskTo,
+                          element.status
+                        ),
                         marginLeft: "5px",
                       }}
                     >
-                      {getcolor(element.taskTo, element.status) === "red"
+                      {getcolor(
+                        element.taskFrom,
+                        element.taskTo,
+                        element.status
+                      ) === "red"
                         ? "Overdue"
-                        : getcolor(element.taskTo, element.status) === "green"
+                        : getcolor(
+                            element.taskFrom,
+                            element.taskTo,
+                            element.status
+                          ) === "green"
                         ? "Finish"
+                        : getcolor(
+                            element.taskFrom,
+                            element.taskTo,
+                            element.status
+                          ) === "black"
+                        ? "Not Time Yet"
                         : "To be doing"}
                     </span>
                   </h5>
 
                   {element.info != null && (
-                    <div id='footer'>
-                      <div id='icons'>
+                    <div id="footer">
+                      <div id="icons">
                         <BiCheckboxChecked
-                          className='iconTask'
-                          title='Attachment'
+                          className="iconTask"
+                          title="Attachment"
                         />
                         1
                         <AiOutlineComment
-                          className='iconTask'
-                          title='Comment'
+                          className="iconTask"
+                          title="Comment"
                         />
                         2
                       </div>
 
-                      <div id='userJoin'>
+                      <div id="userJoin">
                         <ul>
                           <li></li>
                           <li></li>
@@ -116,10 +149,15 @@ const DisplayPinTask = (props) => {
               element.pinTask && (
                 <div
                   key={element.id}
-                  className='tasksPin'
+                  className="tasksPin"
                   style={{
                     border:
-                      "2px solid " + getcolor(element.taskTo, element.status),
+                      "2px solid " +
+                      getcolor(
+                        element.taskFrom,
+                        element.taskTo,
+                        element.status
+                      ),
                   }}
                   onClick={() => {
                     setTaskdetail(element);
@@ -127,39 +165,57 @@ const DisplayPinTask = (props) => {
                     handleActive(2, "link", "listitems");
                   }}
                 >
-                  <h2 className='tasktitle'>{element.title}</h2>
+                  <h2 className="tasktitle">{element.title}</h2>
                   <h5 style={{ paddingLeft: "10px", marginBottom: "5px" }}>
                     Status:{" "}
                     <span
                       style={{
-                        color: getcolor(element.taskTo, element.status),
+                        color: getcolor(
+                          element.taskFrom,
+                          element.taskTo,
+                          element.status
+                        ),
                         marginLeft: "5px",
                       }}
                     >
-                      {getcolor(element.taskTo, element.status) === "red"
+                      {getcolor(
+                        element.taskFrom,
+                        element.taskTo,
+                        element.status
+                      ) === "red"
                         ? "Overdue"
-                        : getcolor(element.taskTo, element.status) === "green"
+                        : getcolor(
+                            element.taskFrom,
+                            element.taskTo,
+                            element.status
+                          ) === "green"
                         ? "Finish"
+                        : getcolor(
+                            element.taskFrom,
+                            element.taskTo,
+                            element.status
+                          ) === "black"
+                        ? "Not Time Yet"
                         : "To be doing"}
                     </span>
                   </h5>
 
                   {element.info != null && (
-                    <div id='footer'>
-                      <div id='icons'>
+                    <div id="footer">
+                      <div id="icons">
                         <BiCheckboxChecked
-                          className='iconTask'
-                          title='Attachment'
+                          className="iconTask"
+                          title="Attachment"
                         />
                         1
                         <AiOutlineComment
-                          className='iconTask'
-                          title='Comment'
+                          className="iconTask"
+                          title="Comment"
                         />
                         2
                       </div>
 
-                      <div id='userJoin'>
+                      <div id="userJoin">
                         <ul>
                           <li></li>
                           <li></li>
