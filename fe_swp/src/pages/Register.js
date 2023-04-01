@@ -19,33 +19,34 @@ function Register() {
       password,
       confirmPassword,
     });
-    if (password.localeCompare(confirmPassword) != 0) {
+    console.log(password.localeCompare(confirmPassword));
+    if (password.localeCompare(confirmPassword) == 1) {
       setMessage("Confirm password must match password");
     } else {
       setMessage("");
+      authAxios
+        .post(`/User/Register`, {
+          userName: email,
+          password: password,
+        })
+        .then(function (response) {
+          if (response.data.message == "Bad requestuser name already exists") {
+            swal({
+              text: "Email exist",
+              icon: "warning",
+            });
+          } else {
+            swal({
+              text: "Register successful",
+              icon: "success",
+            });
+            navigate("../login");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
-    authAxios
-      .post(`/User/Register`, {
-        userName: email,
-        password: password,
-      })
-      .then(function (response) {
-        if (response.data.message == "Bad requestuser name already exists") {
-          swal({
-            text: "Email exist",
-            icon: "warning",
-          });
-        } else {
-          swal({
-            text: "Register successful",
-            icon: "success",
-          });
-          navigate("../login");
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   };
 
   return (
